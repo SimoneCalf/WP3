@@ -36,13 +36,10 @@ We verwachten dat voordat je aan deze opdracht begint je tenminste basale kennis
 We willen in deze opdracht een webapplicatie die een lijst met stellingen aan biedt en aan de hand van de antwoorden het “action type” van de geïnterviewde student bepaald. Daarnaast kan de docent via een overzicht zien welke studenten bij welk type horen en ze zo indelen in klas en team. 
 
 De action types web applicatie bevat een aantal onderdelen: 
-
-
-
 * Een frontend waarin een student zijn studentnummer opgeeft. Vervolgens moet de student uit twee stellingen kiezen - en dat 20x herhalen. Om het ophalen van deze stellingen snel te houden willen we hier gebruik maken van **javascript** om met het **AJAX** patroon na ieder antwoord de volgende stelling op te halen. 
 * De vragen willen we aanbieden via een REST API. We zijn namelijk van plan om later een mobiele app op de telefoon aan te bieden om deze vragen mee te maken. 
 * CRUD pagina’s voor de docent om nieuwe studentnummers op te voeren, te zien welke er al zijn ingevuld en daar vervolgens een klas en/of team aan toe te voegen. De antwoorden, de studenten en de stellingen willen we opslaan in een SQL gebaseerde database. Je zult hier zelf een ontwerp voor moeten maken met tabellen voor de **studentnummers**, **stellingen** en **gegeven antwoorden**. 
-* Je krijgt een JSON bestand met daarin alle stellingen, deze willen we met een python script kunnen inladen in de database.  
+* Je krijgt JSON bestanden met daarin alle stellingen en een initiëel set studenten, deze willen we met een python script kunnen inladen in de database.  
 
 
 ## Requirements
@@ -57,9 +54,9 @@ Er is geen login nodig, maar er zijn wel een paar uitgangspunten om de privacy v
 * Er wordt eerst gevraagd om een studentnummer. 
 * Als het studentnummer niet bekend is wordt dat in een melding getoond. 
 * Als er voor deze student al een compleet ingevulde lijst is wordt er een melding getoond dat opnieuw invullen (of opvragen van een action type) niet mogelijk is. 
-* Als er nog geen compleet ingevulde lijst met stellingen is, wordt de naam van de student en de eerstvolgende stelling getoond. Dat zal meestal stelling 1 zijn. 
+* Als er nog geen compleet ingevulde lijst met stellingen is, wordt de naam van de student, de klas en de eerstvolgende stelling getoond. Dat zal meestal stelling 1 zijn!
 
-<&lt; screenshot voorbeeld >>
+<< screenshot voorbeeld >>
 
 Bij iedere stelling dient de student één van twee stellingen te kiezen. Na de keuze wordt dit antwoord meteen opgeslagen (via javascript) en wordt de volgende stelling getoond, of, als er geen stellingen meer zijn, wordt de lijst afgesloten en de student bedankt. 
 
@@ -104,13 +101,13 @@ In het repository is ook een OpenAPI bestand meegegeven (“openapi.yaml”). Di
 ### Beheer
 
 Voor de docent maken we een aantal pagina’s om beheer op de studenten en resultaten te kunnen uitvoeren. Op deze pagina’s: 
-* Kun je een nieuw studentnummer toevoegen, met daarbij de naam van de student. 
+* Kun je een nieuw studentnummer toevoegen, met daarbij de naam van de student en de klas. 
 * Krijg je een overzicht met alle studentnummers. Per studentnummer: 
     * Zie je het bijbehorende “actiontype”, indien ingevuld
     * Zie je de datum waarop de student de antwoorden heeft gegeven. Neem hier de datum van de laatste keer dat een student een stelling heeft beantwoord. 
     * Kun je het studentnummer (en alle gegeven antwoorden) verwijderen. Het studentnummer is dan weer bruikbaar om opnieuw de stellingen te beoordelen. 
     * Kun je de details van een studentnummer bekijken. In dat geval opent een scherm met de studentgegevens en de stellingen die deze student heeft gekozen. 
-    * Kun je een klas en een team aangeven
+    * Kun je een team aangeven
 
 <&lt; voorbeeld scherm >>
 
@@ -119,12 +116,13 @@ Voor de docent maken we een aantal pagina’s om beheer op de studenten en resul
 
 <&lt; voorbeeld scherm >>
 
+* Optioneel: het zou ook wenselijk zijn om deze resultaten in een Excel bestand of CSV te kunnen exporteren. Je zou een export knop onder een (gefilterde) lijst kunnen toevoegen. Als we daarop drukken willen we dat er een CSV bestand wordt gedownload met daarin alle informatie bij de studentnummers: studentnummer, naam, actiontype, datum, klas en team.
 
 ### Database
 
-We leveren een voorbeeld JSON bestand met 20 stellingen en bijbehorende antwoorden. We willen graag dat je een python script maakt dat deze stellingen in de database importeert. 
+We leveren een voorbeeld JSON bestand met 20 stellingen en bijbehorende antwoorden. Daarnaast is er een json bestand met de initiële lijst met studenten. We willen graag dat je een python script maakt dat deze gegevens in de database importeert. 
 
-Optioneel: indien mogelijk zouden we graag later nieuwe versies van dit bestand importeren. We willen de bestaande stellingen wel bewaren, zodat we per student kunnen zien welke stellingen deze heeft gekozen. 
+Optioneel: indien mogelijk zouden we graag later nieuwe versies van deze bestanden importeren. We willen de bestaande stellingen wel bewaren, zodat we per student kunnen zien welke stellingen deze heeft gekozen. Studenten die niet in een nieuwere lijst staan mogen worden verwijderd (inclusief hun antwoorden). 
 
 
 ## Technische eisen
