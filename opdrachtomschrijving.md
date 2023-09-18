@@ -8,33 +8,9 @@
 
 Versies
 
-
-<table>
-  <tr>
-   <td>Revisie datum
-   </td>
-   <td>Versie
-   </td>
-   <td>Samenvatting
-   </td>
-   <td>Auteur
-   </td>
-  </tr>
-  <tr>
-   <td>14-09-2023
-   </td>
-   <td>1.0
-   </td>
-   <td>
-   </td>
-   <td>Mark Otting
-   </td>
-  </tr>
-</table>
-
-
-
-
+| Versie | Datum | Auteur | Opmerkingen |
+| --- | --- | --- | --- |
+| 1.0 | 14-09-2023 | Mark Otting | Eerste versie |
 
 # Inleiding
 
@@ -98,111 +74,31 @@ Let op, op geen manier mag een student het actiontype van andere studenten kunne
 
 Om de stellingen op te halen willen we een REST gebaseerde API aanbieden. Deze zal maar twee URLs hebben, genoeg om de stellingen op te halen en op te slaan. 
 
+|  | Stelling ophalen                                                                                                          | Stelling opslaan                                                                                            | 
+| --- |---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| **Method** | GET                                                                                                                       | POST                                                                                                        |
+| **Omschrijving** | Geeft de eerstvolgende ongekozen stelling terug voor deze student, of een foutmelding als er geen stellingen (meer) zijn. | Verwacht in de body van het verzoek een stelling keuze. Slaat deze op en stuurt een {“result”: “ok”} terug. |
+| **URL** | /api/student/<student_number>/statement                                                                                   | /api/student/<student_number>/statement/<statement_number>                                              |
+| **Body** | -                                                                                                                         | { “statement_choice”: 1 }                                                                                   |
+| **Response** | (zie onder)                                                                                                               | { “result”: “ok” }                                                                                          |
 
-<table>
-  <tr>
-   <td>
-   </td>
-   <td><strong>Stelling ophalen</strong>
-   </td>
-   <td><strong>Antwoord opslaan</strong>
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Method</strong>
-   </td>
-   <td>GET
-   </td>
-   <td>POST
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Omschrijving</strong>
-   </td>
-   <td>Geeft de eerstvolgende ongekozen stelling terug voor deze student, of een foutmelding als er geen stellingen (meer) zijn. 
-   </td>
-   <td>Verwacht in de body van het verzoek een stelling keuze. Slaat deze op en stuurt een {“result”: “ok”} terug.
-   </td>
-  </tr>
-  <tr>
-   <td><strong>URL</strong>
-   </td>
-   <td>/api
-<p>
-   /student
-<p>
-      /&lt;student_number>
-<p>
-         /statement
-   </td>
-   <td>/api
-<p>
-   /student
-<p>
-      /&lt;student_number>
-<p>
-         /statement
-<p>
-            /&lt;statement_number>
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Body</strong>
-   </td>
-   <td>
-<ul>
-
-<li>
-</li>
-</ul>
-   </td>
-   <td>{
-<p>
-    “statement_choice”: 1
-<p>
+De response op verzoeken naar het "Stelling ophalen" endpoint: 
+```json
+{
+   "statement_number":1,
+   "statement_choices":[
+      {
+         "choice_number":1,
+         "choice_text":"Stelling 1"
+      },
+      {
+         "choice_number":2,
+         "choice_text":"Stelling 2"
+      }
+   ]
 }
-   </td>
-  </tr>
-  <tr>
-   <td><strong>Response</strong>
-<p>
-<strong>(voorbeeld)</strong>
-   </td>
-   <td>{
-<p>
-  "statement_number": 1,
-<p>
-  "statement_choices": [
-<p>
-    {
-<p>
-   	 "choice_number": 1,
-<p>
-   	 "choice_text": "Stelling 1"
-<p>
-    }, {
-<p>
-   	 "choice_number": 2,
-<p>
-   	 "choice_text": "Stelling 2"
-<p>
-    }
-<p>
-  ]
-<p>
-}
-   </td>
-   <td>{
-<p>
-   “ result” : “ok” 
-<p>
-}
-   </td>
-  </tr>
-</table>
-
-
-In het repository is ook een OpenAPI bestand meegegeven (“openapi.yaml”). Dit bestand is een referentie, je hoeft het niet te gebruiken.  
+```
+In het repository is ook een OpenAPI bestand meegegeven (“openapi.yaml”). Dit bestand is een referentie en beschrijft de requests en responses. Je hoeft dit bestand niet te gebruiken, maar je zou het in bijvoorbeeld Postman kunnen importeren om de API te testen. 
 
 
 ### Beheer
@@ -259,11 +155,11 @@ Voor de beoordeling volgen we de regels zoals die in de modulehandleiding staan.
 
 
 
-* We verwachten een investering qua tijd en moeite in je code terug te zien. Daarbij moet je gebruik maken van alle technologie genoemd onder “oplevering”.  \
+* We verwachten een investering qua tijd en moeite in je code terug te zien. Daarbij moet je gebruik maken van alle technologie genoemd onder “oplevering”. 
 
-* Deze inhaalopdracht is beperkt qua requirements. We verwachten daarom de hele applicatie (frontend en backend) te zien voor een beoordeling met een “voldoende”.  \
+* Deze inhaalopdracht is beperkt qua requirements. We verwachten daarom de hele applicatie (frontend en backend) te zien voor een beoordeling met een “voldoende”. 
 
-* De code voldoet aan de standaarden zoals uitgelegd in de WP1 en WP2 presentaties: de naamgeving in de code is in het Engels, de code uitgelijnd volgens de PEP8 standaard, et cetera. Code van het backend moet in MVC stijl gesplitst zijn.  \
+* De code voldoet aan de standaarden zoals uitgelegd in de WP1 en WP2 presentaties: de naamgeving in de code is in het Engels, de code uitgelijnd volgens de PEP8 standaard, et cetera. Code van het backend moet in MVC stijl gesplitst zijn. 
 
 * We beoordelen een werkend product met een “voldoende”. We beoordelen met een “goed” als alle requirements zijn ingevuld en de code begrip van javascript en REST laat zien. Een “uitstekend” wordt gegeven als je buiten voorstaande ook extra zaken oplevert die niet in de opdrachtomschrijving staan. Denk daarbij aan een login voor de docenten of de mogelijkheid om door de applicatie de teams te laten samenstellen. 
 
