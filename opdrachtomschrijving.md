@@ -56,7 +56,10 @@ Er is geen login nodig, maar er zijn wel een paar uitgangspunten om de privacy v
 * Als er voor deze student al een compleet ingevulde lijst is wordt er een melding getoond dat opnieuw invullen (of opvragen van een action type) niet mogelijk is. 
 * Als er nog geen compleet ingevulde lijst met stellingen is, wordt de naam van de student, de klas en de eerstvolgende stelling getoond. Dat zal meestal stelling 1 zijn!
 
-<< screenshot voorbeeld >>
+![WP3 - Actiontypes stelling.png](images%2FWP3%20-%20Actiontypes%20stelling.png)
+
+<sup>Dit is een voorbeeld van hoe de stellingen eruit zouden kunnen zien. Het staat je geheel vrij om een ander ontwerp te kiezen.</sup>
+
 
 Bij iedere stelling dient de student één van twee stellingen te kiezen. Na de keuze wordt dit antwoord meteen opgeslagen (via javascript) en wordt de volgende stelling getoond, of, als er geen stellingen meer zijn, wordt de lijst afgesloten en de student bedankt. 
 
@@ -106,15 +109,13 @@ Voor de docent maken we een aantal pagina’s om beheer op de studenten en resul
     * Zie je het bijbehorende “actiontype”, indien ingevuld
     * Zie je de datum waarop de student de antwoorden heeft gegeven. Neem hier de datum van de laatste keer dat een student een stelling heeft beantwoord. 
     * Kun je het studentnummer (en alle gegeven antwoorden) verwijderen. Het studentnummer is dan weer bruikbaar om opnieuw de stellingen te beoordelen. 
-    * Kun je de details van een studentnummer bekijken. In dat geval opent een scherm met de studentgegevens en de stellingen die deze student heeft gekozen. 
-    * Kun je een team aangeven
+    * Kun je de details van een studentnummer bekijken. In dat geval opent een scherm met de studentgegevens en de stellingen die deze student heeft gekozen.Hier kun je een team invullen voor deze student.  
+    
+![WP3 - Actiontypes.png](images%2FWP3%20-%20Actiontypes.png)
 
-<&lt; voorbeeld scherm >>
-
+<sup>Dit is een voorbeeld van hoe de beheerpagina eruit zou kunnen zien. Het staat je geheel vrij om een ander ontwerp te kiezen.</sup> 
 
 * Kun je de lijst met studentnummers filteren op klas en op teamnaam. 
-
-<&lt; voorbeeld scherm >>
 
 * Optioneel: het zou ook wenselijk zijn om deze resultaten in een Excel bestand of CSV te kunnen exporteren. Je zou een export knop onder een (gefilterde) lijst kunnen toevoegen. Als we daarop drukken willen we dat er een CSV bestand wordt gedownload met daarin alle informatie bij de studentnummers: studentnummer, naam, actiontype, datum, klas en team.
 
