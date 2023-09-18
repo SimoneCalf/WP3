@@ -41,7 +41,7 @@ De action types web applicatie bevat een aantal onderdelen:
 
 * Een frontend waarin een student zijn studentnummer opgeeft. Vervolgens moet de student uit twee stellingen kiezen - en dat 20x herhalen. Om het ophalen van deze stellingen snel te houden willen we hier gebruik maken van **javascript** om met het **AJAX** patroon na ieder antwoord de volgende stelling op te halen. 
 * De vragen willen we aanbieden via een REST API. We zijn namelijk van plan om later een mobiele app op de telefoon aan te bieden om deze vragen mee te maken. 
-* CRUD pagina’s voor de docent om nieuwe studentnummers op te voeren, te zien welke er al zijn ingevuld en daar vervolgens een klas en/of team aan toe te voegen. De antwoorden, de studenten en de stellingen willen we opslaan in een SQL gebaseerde database. 
+* CRUD pagina’s voor de docent om nieuwe studentnummers op te voeren, te zien welke er al zijn ingevuld en daar vervolgens een klas en/of team aan toe te voegen. De antwoorden, de studenten en de stellingen willen we opslaan in een SQL gebaseerde database. Je zult hier zelf een ontwerp voor moeten maken met tabellen voor de **studentnummers**, **stellingen** en **gegeven antwoorden**. 
 * Je krijgt een JSON bestand met daarin alle stellingen, deze willen we met een python script kunnen inladen in de database.  
 
 
@@ -104,9 +104,6 @@ In het repository is ook een OpenAPI bestand meegegeven (“openapi.yaml”). Di
 ### Beheer
 
 Voor de docent maken we een aantal pagina’s om beheer op de studenten en resultaten te kunnen uitvoeren. Op deze pagina’s: 
-
-
-
 * Kun je een nieuw studentnummer toevoegen, met daarbij de naam van de student. 
 * Krijg je een overzicht met alle studentnummers. Per studentnummer: 
     * Zie je het bijbehorende “actiontype”, indien ingevuld
@@ -116,7 +113,6 @@ Voor de docent maken we een aantal pagina’s om beheer op de studenten en resul
     * Kun je een klas en een team aangeven
 
 <&lt; voorbeeld scherm >>
-
 
 
 * Kun je de lijst met studentnummers filteren op klas en op teamnaam. 
