@@ -50,7 +50,6 @@ De action types web applicatie bevat een aantal onderdelen:
 Er is geen login nodig, maar er zijn wel een paar uitgangspunten om de privacy van studenten te bewaken: 
 
 
-
 * Er wordt eerst gevraagd om een studentnummer. 
 * Als het studentnummer niet bekend is wordt dat in een melding getoond. 
 * Als er voor deze student al een compleet ingevulde lijst is wordt er een melding getoond dat opnieuw invullen (of opvragen van een action type) niet mogelijk is. 
@@ -72,7 +71,7 @@ Let op, op geen manier mag een student het actiontype van andere studenten kunne
 
 ### REST API
 
-Om de stellingen op te halen willen we een REST gebaseerde API aanbieden. Deze zal maar twee URLs hebben, genoeg om de stellingen op te halen en op te slaan. 
+Om de stellingen op te halen willen we een REST gebaseerde API aanbieden. Zo kunnen we in de toekomst ook een mobiele app of andere applicatie aansluiten. Deze API zal maar twee URLs hebben, genoeg om de stellingen op te halen en op te slaan. 
 
 |  | Stelling ophalen                                                                                                          | Stelling opslaan                                                                                            | 
 | --- |---------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
@@ -103,13 +102,19 @@ In het repository is ook een OpenAPI bestand meegegeven (“openapi.yaml”). Di
 
 ### Beheer
 
-Voor de docent maken we een aantal pagina’s om beheer op de studenten en resultaten te kunnen uitvoeren. Op deze pagina’s: 
-* Kun je een nieuw studentnummer toevoegen, met daarbij de naam van de student en de klas. 
+Voor de docent maken we een aantal pagina’s om beheer op de studenten en resultaten te kunnen uitvoeren. Deze pagina's mogen alleen toegankelijk zijn voor docenten, dus afgesloten met een usernaam / wachtwoord combinatie. 
+
+Op deze pagina’s: 
+* Kun je een nieuw studentnummer toevoegen, met daarbij de naam van de student en de klas.
+* Een docent kan een "admin" zijn. In dat geval mag deze nieuwe docenten toevoegen (en verwijderen) met een naam, gebruikersnaam en wachtwoord en via een vink of de nieuwe docent ook "admin" rechten heeft.
 * Krijg je een overzicht met alle studentnummers. Per studentnummer: 
-    * Zie je het bijbehorende “actiontype”, indien ingevuld
+    * Zie je het bijbehorende “actiontype”, indien ingevuld.
     * Zie je de datum waarop de student de antwoorden heeft gegeven. Neem hier de datum van de laatste keer dat een student een stelling heeft beantwoord. 
     * Kun je het studentnummer (en alle gegeven antwoorden) verwijderen. Het studentnummer is dan weer bruikbaar om opnieuw de stellingen te beoordelen. 
-    * Kun je de details van een studentnummer bekijken. In dat geval opent een scherm met de studentgegevens en de stellingen die deze student heeft gekozen.Hier kun je een team invullen voor deze student.  
+    * Kun je de details van een studentnummer bekijken. 
+* Het detailscherm van een student bevat de studentgegevens en de stellingen die deze student heeft gekozen. Hier kun je een team selecten voor deze student. Indien de student al een team heeft wordt weergegeven wie de student aan het team heeft toegevoegd.
+* Vanuit het detailscherm moet de gebruiker een "wijzigbaar" scherm kunnen openen. Buiten aanpassen van de gegevens en klas van de student kan hier ook een ander team worden geselecteerd. 
+ 
     
 ![WP3 - Actiontypes.png](images%2FWP3%20-%20Actiontypes.png)
 
