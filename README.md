@@ -2,7 +2,7 @@
 Template voor de WP3 inhaalopdracht "action types"
 
 Deze repository bevat de volgende bestanden:
-- De opdrachtomschrijving: [casus.md](casus)
+- De opdrachtomschrijving: [CASUS.md](CASUS)
 - Een openapi specificatie voor het ontwerp van de API: [openapi.yaml](openapi.yaml)
 - Een lijst met action types: [actiontype_statements.json](actiontype_statements.json)
 - Een lijst met initiële studenten: [studenten.json](studenten.json)

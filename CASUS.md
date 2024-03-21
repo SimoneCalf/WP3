@@ -8,9 +8,10 @@
 
 Versies
 
-| Versie | Datum | Auteur | Opmerkingen |
-| --- | --- | --- | --- |
-| 1.0 | 14-09-2023 | Mark Otting | Eerste versie |
+| Versie | Datum      | Auteur | Opmerkingen                    |
+|--------|------------| --- |--------------------------------|
+| 1.0    | 14-09-2023 | Mark Otting | Eerste versie                  |
+| 1.1    | 21-03-2024 | Mark Otting | Herschreven oplevering details |
 
 # Inleiding
 
@@ -132,28 +133,18 @@ Optioneel: indien mogelijk zouden we graag later nieuwe versies van deze bestand
 
 
 ## Technische eisen
-
-
-
 * We verwachten dat de pagina’s gestyled zijn. Dit heeft een lagere prioriteit dan de werking van het systeem en het vervullen van de requirements. 
-* We verwachten een back-end in python met Flask of een alternatief python web framework. Zowel de webpagina’s als de APIs worden via het framework aangeboden. Als data opslag raden we SQLite aan, maar een andere database variant is ook toegestaan. De code moet voldoen aan de eisen zoals in de introductie is uitgelegd (MVC, PEP8, etcetera).
+* We verwachten een back-end in python op basis van een web application framework zoals Flask, Django of FastAPI. Zowel de webpagina’s als de APIs worden via het framework aangeboden. Als data opslag raden we SQLite aan, maar een andere database variant is ook toegestaan. De code moet voldoen aan de eisen zoals in de introductie is uitgelegd (MVC, PEP8, etcetera).
 * De lijst met stellingen moet gebruikmaken van het AJAX patroon om nieuwe stellingen op te halen en antwoorden per student op te slaan. Je mag AJAX ook toepassen op andere plaatsen zoals de beheerpagina's.  
 
-
 ## Oplevering
-
 Als oplevering verwachten we de volgende zaken, vóór de inleverdatum:
 
-
-
 * Een commit in het repository van de opdracht getagd met een “v1.0” release. Als je voor de einddatum inlevert mag je je werk nog herstellen met een nieuwe tag met goedkeuring van de docent.
-
+* Een README.md die beschrijft hoe de applicatie werkt en hoe deze op te starten is. Geef ook een voorbeeld gebruikersnaam en wachtwoord voor de docentenpagina. Je mag aannemen dat de docent bij nakijken Python 3.11 en Docker heeft geïnstalleerd. Alle andere benodigde software en taken moet je in de README.md beschrijven.
 
 # Beoordeling
-
 Voor de beoordeling volgen we de regels zoals die in de modulehandleiding staan. Kort samengevat komt dat op het volgende neer: 
-
-
 
 * We verwachten een investering qua tijd en moeite in je code terug te zien. Daarbij moet je gebruik maken van alle technologie genoemd onder “oplevering”. 
 
