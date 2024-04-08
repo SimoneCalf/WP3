@@ -24,13 +24,10 @@ Nu gebeurt dat met een zelf gebouwd webformulier, waar de docent vervolgens met 
 
 We verwachten dat voordat je aan deze opdracht begint je tenminste basale kennis hebt van de volgende technische zaken:  
 
-
-
 * De python “Flask” module
 * REST API ontwerp
 * Javascript / jQuery en AJAX 
 * Database ontwerp en bewerking
-
 
 # Case
 
@@ -138,7 +135,7 @@ Optioneel: indien mogelijk zouden we graag later nieuwe versies van deze bestand
 * De lijst met stellingen moet gebruikmaken van het AJAX patroon om nieuwe stellingen op te halen en antwoorden per student op te slaan. Je mag AJAX ook toepassen op andere plaatsen zoals de beheerpagina's.  
 
 ## Oplevering
-Als oplevering verwachten we de volgende zaken, vóór de inleverdatum:
+De inleverdatum is uiterlijk de donderdag in de OP3 inhaalweek in onderwijs periode 4. Als oplevering verwachten we de volgende zaken:
 
 * Een commit in het repository van de opdracht getagd met een “v1.0” release. Als je voor de einddatum inlevert mag je je werk nog herstellen met een nieuwe tag met goedkeuring van de docent.
 * Een README.md die beschrijft hoe de applicatie werkt en hoe deze op te starten is. Geef ook een voorbeeld gebruikersnaam en wachtwoord voor de docentenpagina. Je mag aannemen dat de docent bij nakijken Python 3.11 en Docker heeft geïnstalleerd. Alle andere benodigde software en taken moet je in de README.md beschrijven.
