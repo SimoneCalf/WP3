@@ -12,6 +12,7 @@ Versies
 |--------|------------| --- |--------------------------------|
 | 1.0    | 14-09-2023 | Mark Otting | Eerste versie                  |
 | 1.1    | 21-03-2024 | Mark Otting | Herschreven oplevering details |
+| 1.2    | 25-04-2024 | Mark Otting | Aanpassing dank-je-wel scherm  |
 
 # Inleiding
 
@@ -58,14 +59,13 @@ Er is geen login nodig, maar er zijn wel een paar uitgangspunten om de privacy v
 <sup>Dit is een voorbeeld van hoe de stellingen eruit zouden kunnen zien. Het staat je geheel vrij om een ander ontwerp te kiezen.</sup>
 
 
-Bij iedere stelling dient de student één van twee stellingen te kiezen. Na de keuze wordt dit antwoord meteen opgeslagen (via javascript) en wordt de volgende stelling getoond, of, als er geen stellingen meer zijn, wordt de lijst afgesloten en de student bedankt. 
+Bij iedere stelling dient de student één van twee stellingen te kiezen. Na de keuze wordt dit antwoord meteen opgeslagen (via javascript) en wordt de volgende stelling getoond, of, als er geen stellingen meer zijn, wordt de lijst afgesloten en de student met naam bedankt op een "Dank je wel" scherm. 
 
 Je hebt nu alle gegevens om het “action type” van een student te bepalen. De berekening is simpel. Iedere stelling verwijst naar één van twee gekozen kenmerken en er zijn een oneven aantal stellingen per kenmerk. Tel het aantal keer dat een kenmerk is gekozen en je hebt het resultaat. Voeg de vier kenmerken bij elkaar en je hebt het “actiontype”. 
 
 Een rekenvoorbeeld: stel dat we 20 vragen hebben, dat zijn er 5 per kenmerk. Stel dat de student bij de “Extravert of Intravert” stellingen 3x voor de stelling koos die “introvert” vertegenwoordigt en 2x voor de stelling die “extrovert” aangeeft. Het eerste kenmerk is dan “introvert”, ofwel de I. 
 
-Let op, op geen manier mag een student het actiontype van andere studenten kunnen inzien!
-
+Het zou mooi zijn als je op dat "Dank je wel" scherm ook het action type van de student laat zien.
 
 ### REST API
 
@@ -78,6 +78,8 @@ Om de stellingen op te halen willen we een REST gebaseerde API aanbieden. Zo kun
 | **URL** | /api/student/<student_number>/statement                                                                                   | /api/student/<student_number>/statement/<statement_number>                                              |
 | **Body** | -                                                                                                                         | { “statement_choice”: 1 }                                                                                   |
 | **Response** | (zie onder)                                                                                                               | { “result”: “ok” }                                                                                          |
+
+Een derde endpoint om bij een "student_number" zijn een action type op te halen is optioneel. 
 
 De response op verzoeken naar het "Stelling ophalen" endpoint: 
 ```json
