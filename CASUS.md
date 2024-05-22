@@ -8,11 +8,12 @@
 
 Versies
 
-| Versie | Datum      | Auteur | Opmerkingen                    |
-|--------|------------| --- |--------------------------------|
-| 1.0    | 14-09-2023 | Mark Otting | Eerste versie                  |
-| 1.1    | 21-03-2024 | Mark Otting | Herschreven oplevering details |
-| 1.2    | 25-04-2024 | Mark Otting | Aanpassing dank-je-wel scherm  |
+| Versie | Datum      | Auteur | Opmerkingen                                |
+|--------|------------| --- |--------------------------------------------|
+| 1.0    | 14-09-2023 | Mark Otting | Eerste versie                              |
+| 1.1    | 21-03-2024 | Mark Otting | Herschreven oplevering details             |
+| 1.2    | 25-04-2024 | Mark Otting | Aanpassing dank-je-wel scherm              |
+| 1.3    | 22-05-2024 | Mark Otting | Aanscherpen en verduidelijken requirements |
 
 # Inleiding
 
@@ -32,7 +33,7 @@ We verwachten dat voordat je aan deze opdracht begint je tenminste basale kennis
 
 # Case
 
-We willen in deze opdracht een webapplicatie die een lijst met stellingen aan biedt en aan de hand van de antwoorden het “action type” van de geïnterviewde student bepaald. Daarnaast kan de docent via een overzicht zien welke studenten bij welk type horen en ze zo indelen in klas en team. 
+We willen in deze opdracht een webapplicatie programmeren die een lijst met stellingen aanbiedt en aan de hand van de antwoorden het “action type” van de geïnterviewde student bepaald. Daarnaast kan de docent via een overzicht zien welke studenten bij welk "action type" horen en ze zo indelen in klas en team. 
 
 De action types web applicatie bevat een aantal onderdelen: 
 * Een frontend waarin een student zijn studentnummer opgeeft. Vervolgens moet de student uit twee stellingen kiezen - en dat 20x herhalen. Om het ophalen van deze stellingen snel te houden willen we hier gebruik maken van **javascript** om met het **AJAX** patroon na ieder antwoord de volgende stelling op te halen. 
@@ -49,21 +50,37 @@ De action types web applicatie bevat een aantal onderdelen:
 Er is geen login nodig, maar er zijn wel een paar uitgangspunten om de privacy van studenten te bewaken: 
 
 
-* Er wordt eerst gevraagd om een studentnummer. 
-* Als het studentnummer niet bekend is wordt dat in een melding getoond. 
+* Er wordt eerst gevraagd om een studentnummer. Als het studentnummer niet bekend is wordt dat in een melding getoond. 
 * Als er voor deze student al een compleet ingevulde lijst is wordt er een melding getoond dat opnieuw invullen (of opvragen van een action type) niet mogelijk is. 
 * Als er nog geen compleet ingevulde lijst met stellingen is, wordt de naam van de student, de klas en de eerstvolgende stelling getoond. Dat zal meestal stelling 1 zijn!
+* We zouden ook graag willen dat nadat alle stellingen zijn ingevuld éénmalig het action type aan de invuller wordt getoond.  
+
 
 ![WP3 - Actiontypes stelling.png](images%2FWP3%20-%20Actiontypes%20stelling.png)
 
-<sup>Dit is een voorbeeld van hoe de stellingen eruit zouden kunnen zien. Het staat je geheel vrij om een ander ontwerp te kiezen.</sup>
+<sup>Dit is een voorbeeld van hoe keuze uit een stelling eruit zouden kunnen zien. Het staat je geheel vrij om een ander ontwerp te kiezen.</sup>
 
 
 Bij iedere stelling dient de student één van twee stellingen te kiezen. Na de keuze wordt dit antwoord meteen opgeslagen (via javascript) en wordt de volgende stelling getoond, of, als er geen stellingen meer zijn, wordt de lijst afgesloten en de student met naam bedankt op een "Dank je wel" scherm. 
 
-Je hebt nu alle gegevens om het “action type” van een student te bepalen. De berekening is simpel. Iedere stelling verwijst naar één van twee gekozen kenmerken en er zijn een oneven aantal stellingen per kenmerk. Tel het aantal keer dat een kenmerk is gekozen en je hebt het resultaat. Voeg de vier kenmerken bij elkaar en je hebt het “actiontype”. 
+Je hebt nu alle gegevens om het “action type” van een student te bepalen. De berekening is simpel. Iedere stelling verwijst naar één van twee gekozen kenmerken en er zijn een oneven aantal stellingen per kenmerk. Tel het aantal keer dat een kenmerk is gekozen en je hebt het resultaat. Voeg de vier kenmerken bij elkaar met een bepaalde volgorde en je hebt het “actiontype”. Zie ook https://www.actiontype.nl/jouw-actiontype/ voor meer uitleg over wat de verschillende action types betekenen. De vier kenmerken op juiste volgorde zijn:
+1. Extravert (E) of Intravert (I)
+2. Sensing (S) of Intuition (N)
+3. Thinking (T) of Feeling (F)
+4. Judging (J) of Perceiving (P)
 
-Een rekenvoorbeeld: stel dat we 20 vragen hebben, dat zijn er 5 per kenmerk. Stel dat de student bij de “Extravert of Intravert” stellingen 3x voor de stelling koos die “introvert” vertegenwoordigt en 2x voor de stelling die “extrovert” aangeeft. Het eerste kenmerk is dan “introvert”, ofwel de I. 
+Een rekenvoorbeeld: als we uitgaan van de stellingen die zijn bijgevoegd in de casus zijn dat er 20. Elke stelling bevat 2 keuzes en elke keuze geeft dus een letter. Stel dat we 20 vragen hebben, dat zijn er 5 per kenmerk. Stel dat een student alle 20 stellingen heeft gekozen met de volgende letters:
+* ESTJINFPESTJINFPESTJ
+* Dan is het resultaat: 
+    * E: 3
+    * I: 2
+    * S: 3
+    * N: 2
+    * T: 3
+    * F: 2
+    * J: 3
+    * P: 2
+* We nemen van ieder kenmerk de meest voorkomende letter en plakken die aan elkaar. Het action type van deze student is dan: *ESTJ*
 
 Het zou mooi zijn als je op dat "Dank je wel" scherm ook het action type van de student laat zien.
 
@@ -134,7 +151,7 @@ Optioneel: indien mogelijk zouden we graag later nieuwe versies van deze bestand
 ## Technische eisen
 * We verwachten dat de pagina’s gestyled zijn. Dit heeft een lagere prioriteit dan de werking van het systeem en het vervullen van de requirements. 
 * We verwachten een back-end in python op basis van een web application framework zoals Flask, Django of FastAPI. Zowel de webpagina’s als de APIs worden via het framework aangeboden. Als data opslag raden we SQLite aan, maar een andere database variant is ook toegestaan. De code moet voldoen aan de eisen zoals in de introductie is uitgelegd (MVC, PEP8, etcetera).
-* De lijst met stellingen moet gebruikmaken van het AJAX patroon om nieuwe stellingen op te halen en antwoorden per student op te slaan. Je mag AJAX ook toepassen op andere plaatsen zoals de beheerpagina's.  
+* De lijst met stellingen moet gebruikmaken van het AJAX patroon om nieuwe stellingen op te halen en antwoorden per student op te slaan. Je mag AJAX ook toepassen op andere plaatsen zoals de beheerpagina's. AJAX is op verschillende manieren te implementeren. In dit geval willen we graag zien dat je javascript op de pagina gebruikt om HTTP verzoeken naar een REST gebaseerd backend te sturen. Daarbij gebruik je javascript om de HTML inhoudelijk aan te passen aan de hand van de opgehaalde JSON data.  
 
 ## Oplevering
 De inleverdatum is uiterlijk de donderdag in de OP3 inhaalweek in onderwijs periode 4. Als oplevering verwachten we de volgende zaken:
