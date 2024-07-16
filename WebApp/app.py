@@ -12,6 +12,15 @@ app.register_blueprint(teacher_bp, url_prefix='/teacher')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin@localhost/our_users'
 sqlalchemy = SQLAlchemy(app)
 
+# MySQL configuration
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'root'
+app.config['MYSQL_PASSWORD'] = 'admin'
+app.config['MYSQL_DB'] = 'our_users'
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+mysql = MySQL(app)
+
 
 @app.route('/')
 def home():

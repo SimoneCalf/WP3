@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `our_users` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `our_users`;
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
 -- Host: localhost    Database: our_users
@@ -28,8 +26,10 @@ CREATE TABLE `teachers` (
   `idteachers` int NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
+  `e-mailadres` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
   PRIMARY KEY (`idteachers`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +38,7 @@ CREATE TABLE `teachers` (
 
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
+INSERT INTO `teachers` VALUES (1,'John','Doe','',''),(2,'Jane','Smith','',''),(3,'Alice','Johnson','',''),(4,'Robert','Williams','',''),(5,'Michael','Brown','',''),(6,'Linda','Jones','',''),(7,'James','Garcia','',''),(8,'Mary','Miller','',''),(9,'William','Davis','',''),(10,'Patricia','Martinez','','');
 /*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-16 11:42:14
+-- Dump completed on 2024-07-16 14:53:07
