@@ -1,7 +1,15 @@
-from flask import Flask, Blueprint, render_template
+from flask import Flask, Blueprint, render_template, request, jsonify
 
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
+
+@teacher_bp.route('/login', methods=['POST'])
+def teacher_login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    print(f'Received email: {email}, password: {password}')  # Log de ontvangen data
+    return jsonify({'success': True})
 
 @teacher_bp.route('/')
 def teacher_home():

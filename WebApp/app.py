@@ -1,9 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, jsonify
 from routes.student import student_bp
 from routes.teacher import teacher_bp
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from models.sql import *
+
 
 app = Flask(__name__)
 app.register_blueprint(student_bp, url_prefix='/student')
@@ -26,6 +27,8 @@ mysql = MySQL(app)
 def home():
     get_teacher_info()
     return render_template('home.html')
+
+
 
 
 if __name__ == '__main__':

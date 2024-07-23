@@ -8,6 +8,6 @@ def get_teacher_info():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM teachers')
     result = cursor.fetchall()
-    print(result)
+    #print(result)
     cursor.close()
     return result
