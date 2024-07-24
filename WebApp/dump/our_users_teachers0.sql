@@ -16,29 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `teachers`
---
-
-DROP TABLE IF EXISTS `teachers`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `teachers` (
-  `idteachers` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `e-mailadres` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  PRIMARY KEY (`idteachers`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Dumping data for table `teachers`
 --
 
 LOCK TABLES `teachers` WRITE;
 /*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
-INSERT INTO `teachers` VALUES (1,'John','Doe','',''),(2,'Jane','Smith','',''),(3,'Alice','Johnson','',''),(4,'Robert','Williams','',''),(5,'Michael','Brown','',''),(6,'Linda','Jones','',''),(7,'James','Garcia','',''),(8,'Mary','Miller','',''),(9,'William','Davis','',''),(10,'Patricia','Martinez','','');
+INSERT INTO `teachers` VALUES (11,'John','Doe','1234567@hr.nl','password1'),(12,'Jane','Smith','2345678@hr.nl','password2'),(13,'Alice','Johnson','3456789@hr.nl','password3'),(14,'Robert','Williams','4567890@hr.nl','password4'),(15,'Michael','Brown','5678901@hr.nl','password5'),(16,'Linda','Jones','6789012@hr.nl','password6'),(17,'James','Garcia','7890123@hr.nl','password7'),(18,'Mary','Miller','8901234@hr.nl','password8'),(19,'William','Davis','9012345@hr.nl','password9'),(20,'Patricia','Martinez','0123456@hr.nl','password10');
 /*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +34,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-16 14:53:07
+-- Dump completed on 2024-07-24 10:30:17

@@ -7,14 +7,14 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <form onsubmit="return false;">
+    <form method="post">
         <div class="form-group">
             <label for="exampleInputEmail1">e-mailadres</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="......@hr.nl">
+            <input name="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="......@hr.nl">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">wachtwoord</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="wachtwoord">
+            <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="wachtwoord">
         </div>
         <button type="submit" id="submitButton" class="btn btn-primary" onclick="func()">inloggen</button>
     </form>
