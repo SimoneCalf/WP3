@@ -20,12 +20,17 @@ def teacher_home():
         teacher_data = models.sql.get_teacher_info()
         email = request.form.get('email')
         password = request.form.get('password')
-
         # check if the combination of email and password exists in the database
         for teacher in teacher_data:
             if email == teacher["e-mailadres"] and password == teacher["password"]:
                 print(f'Logged in as {teacher["name"]}')
-                return render_template('admin_teachers.html')
+                # check if the teacher is an admin
+                if teacher["is_admin"] == 1:
+                    print('Admin')
+                    return render_template('admin_teachers.html')
+                else:
+                    print('Teacher')
+                    return render_template('manage_students.html')
         return render_template('teacher.html')
 
 @teacher_bp.route('/admin_teachers')
