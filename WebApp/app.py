@@ -4,6 +4,7 @@ from routes.teacher import teacher_bp
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from models.sql import *
+import json
 
 
 app = Flask(__name__)
@@ -25,9 +26,29 @@ mysql = MySQL(app)
 
 @app.route('/')
 def home():
-    get_teacher_info()
+    get_student_info()
     return render_template('home.html')
 
+
+def load_students_to_db(json_file):
+    with app.app_context():
+        conn = mysql.connection
+        cursor = conn.cursor()
+        try:
+            with open(json_file) as file:
+                data = json.load(file)
+
+            for student in data:
+                cursor.execute("INSERT INTO students (studentnumber, name, last_name) VALUES (%s, %s, %s)",
+                               (student['studentnumber'], student['name'], student['last_name']))
+            conn.commit()
+        finally:
+            cursor.close()
+
+@app.route('/upload_students')
+def upload_students():
+    load_students_to_db('students.json')
+    return jsonify({'message': 'Students loaded successfully'}), 200
 
 
 

@@ -16,12 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `students`
+--
+
+DROP TABLE IF EXISTS `students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `students` (
+  `studentid` int NOT NULL AUTO_INCREMENT,
+  `student_class` varchar(2) NOT NULL,
+  `student_name` varchar(45) NOT NULL,
+  `student_number` int NOT NULL,
+  PRIMARY KEY (`studentid`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Dumping data for table `students`
 --
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
-INSERT INTO `students` VALUES (1,1,'Alice','Johnson'),(2,2,'Bob','Smith'),(3,3,'Carol','Williams'),(4,4,'David','Brown'),(5,5,'Eva','Davis'),(6,6,'Frank','Garcia'),(7,7,'Grace','Miller'),(8,8,'Hank','Martinez'),(9,9,'Ivy','Hernandez'),(10,10,'Jack','Lopez');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -34,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-24 10:30:17
+-- Dump completed on 2024-07-25 17:30:47
