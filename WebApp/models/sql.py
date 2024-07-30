@@ -32,9 +32,10 @@ def get_actiontype_statements():
     return result
 
 # get the first question
-def get_first_question():
+def get_first_question(statement_number):
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM choices WHERE statement_number = 1')
+    query = 'SELECT * FROM choices WHERE statement_number = %s'
+    cursor.execute(query, (statement_number,))
     result = cursor.fetchall()
     first_choice = result[0]
     second_choice = result[1]

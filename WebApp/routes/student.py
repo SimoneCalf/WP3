@@ -11,8 +11,11 @@ def student_home():
     student_number = None
     if request.method == 'POST':
         # Get the student number from the form submission
-        student_number = int(request.form.get('student_number'))
-        print(f'student number: {student_number}')
+        try:
+            student_number = int(request.form.get('student_number'))
+            print(f'student number: {student_number}')
+        except ValueError:
+            return render_template('student.html')
         student_info = get_student_info()
         # check if the student number is in the database
         for student in student_info:
@@ -23,9 +26,16 @@ def student_home():
 
 @student_bp.route('/questtions', methods=['GET', 'POST'])
 def student_questions():
-    first_choice, second_choice = get_first_question()
+    first_choice, second_choice = get_first_question(1)
     first_choice = first_choice['choice_text']
     second_choice = second_choice['choice_text']
-    print(f'first choice: {first_choice}')
-    print(f'second choice: {second_choice}')
+    if request.method == 'POST':
+        print('post request')
+        # get the choice that the student made
+        choice = request.form.get('choice')
+        # get the second question
+
+        first_choice = ""
+        second_choice = ""
+        print(f'choice: {choice}')
     return render_template('questions.html', first_choice=first_choice, second_choice=second_choice)

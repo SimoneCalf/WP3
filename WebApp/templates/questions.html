@@ -10,10 +10,12 @@
 <body>
     <!-- Voeg hier je inhoud toe -->
      <h1>Stelling 1</h1>
-     <p>{{first_choice}}</p>
-     <p>{{second_choice}}</p>
+     <form id="questionForm" method="post">
+        <button type="submit" name="choice" value="{{first_choice}}">{{first_choice}}</button>
+        <button type="submit" name="choice" value="{{second_choice}}">{{second_choice}}</button>
+     </form>
     
     <!-- Voeg hier je JavaScript-bestanden toe -->
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='student.js') }}"></script>
 </body>
 </html>
