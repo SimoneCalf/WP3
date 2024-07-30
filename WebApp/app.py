@@ -26,8 +26,6 @@ mysql = MySQL(app)
 
 @app.route('/')
 def home():
-    get_student_info()
-    get_actiontype_statements()
     return render_template('home.html')
 
 
@@ -53,6 +51,7 @@ def load_actiontype_statements_to_db(json_file):
         try:
             with open(json_file) as file:
                 data = json.load(file)
+                #print(data)
 
             for statement in data:
                 statement_number = statement['statement_number']
@@ -81,6 +80,11 @@ def upload_students():
 @app.route('/upload_actiontypes')
 def upload_actiontypes():
     load_actiontype_statements_to_db('json/actiontype_statements.json')
+    # cursor = mysql.connection.cursor()
+    # cursor.execute('SELECT * FROM choices')
+    # result = cursor.fetchall()
+    # cursor.close()
+    # print(f'info about choices: {result}')
     return jsonify({'message': 'Actiontypes loaded successfully'}), 200
 
 if __name__ == '__main__':

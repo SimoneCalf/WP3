@@ -24,8 +24,7 @@ DROP TABLE IF EXISTS `statement_number`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `statement_number` (
   `statement_number` int NOT NULL,
-  PRIMARY KEY (`statement_number`),
-  CONSTRAINT `idchoices` FOREIGN KEY (`statement_number`) REFERENCES `choices` (`idchoices`)
+  PRIMARY KEY (`statement_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -38,4 +37,4 @@ CREATE TABLE `statement_number` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-30 14:03:22
+-- Dump completed on 2024-07-30 15:15:45

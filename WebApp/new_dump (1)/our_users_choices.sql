@@ -23,14 +23,13 @@ DROP TABLE IF EXISTS `choices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `choices` (
-  `idchoices` int NOT NULL,
+  `idchoices` int NOT NULL AUTO_INCREMENT,
   `choice_number` int NOT NULL,
-  `choice_text` varchar(45) NOT NULL,
+  `choice_text` varchar(400) NOT NULL,
   `choice_result` varchar(45) NOT NULL,
-  `statement_number` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idchoices`),
-  CONSTRAINT `statement_number` FOREIGN KEY (`idchoices`) REFERENCES `statement_number` (`statement_number`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `statement_number` int NOT NULL,
+  PRIMARY KEY (`idchoices`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -42,4 +41,4 @@ CREATE TABLE `choices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-30 14:03:23
+-- Dump completed on 2024-07-30 15:15:45
