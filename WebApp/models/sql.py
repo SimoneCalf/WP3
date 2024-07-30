@@ -19,6 +19,14 @@ def get_student_info():
     cursor.execute('SELECT * FROM students')
     result = cursor.fetchall()
     cursor.close()
-    print(result)
+    print(f'info about students: {result}')
     return result
 
+# query to get all data about the actiontype statements
+def get_actiontype_statements():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM choices')
+    result = cursor.fetchall()
+    cursor.close()
+    print(f'info about choices: {result}')
+    return result
