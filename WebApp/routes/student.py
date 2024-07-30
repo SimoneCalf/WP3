@@ -23,7 +23,9 @@ def student_home():
 
 @student_bp.route('/questtions', methods=['GET', 'POST'])
 def student_questions():
-    fist_choice, second_choice = get_first_question()
-    print(f'first choice: {fist_choice}')
+    first_choice, second_choice = get_first_question()
+    first_choice = first_choice['choice_text']
+    second_choice = second_choice['choice_text']
+    print(f'first choice: {first_choice}')
     print(f'second choice: {second_choice}')
-    return render_template('questions.html')
+    return render_template('questions.html', first_choice=first_choice, second_choice=second_choice)
