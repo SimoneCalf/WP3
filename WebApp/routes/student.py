@@ -1,8 +1,29 @@
-from flask import Flask, Blueprint, render_template
+from flask import Flask, Blueprint, render_template, request, redirect, url_for
+from models.sql import *
+
 
 app = Flask(__name__)
 student_bp = Blueprint('student', __name__)
 
-@student_bp.route('/')
+@student_bp.route('/', methods=['GET', 'POST'])
 def student_home():
+    # get the studentnumber that the user entered
+    student_number = None
+    if request.method == 'POST':
+        # Get the student number from the form submission
+        student_number = int(request.form.get('student_number'))
+        print(f'student number: {student_number}')
+        student_info = get_student_info()
+        # check if the student number is in the database
+        for student in student_info:
+            number_from_db = int(student['student_number'])
+            if student_number == number_from_db:
+                return redirect(url_for('student.student_questions'))
     return render_template('student.html')
+
+@student_bp.route('/questtions', methods=['GET', 'POST'])
+def student_questions():
+    fist_choice, second_choice = get_first_question()
+    print(f'first choice: {fist_choice}')
+    print(f'second choice: {second_choice}')
+    return render_template('questions.html')

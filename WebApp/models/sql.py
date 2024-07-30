@@ -19,7 +19,7 @@ def get_student_info():
     cursor.execute('SELECT * FROM students')
     result = cursor.fetchall()
     cursor.close()
-    print(f'info about students: {result}')
+    #print(f'info about students: {result}')
     return result
 
 # query to get all data about the actiontype statements
@@ -30,3 +30,13 @@ def get_actiontype_statements():
     cursor.close()
     print(f'info about choices: {result}')
     return result
+
+# get the first question
+def get_first_question():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM choices WHERE statement_number = 1')
+    result = cursor.fetchall()
+    first_choice = result[0]
+    second_choice = result[1]
+    cursor.close()
+    return first_choice, second_choice

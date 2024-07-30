@@ -15,7 +15,11 @@
         16 types in totaal. Om die keuzes te bepalen wordt je een set met stellingen aangeboden. Iedere stelling leunt naar één van de
         kenmerken. <br><br> Vul hieronder jouw studentnummer in om de stellingen te beantwoorden.
     </p>
-    <input type="text" placeholder="studentnummer">
+    <form method="post">
+    <input type="text" name="student_number" placeholder="studentnummer" required>
+    <input type="submit" value="Verder">
+    </form>
+    <script src="{{ url_for('static', filename='teacher.js') }}"></script>
 </body>
 </html>
 
