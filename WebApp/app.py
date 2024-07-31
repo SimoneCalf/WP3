@@ -23,6 +23,22 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 mysql = MySQL(app)
 
+# data actiontype statements
+with open('json/actiontype_statements.json') as file:
+    data = json.load(file)
+
+# endpint to get all actiontype statements
+@app.route('/api/actiontype_statements', methods=['GET'])
+def get_actiontype_statements():
+    return jsonify(data)
+
+# endpoint to get a specific actiontype statement
+@app.route('/api/actiontype_statements/<int:statement_number>', methods=['GET'])
+def get_actiontype_statement(statement_number):
+    for statement in data:
+        if statement['statement_number'] == statement_number:
+            return jsonify(statement)
+    return jsonify({'message': 'Statement not found'}), 404
 
 @app.route('/')
 def home():

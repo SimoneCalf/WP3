@@ -5,6 +5,8 @@ from models.sql import *
 app = Flask(__name__)
 student_bp = Blueprint('student', __name__)
 
+
+
 @student_bp.route('/', methods=['GET', 'POST'])
 def student_home():
     # get the studentnumber that the user entered
@@ -24,7 +26,7 @@ def student_home():
                 return redirect(url_for('student.student_questions'))
     return render_template('student.html')
 
-@student_bp.route('/questtions', methods=['GET', 'POST'])
+@student_bp.route('/questions', methods=['GET', 'POST'])
 def student_questions():
     first_choice, second_choice = get_first_question(1)
     first_choice = first_choice['choice_text']
@@ -34,8 +36,25 @@ def student_questions():
         # get the choice that the student made
         choice = request.form.get('choice')
         # get the second question
-
         first_choice = ""
         second_choice = ""
         print(f'choice: {choice}')
     return render_template('questions.html', first_choice=first_choice, second_choice=second_choice)
+
+# route that returns the questions in JSON-format
+@student_bp.route('/api/questions', methods=['GET', 'POST'])
+def get_questions():
+    if request.method == 'GET':
+        first_choice, second_choice = get_first_question(1)
+        questions = {
+            "first_choice": first_choice['choice_text'],
+            "second_choice": second_choice['choice_text']
+        }
+        return jsonify(questions)
+    if request.method == 'POST':
+        # get the choice that the student made
+        choice = request.form.get('choice')
+        # get the second question
+        first_choice = ""
+        second_choice = ""
+        print(f'choice: {choice}')

@@ -3,19 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stellingen</title>
-    <!-- Voeg hier je CSS-bestanden toe -->
-    <link rel="stylesheet" href="styles.css">
+    <title>Questions</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <!-- Voeg hier je inhoud toe -->
-     <h1>Stelling 1</h1>
-     <form id="questionForm" method="post">
-        <button type="submit" name="choice" value="{{first_choice}}">{{first_choice}}</button>
-        <button type="submit" name="choice" value="{{second_choice}}">{{second_choice}}</button>
-     </form>
-    
-    <!-- Voeg hier je JavaScript-bestanden toe -->
-    <script src="{{ url_for('static', filename='student.js') }}"></script>
+    <div id="question-container">
+        <h2>Kies uit de volgende opties degene die het beste bij u past.</h2>
+        <button id="first-choice">Loading...</button>
+        <button id="second-choice">Loading...</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Maak een AJAX-verzoek naar de API om de vragen op te halen
+            $.ajax({
+                url: "{{ url_for('student.get_questions') }}",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    // Update de knoppen met de vragen
+                    $('#first-choice').text(data.first_choice);
+                    $('#second-choice').text(data.second_choice);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Er is een fout opgetreden bij het ophalen van de vragen:", status, error);
+                }
+            });
+
+            // Event listeners voor knoppen kunnen hier worden toegevoegd
+            $('#first-choice, #second-choice').on('click', function() {
+                let choice = $(this).text();
+                console.log("Gekozen:", choice);
+                // Hier kun je eventueel een vervolgactie definiëren
+            });
+        });
+    </script>
 </body>
 </html>
+
