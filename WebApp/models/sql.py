@@ -31,8 +31,8 @@ def get_actiontype_statements():
     print(f'info about choices: {result}')
     return result
 
-# get the first question
-def get_first_question(statement_number):
+# get the question
+def get_question(statement_number):
     cursor = mysql.connection.cursor()
     query = 'SELECT * FROM choices WHERE statement_number = %s'
     cursor.execute(query, (statement_number,))
