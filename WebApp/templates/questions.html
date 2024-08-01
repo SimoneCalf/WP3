@@ -8,36 +8,57 @@
 </head>
 <body>
     <div id="question-container">
-        <h2>Kies uit de volgende opties degene die het beste bij u past.</h2>
-        <button id="first-choice">Loading...</button>
-        <button id="second-choice">Loading...</button>
+        <h2>Choose an option</h2>
+        <button id="first-choice" class="choice-button">Loading...</button>
+        <button id="second-choice" class="choice-button">Loading...</button>
     </div>
 
     <script>
         $(document).ready(function() {
-            // Maak een AJAX-verzoek naar de API om de vragen op te halen
-            $.ajax({
-                url: "{{ url_for('student.get_questions') }}",
-                method: "GET",
-                dataType: "json",
-                success: function(data) {
-                    // Update de knoppen met de vragen
-                    $('#first-choice').text(data.first_choice);
-                    $('#second-choice').text(data.second_choice);
-                },
-                error: function(xhr, status, error) {
-                    console.error("Er is een fout opgetreden bij het ophalen van de vragen:", status, error);
-                }
-            });
+            // Functie om de initiële keuzes op te halen
+            function loadInitialChoices() {
+                $.ajax({
+                    url: "{{ url_for('student.student_questions') }}",
+                    method: "GET",
+                    dataType: "json",
+                    success: function(data) {
+                        $('#first-choice').text(data.first_choice);
+                        $('#second-choice').text(data.second_choice);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Fout bij het ophalen van de initiële vragen:", status, error);
+                    }
+                });
+            }
 
-            // Event listeners voor knoppen kunnen hier worden toegevoegd
-            $('#first-choice, #second-choice').on('click', function() {
+            // Functie om de volgende set keuzes op te halen
+            function loadNextChoices(choice) {
+                $.ajax({
+                    url: "{{ url_for('student.next_choices') }}",
+                    method: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ choice: choice }),
+                    dataType: "json",
+                    success: function(data) {
+                        $('#first-choice').text(data.first_choice);
+                        $('#second-choice').text(data.second_choice);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Fout bij het ophalen van de volgende vragen:", status, error);
+                    }
+                });
+            }
+
+            // Laad de initiële keuzes
+            loadInitialChoices();
+
+            // Event listeners voor de keuze-knoppen
+            $('.choice-button').on('click', function() {
                 let choice = $(this).text();
-                console.log("Gekozen:", choice);
-                // Hier kun je eventueel een vervolgactie definiëren
+                console.log("Gekozen optie:", choice);
+                loadNextChoices(choice);
             });
         });
     </script>
 </body>
 </html>
-

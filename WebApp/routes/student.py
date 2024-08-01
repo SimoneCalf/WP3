@@ -4,7 +4,7 @@ from models.sql import *
 
 
 app = Flask(__name__)
-app.secret_key = secrets.token_hex(16)  # Unieke geheime sleutel voor sessies
+
 
 student_bp = Blueprint('student', __name__)
 
@@ -26,27 +26,33 @@ def student_home():
         for student in student_info:
             number_from_db = int(student['student_number'])
             if student_number == number_from_db:
+                # if the student number is in the database, create a session for the student
                 session['student_number'] = student_number
+                session['question_number'] = 1
+                print("Current session data:", dict(session))
                 return redirect(url_for('student.student_questions'))
     return render_template('student.html')
 
 @student_bp.route('/questions', methods=['GET', 'POST'])
 def student_questions():
-    question_number = 1
-    first_choice, second_choice = get_question(question_number)
-    first_choice = first_choice['choice_text']
-    second_choice = second_choice['choice_text']
-    return render_template('questions.html', first_choice=first_choice, second_choice=second_choice)
+    return render_template('questions.html')
 
 
-# route that returns the questions in JSON-format
-@student_bp.route('/api/questions', methods=['GET', 'POST'])
-def get_questions():
-    if request.method == 'GET':
-        first_choice, second_choice = get_question(1)
-        questions = {
-            "first_choice": first_choice['choice_text'],
-            "second_choice": second_choice['choice_text']
-        }
-        return jsonify(questions)
+@student_bp.route('/api/next_choices', methods=['POST'])
+def next_choices():
+    question_number = session.get('question_number')
+
+    try:
+        next_first_choice, next_second_choice = get_question(question_number)
+    except IndexError:
+        # Geef een foutmelding terug als er geen vraag wordt gevonden
+        return jsonify({"error": "No more questions available."}), 404
+
+    next_choices = {
+        "first_choice": next_first_choice['choice_text'],
+        "second_choice": next_second_choice['choice_text']
+    }
+    session['question_number'] += 1
+    return jsonify(next_choices)
+
    
