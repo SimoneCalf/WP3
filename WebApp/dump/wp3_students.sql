@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: our_users
+-- Host: localhost    Database: wp3
 -- ------------------------------------------------------
 -- Server version	8.0.37
 
@@ -16,22 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `teachers`
+-- Table structure for table `students`
 --
 
-DROP TABLE IF EXISTS `teachers`;
+DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `teachers` (
-  `idteachers` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `e-mailadres` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `is_admin` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`idteachers`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `students` (
+  `student_number` int NOT NULL,
+  `student_class` varchar(100) NOT NULL,
+  `student_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`student_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `students`
+--
+
+LOCK TABLES `students` WRITE;
+/*!40000 ALTER TABLE `students` DISABLE KEYS */;
+/*!40000 ALTER TABLE `students` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -42,4 +48,4 @@ CREATE TABLE `teachers` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-03 10:13:23
+-- Dump completed on 2024-08-03 14:50:12

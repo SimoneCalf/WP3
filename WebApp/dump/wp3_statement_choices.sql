@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.36, for Win64 (x86_64)
 --
--- Host: localhost    Database: our_users
+-- Host: localhost    Database: wp3
 -- ------------------------------------------------------
 -- Server version	8.0.37
 
@@ -16,17 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `statement_number`
+-- Table structure for table `statement_choices`
 --
 
-DROP TABLE IF EXISTS `statement_number`;
+DROP TABLE IF EXISTS `statement_choices`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `statement_number` (
-  `statement_number` int NOT NULL,
-  PRIMARY KEY (`statement_number`)
+CREATE TABLE `statement_choices` (
+  `idstatement_choices` int NOT NULL,
+  `choice_number` int NOT NULL,
+  `choice_text` varchar(200) NOT NULL,
+  `choice_result` varchar(1) NOT NULL,
+  PRIMARY KEY (`idstatement_choices`),
+  CONSTRAINT `statementid` FOREIGN KEY (`idstatement_choices`) REFERENCES `statement_numbers` (`statement_numbers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `statement_choices`
+--
+
+LOCK TABLES `statement_choices` WRITE;
+/*!40000 ALTER TABLE `statement_choices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `statement_choices` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -37,4 +50,4 @@ CREATE TABLE `statement_number` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-03 10:13:27
+-- Dump completed on 2024-08-03 14:50:13
