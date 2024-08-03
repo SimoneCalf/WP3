@@ -56,6 +56,30 @@ def first_question():
 
 @student_bp.route('/api/next_choices', methods=['POST'])
 def next_choices():
+
+    # code below is to add the choice result to the database
+    
+    # Determine the statement number
+    statement_number = session.get('question_number')
+    statement_number -= 1
+    print(f'dit is de statement_number: {statement_number}')
+
+    # Determine the student number
+    student_number = session.get('student_number')
+    print(f'dit is de student_number: {student_number}')
+
+    # Get the choice result of the statement that the student chose
+    data = request.get_json()
+    print(f'dit is de data: {data}')
+    chosen_option = data.get('choice')
+    print(f'dit is de chosen_option: {chosen_option}')
+    choice_result = get_choice_result(chosen_option)
+
+    
+
+   
+    # code below is to get the next question
+
     question_number = session.get('question_number')
 
     try:

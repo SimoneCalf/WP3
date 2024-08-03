@@ -16,19 +16,21 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `students`
+-- Table structure for table `teachers`
 --
 
-DROP TABLE IF EXISTS `students`;
+DROP TABLE IF EXISTS `teachers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `students` (
-  `studentid` int NOT NULL AUTO_INCREMENT,
-  `student_class` varchar(2) NOT NULL,
-  `student_name` varchar(45) NOT NULL,
-  `student_number` int NOT NULL,
-  PRIMARY KEY (`studentid`)
-) ENGINE=InnoDB AUTO_INCREMENT=704 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `teachers` (
+  `idteachers` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(45) NOT NULL,
+  `last_name` varchar(45) NOT NULL,
+  `e-mailadres` varchar(45) NOT NULL,
+  `password` varchar(45) NOT NULL,
+  `is_admin` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`idteachers`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -40,4 +42,4 @@ CREATE TABLE `students` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-03  9:24:20
+-- Dump completed on 2024-08-03 10:13:23

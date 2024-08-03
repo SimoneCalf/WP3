@@ -16,20 +16,16 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `choices`
+-- Table structure for table `statement_number`
 --
 
-DROP TABLE IF EXISTS `choices`;
+DROP TABLE IF EXISTS `statement_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `choices` (
-  `idchoices` int NOT NULL AUTO_INCREMENT,
-  `choice_number` int NOT NULL,
-  `choice_text` varchar(400) NOT NULL,
-  `choice_result` varchar(45) NOT NULL,
+CREATE TABLE `statement_number` (
   `statement_number` int NOT NULL,
-  PRIMARY KEY (`idchoices`)
-) ENGINE=InnoDB AUTO_INCREMENT=243 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`statement_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -41,4 +37,4 @@ CREATE TABLE `choices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-03  9:24:21
+-- Dump completed on 2024-08-03 10:13:23
