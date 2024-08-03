@@ -18,12 +18,13 @@
             // Functie om de initiële keuzes op te halen
             function loadInitialChoices() {
                 $.ajax({
-                    url: "{{ url_for('student.student_questions') }}",
+                    url: "{{ url_for('student.first_question') }}",
                     method: "GET",
                     dataType: "json",
                     success: function(data) {
                         $('#first-choice').text(data.first_choice);
                         $('#second-choice').text(data.second_choice);
+                        console.log("Initiële vragen opgehaald:", data);
                     },
                     error: function(xhr, status, error) {
                         console.error("Fout bij het ophalen van de initiële vragen:", status, error);

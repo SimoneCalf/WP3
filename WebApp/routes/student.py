@@ -48,7 +48,7 @@ def student_home():
 #         return render_template('questions.html')
 
 
-@student_bp.route('/questions', methods=['GET', 'POST'])
+@student_bp.route('/questions', methods=['GET'])
 def student_questions():
     first_choice, second_choice = get_question(1)
     choices = {
@@ -57,6 +57,16 @@ def student_questions():
     }
     return render_template('questions.html', choices=choices)
     
+@student_bp.route('/api/first_question', methods=['GET'])
+def first_question():
+    first_choice, second_choice = get_question(1)
+    choices = {
+    "first_choice": first_choice['choice_text'],
+    "second_choice": second_choice['choice_text']
+    }
+    session['question_number'] += 1
+    return jsonify(choices)
+
 
 @student_bp.route('/api/next_choices', methods=['POST'])
 def next_choices():
