@@ -16,20 +16,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `choices`
+-- Table structure for table `answers`
 --
 
-DROP TABLE IF EXISTS `choices`;
+DROP TABLE IF EXISTS `answers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `choices` (
-  `idchoices` int NOT NULL AUTO_INCREMENT,
-  `choice_number` int NOT NULL,
-  `choice_text` varchar(400) NOT NULL,
-  `choice_result` varchar(45) NOT NULL,
-  `statement_number` int NOT NULL,
-  PRIMARY KEY (`idchoices`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `answers` (
+  `idanswers` int NOT NULL,
+  `statement_numbre_1` varchar(1) DEFAULT NULL,
+  `statement_numbre_2` varchar(1) DEFAULT NULL,
+  `statement_numbre_3` varchar(1) DEFAULT NULL,
+  `statement_numbre_4` varchar(1) DEFAULT NULL,
+  `statement_numbre_5` varchar(1) DEFAULT NULL,
+  `statement_numbre_6` varchar(1) DEFAULT NULL,
+  `statement_numbre_7` varchar(1) DEFAULT NULL,
+  `statement_numbre_8` varchar(1) DEFAULT NULL,
+  `statement_numbre_9` varchar(1) DEFAULT NULL,
+  `statement_numbre_10` varchar(1) DEFAULT NULL,
+  `statement_numbre_11` varchar(1) DEFAULT NULL,
+  `statement_numbre_12` varchar(1) DEFAULT NULL,
+  `statement_numbre_13` varchar(1) DEFAULT NULL,
+  `statement_numbre_14` varchar(1) DEFAULT NULL,
+  `statement_numbre_15` varchar(1) DEFAULT NULL,
+  `statement_numbre_16` varchar(1) DEFAULT NULL,
+  `statement_numbre_17` varchar(1) DEFAULT NULL,
+  `statement_numbre_18` varchar(1) DEFAULT NULL,
+  `statement_numbre_19` varchar(1) DEFAULT NULL,
+  `statement_numbre_20` varchar(1) DEFAULT NULL,
+  PRIMARY KEY (`idanswers`),
+  CONSTRAINT `studentid` FOREIGN KEY (`idanswers`) REFERENCES `students` (`studentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -41,4 +58,4 @@ CREATE TABLE `choices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-30 15:15:45
+-- Dump completed on 2024-08-03  9:24:21

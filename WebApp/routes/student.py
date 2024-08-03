@@ -33,20 +33,6 @@ def student_home():
                 return redirect(url_for('student.student_questions'))
     return render_template('student.html')
 
-# @student_bp.route('/questions', methods=['GET', 'POST'])
-# def student_questions():
-#     question_number = session.get('question_number')
-#     if question_number == 1:
-#         print('eerste vraag')
-#         first_choice, second_choice = get_question(question_number)
-#         choices = {
-#         "first_choice": first_choice['choice_text'],
-#         "second_choice": second_choice['choice_text']
-#     }
-#         return render_template('questions.html', choices=choices)
-#     else:
-#         return render_template('questions.html')
-
 
 @student_bp.route('/questions', methods=['GET'])
 def student_questions():
