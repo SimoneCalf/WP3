@@ -62,6 +62,40 @@ def load_students_to_db(json_file):
         finally:
             cursor.close()
 
+def load_data_to_statement_numbers_table(json_file):
+    with app.app_context():
+        conn = mysql.connection
+        cursor = conn.cursor()
+        try:
+            with open(json_file) as file:
+                data = json.load(file)
+                # delete all data from statement_numbers
+                #cursor.execute('DELETE FROM statement_numbers')
+                for statement in data:
+                    statement_number = statement['statement_number']
+                    print(f'dit is de statement_number: {statement_number}')
+                    # get all the statement_numbers from the table statement_numbers
+                    cursor.execute('SELECT statement_number FROM statement_numbers WHERE statement_number = %s', (statement_number,))
+                    result = cursor.fetchall()
+                    print(f'info about statement_numbers: {result}')
+                    # check if the statement_number already exists
+                    # Controleren of 1 voorkomt in de sleutel 'statement_number'
+                    if any(item['statement_number'] == statement_number for item in data):
+                        print(f"fDe waarde: {statement_number} komt voor in de tabel statement_numbers")
+                    else:
+                # insert the statement_number into the table statement_numbers
+                cursor.execute(
+                    "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
+                    (statement_number,)
+                )
+                    
+                conn.commit()
+        except Exception as e:
+            print(f"Error: {e}")
+            conn.rollback()
+        finally:
+            cursor.close()
+
 def load_actiontype_statements_to_db(json_file):
     with app.app_context():
         conn = mysql.connection
@@ -74,18 +108,48 @@ def load_actiontype_statements_to_db(json_file):
                     statement_number = statement['statement_number']
                     print(f'dit is de statement_number: {statement_number}')
                     
-                    
-                    # Insert data into the table `statement_numbers`
+                    # Check if the statement_number already exists
                     cursor.execute(
-                        "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
+                        "SELECT id FROM statement_numbers WHERE statement_number = %s",
                         (statement_number,)
                     )
+                    existing_id = cursor.fetchone()
+                    print(f'existing_id: {existing_id}')
+                    if existing_id:
+                        # If it exists, use the existing ID
+                        statement_number_id = existing_id[0]
+                        print(f'Found existing statement_number with ID: {statement_number_id}')
+                    else:
+                        print('halllllll')
+                        # Insert data into the table `statement_numbers`
+                        cursor.execute(
+                            "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
+                            (statement_number,)
+                        )
+                        conn.commit()
+                        
+                        # Retrieve the ID of the inserted statement_number
+                        statement_number_id = cursor.lastrowid
+                        print(f'Inserted statement_number with ID: {statement_number_id}')
+                # for statement in data:
+                #     statement_number = statement['statement_number']
+                #     print(f'dit is de statement_number: {statement_number}')
                     
-                    # Retrieve the ID of the inserted statement_number
-                    statement_number_id = cursor.lastrowid
-                    print(f'Inserted statement_number with ID: {statement_number_id}')
+                    
+                #     # Insert data into the table `statement_numbers`
+                #     cursor.execute(
+                #         "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
+                #         (statement_number,)
+                #     )
+
+                #     # check if the data in the table statement_numbers is inserted
 
                     
+                #     # Retrieve the ID of the inserted statement_number
+                #     statement_number_id = cursor.lastrowid
+                #     print(f'Inserted statement_number with ID: {statement_number_id}')
+
+                for statement in data:
                     for choice in statement['statement_choices']:
                         choice_number = choice['choice_number']
                         print(f'dit is de choice_number: {choice_number}')
@@ -108,6 +172,11 @@ def load_actiontype_statements_to_db(json_file):
 def upload_students():
     load_students_to_db('json/students.json')
     return jsonify({'message': 'Students loaded successfully'}), 200
+
+@app.route('/upload_statement_numbers')
+def upload_statement_numbers():
+    load_data_to_statement_numbers_table('json/actiontype_statements.json')
+    return jsonify({'message': 'Statement numbers loaded successfully'}), 200    
 
 @app.route('/upload_actiontypes')
 def upload_actiontypes():

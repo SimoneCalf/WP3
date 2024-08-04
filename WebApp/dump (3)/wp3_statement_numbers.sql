@@ -16,31 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `statement_choices`
+-- Table structure for table `statement_numbers`
 --
 
-DROP TABLE IF EXISTS `statement_choices`;
+DROP TABLE IF EXISTS `statement_numbers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `statement_choices` (
+CREATE TABLE `statement_numbers` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `statement_number_id` int NOT NULL,
-  `choice_number` int NOT NULL,
-  `choice_text` varchar(200) NOT NULL,
-  `choice_result` varchar(1) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `fk_statement_number_id_idx` (`statement_number_id`),
-  CONSTRAINT `fk_statement_number_id` FOREIGN KEY (`statement_number_id`) REFERENCES `statement_numbers` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `statement_number` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `statement_choices`
+-- Dumping data for table `statement_numbers`
 --
 
-LOCK TABLES `statement_choices` WRITE;
-/*!40000 ALTER TABLE `statement_choices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `statement_choices` ENABLE KEYS */;
+LOCK TABLES `statement_numbers` WRITE;
+/*!40000 ALTER TABLE `statement_numbers` DISABLE KEYS */;
+INSERT INTO `statement_numbers` VALUES (5,1);
+/*!40000 ALTER TABLE `statement_numbers` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-04 10:16:09
+-- Dump completed on 2024-08-04 10:51:36

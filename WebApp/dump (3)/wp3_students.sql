@@ -16,29 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `answers`
+-- Table structure for table `students`
 --
 
-DROP TABLE IF EXISTS `answers`;
+DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `answers` (
-  `answer_id` int NOT NULL AUTO_INCREMENT,
+CREATE TABLE `students` (
   `student_number` int NOT NULL,
-  `idstatement_choices` int NOT NULL,
-  `choice` varchar(1) NOT NULL,
-  PRIMARY KEY (`answer_id`),
-  CONSTRAINT `student_number` FOREIGN KEY (`answer_id`) REFERENCES `students` (`student_number`)
+  `student_class` varchar(100) NOT NULL,
+  `student_name` varchar(100) NOT NULL,
+  PRIMARY KEY (`student_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `answers`
+-- Dumping data for table `students`
 --
 
-LOCK TABLES `answers` WRITE;
-/*!40000 ALTER TABLE `answers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `answers` ENABLE KEYS */;
+LOCK TABLES `students` WRITE;
+/*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES (932773,'1A','Simone Calf'),(932774,'1B','John Doe'),(932775,'1A','Jane Smith'),(932776,'1C','Michael Johnson'),(932777,'1B','Emily Davis'),(932778,'1C','Alexander Brown'),(932779,'1A','Laura Wilson'),(932780,'1B','Daniel Garcia'),(932781,'1C','Sophia Martinez'),(932782,'1A','David Lee');
+/*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-04 10:16:10
+-- Dump completed on 2024-08-04 10:51:36
