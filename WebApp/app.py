@@ -7,7 +7,7 @@ from models.sql import *
 import json
 import secrets
 
-
+# C:\Users\simon\OneDrive\Documenten\AD software development\Werkplaats_3_herkansing\inhaal-wp3-actiontypes-SimoneCalf\WebApp\dump
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)  # Unieke geheime sleutel voor sessies
 app.register_blueprint(student_bp, url_prefix='/student')
@@ -69,21 +69,35 @@ def load_actiontype_statements_to_db(json_file):
         try:
             with open(json_file) as file:
                 data = json.load(file)
-                #print(data)
-
-            for statement in data:
-                statement_number = statement['statement_number']
-                
-                for choice in statement['statement_choices']:
-                    choice_number = choice['choice_number']
-                    choice_text = choice['choice_text']
-                    choice_result = choice['choice_result']
-
+                print('hallo')
+                for statement in data:
+                    statement_number = statement['statement_number']
+                    print(f'dit is de statement_number: {statement_number}')
+                    
+                    
+                    # Insert data into the table `statement_numbers`
                     cursor.execute(
-                        "INSERT INTO choices (choice_number, choice_text, choice_result, statement_number) VALUES (%s, %s, %s, %s)",
-                        (choice_number, choice_text, choice_result, statement_number)
+                        "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
+                        (statement_number,)
                     )
-            conn.commit()
+                    
+                    # Retrieve the ID of the inserted statement_number
+                    statement_number_id = cursor.lastrowid
+                    print(f'Inserted statement_number with ID: {statement_number_id}')
+
+                    
+                    for choice in statement['statement_choices']:
+                        choice_number = choice['choice_number']
+                        print(f'dit is de choice_number: {choice_number}')
+                        choice_text = choice['choice_text']
+                        print(f'dit is de choice_text: {choice_text}')
+                        choice_result = choice['choice_result']
+                        print(f'dit is de choice_result: {choice_result}')
+                        cursor.execute(
+                            "INSERT INTO statement_choices (statement_number_id, choice_number, choice_text, choice_result) VALUES (%s, %s, %s, %s)",
+                            (statement_number, choice_number, choice_text, choice_result)
+                        )
+                conn.commit()   
         except Exception as e:
             print(f"Error: {e}")
             conn.rollback()
@@ -98,11 +112,11 @@ def upload_students():
 @app.route('/upload_actiontypes')
 def upload_actiontypes():
     load_actiontype_statements_to_db('json/actiontype_statements.json')
-    # cursor = mysql.connection.cursor()
-    # cursor.execute('SELECT * FROM choices')
-    # result = cursor.fetchall()
-    # cursor.close()
-    # print(f'info about choices: {result}')
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM statement_choices')
+    result = cursor.fetchall()
+    cursor.close()
+    print(f'info about statementchoices: {result}')
     return jsonify({'message': 'Actiontypes loaded successfully'}), 200
 
 if __name__ == '__main__':

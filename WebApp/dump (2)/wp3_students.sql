@@ -36,6 +36,7 @@ CREATE TABLE `students` (
 
 LOCK TABLES `students` WRITE;
 /*!40000 ALTER TABLE `students` DISABLE KEYS */;
+INSERT INTO `students` VALUES (932773,'1A','Simone Calf'),(932774,'1B','John Doe'),(932775,'1A','Jane Smith'),(932776,'1C','Michael Johnson'),(932777,'1B','Emily Davis'),(932778,'1C','Alexander Brown'),(932779,'1A','Laura Wilson'),(932780,'1B','Daniel Garcia'),(932781,'1C','Sophia Martinez'),(932782,'1A','David Lee');
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-03 14:50:12
+-- Dump completed on 2024-08-04 10:16:09

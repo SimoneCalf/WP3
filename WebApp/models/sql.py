@@ -31,16 +31,19 @@ def get_actiontype_statements():
     print(f'info about choices: {result}')
     return result
 
+# # get the question
+# def get_question(statement_number):
+#     cursor = mysql.connection.cursor()
+#     query = 'SELECT * FROM statement_choices WHERE statement_number = %s'
+#     cursor.execute(query, (statement_number,))
+#     result = cursor.fetchall()
+#     first_choice = result[0]
+#     second_choice = result[1]
+#     cursor.close()
+#     return first_choice, second_choice
+
 # get the question
-def get_question(statement_number):
-    cursor = mysql.connection.cursor()
-    query = 'SELECT * FROM choices WHERE statement_number = %s'
-    cursor.execute(query, (statement_number,))
-    result = cursor.fetchall()
-    first_choice = result[0]
-    second_choice = result[1]
-    cursor.close()
-    return first_choice, second_choice
+
 
 # get the choice result (letter that belongs to the choice)
 def get_choice_result(choice_text):
