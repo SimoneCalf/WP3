@@ -16,27 +16,32 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `statement_numbers`
+-- Table structure for table `answer`
 --
 
-DROP TABLE IF EXISTS `statement_numbers`;
+DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `statement_numbers` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `statement_number` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `answer` (
+  `student_number` int NOT NULL,
+  `statment_id` int NOT NULL,
+  `choice_id` int NOT NULL,
+  PRIMARY KEY (`student_number`,`statment_id`),
+  KEY `answer_statemen_number_id_fk` (`statment_id`),
+  KEY `answer_statement_choices_id_fk` (`choice_id`),
+  CONSTRAINT `answer_statemen_number_id_fk` FOREIGN KEY (`statment_id`) REFERENCES `statemen_number` (`id`),
+  CONSTRAINT `answer_statement_choices_id_fk` FOREIGN KEY (`choice_id`) REFERENCES `statement_choices` (`id`),
+  CONSTRAINT `answer_students_number_fk` FOREIGN KEY (`student_number`) REFERENCES `students` (`number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `statement_numbers`
+-- Dumping data for table `answer`
 --
 
-LOCK TABLES `statement_numbers` WRITE;
-/*!40000 ALTER TABLE `statement_numbers` DISABLE KEYS */;
-INSERT INTO `statement_numbers` VALUES (5,1);
-/*!40000 ALTER TABLE `statement_numbers` ENABLE KEYS */;
+LOCK TABLES `answer` WRITE;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-04 10:51:36
+-- Dump completed on 2024-08-06 14:41:16

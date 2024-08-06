@@ -56,7 +56,7 @@ def load_students_to_db(json_file):
                 data = json.load(file)
 
             for student in data:
-                cursor.execute("INSERT INTO students (student_class, student_name, student_number) VALUES (%s, %s, %s)",
+                cursor.execute("INSERT INTO students (class, name, number) VALUES (%s, %s, %s)",
                                (student['student_class'], student['student_name'], student['student_number']))
             conn.commit()
         finally:
@@ -118,51 +118,7 @@ def upload_statement_choices(json_file):
             with open(json_file) as file:
                 data = json.load(file)
                 print('hallo')
-                # for statement in data:
-                #     statement_number = statement['statement_number']
-                #     print(f'dit is de statement_number: {statement_number}')
-                    
-                #     # Check if the statement_number already exists
-                #     cursor.execute(
-                #         "SELECT id FROM statement_numbers WHERE statement_number = %s",
-                #         (statement_number,)
-                #     )
-                #     existing_id = cursor.fetchone()
-                #     print(f'existing_id: {existing_id}')
-                #     if existing_id:
-                #         # If it exists, use the existing ID
-                #         statement_number_id = existing_id[0]
-                #         print(f'Found existing statement_number with ID: {statement_number_id}')
-                #     else:
-                #         print('halllllll')
-                #         # Insert data into the table `statement_numbers`
-                #         cursor.execute(
-                #             "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
-                #             (statement_number,)
-                #         )
-                #         conn.commit()
-                        
-                #         # Retrieve the ID of the inserted statement_number
-                #         statement_number_id = cursor.lastrowid
-                #         print(f'Inserted statement_number with ID: {statement_number_id}')
-                # # for statement in data:
-                # #     statement_number = statement['statement_number']
-                # #     print(f'dit is de statement_number: {statement_number}')
-                    
-                    
-                # #     # Insert data into the table `statement_numbers`
-                # #     cursor.execute(
-                # #         "INSERT INTO statement_numbers (statement_number) VALUES (%s)",
-                # #         (statement_number,)
-                # #     )
-
-                # #     # check if the data in the table statement_numbers is inserted
-
-                    
-                # #     # Retrieve the ID of the inserted statement_number
-                # #     statement_number_id = cursor.lastrowid
-                # #     print(f'Inserted statement_number with ID: {statement_number_id}')
-
+            
                 for statement in data:
                     statement_number = statement['statement_number']
                     # get the u=id of the statement_number if

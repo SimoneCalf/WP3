@@ -16,30 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `teachers`
+-- Table structure for table `statemen_number`
 --
 
-DROP TABLE IF EXISTS `teachers`;
+DROP TABLE IF EXISTS `statemen_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `teachers` (
-  `idteachers` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) NOT NULL,
-  `last_name` varchar(45) NOT NULL,
-  `e-mailadres` varchar(45) NOT NULL,
-  `is_admin` tinyint(1) DEFAULT NULL,
-  `password` varchar(45) NOT NULL,
-  PRIMARY KEY (`idteachers`)
+CREATE TABLE `statemen_number` (
+  `id` int NOT NULL,
+  `choice_a_id` int NOT NULL,
+  `choice_b_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `statemen_number_statement_choices_id_fk` (`choice_b_id`),
+  KEY `statemen_number_statement_choices_id_fk_2` (`choice_a_id`),
+  CONSTRAINT `statemen_number_statement_choices_id_fk` FOREIGN KEY (`choice_b_id`) REFERENCES `statement_choices` (`id`),
+  CONSTRAINT `statemen_number_statement_choices_id_fk_2` FOREIGN KEY (`choice_a_id`) REFERENCES `statement_choices` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `teachers`
+-- Dumping data for table `statemen_number`
 --
 
-LOCK TABLES `teachers` WRITE;
-/*!40000 ALTER TABLE `teachers` DISABLE KEYS */;
-/*!40000 ALTER TABLE `teachers` ENABLE KEYS */;
+LOCK TABLES `statemen_number` WRITE;
+/*!40000 ALTER TABLE `statemen_number` DISABLE KEYS */;
+/*!40000 ALTER TABLE `statemen_number` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-04 10:51:36
+-- Dump completed on 2024-08-06 14:41:16

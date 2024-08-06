@@ -9,8 +9,8 @@
 <body>
     <div id="question-container">
         <h2>Choose an option</h2>
-        <button id="first-choice" class="choice-button">Loading...</button>
-        <button id="second-choice" class="choice-button">Loading...</button>
+        <button id="first-choice" class="choice-button" value="">Loading...</button>
+        <button id="second-choice" class="choice-button" value="">Loading...</button>
     </div>
 
     <script>
@@ -23,7 +23,9 @@
                     dataType: "json",
                     success: function(data) {
                         $('#first-choice').text(data.first_choice);
+                        $('#first-choice').val(data.first_choice_id);
                         $('#second-choice').text(data.second_choice);
+                        $('#second-choice').val(data.second_choice_id);
                         console.log("Initiële vragen opgehaald:", data);
                     },
                     error: function(xhr, status, error) {
@@ -33,16 +35,23 @@
             }
 
             // Functie om de volgende set keuzes op te halen
-            function loadNextChoices(choice) {
+            function loadNextChoices(choice, choice_id) {
                 $.ajax({
                     url: "{{ url_for('student.next_choices') }}",
                     method: "POST",
                     contentType: "application/json",
-                    data: JSON.stringify({ choice: choice }),
+                    data: JSON.stringify({ choice: choice, choice_id: choice_id }),
                     dataType: "json",
                     success: function(data) {
+                        if (data.done === true) {
+                            // move to results page
+                            window.location.href = "{{ url_for('student.results') }}";
+                        }
+
                         $('#first-choice').text(data.first_choice);
+                        $('#first-choice').val(data.first_choice_id);
                         $('#second-choice').text(data.second_choice);
+                        $('#second-choice').val(data.second_choice_id);
                     },
                     error: function(xhr, status, error) {
                         console.error("Fout bij het ophalen van de volgende vragen:", status, error);
@@ -57,8 +66,9 @@
             // Event listeners voor de keuze-knoppen
             $('.choice-button').on('click', function() {
                 let choice = $(this).text();
+                let choice_id = $(this).val();
                 console.log("Gekozen optie:", choice);
-                loadNextChoices(choice);
+                loadNextChoices(choice, choice_id);
             });
         });
     </script>

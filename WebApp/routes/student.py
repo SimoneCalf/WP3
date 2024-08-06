@@ -21,34 +21,39 @@ def student_home():
             print(f'student number: {student_number}')
         except ValueError:
             return render_template('student.html')
-        student_info = get_student_info()
-        # check if the student number is in the database
-        for student in student_info:
-            number_from_db = int(student['student_number'])
-            if student_number == number_from_db:
-                # if the student number is in the database, create a session for the student
-                session['student_number'] = student_number
-                session['question_number'] = 1
-                print("Current session data:", dict(session))
-                return redirect(url_for('student.student_questions'))
+        
+        student = get_student(student_number)
+        print(student)
+        if student:
+            print("HOI!!")
+            session['student_number'] = student["number"]
+            # TODO get the  left off postion from the database
+            session['question_number'] = get_current_question_number(session['student_number']) +1
+            session['max_question_number'] = get_max_quetsion_number()
+            print("Current session data:", dict(session))
+            return redirect(url_for('student.student_questions'))
     return render_template('student.html')
 
 
 @student_bp.route('/questions', methods=['GET'])
 def student_questions():
-    first_choice, second_choice = get_question(1)
+    first_choice, second_choice = get_question(session['question_number'])
     choices = {
     "first_choice": first_choice['choice_text'],
-    "second_choice": second_choice['choice_text']
+    "first_choice_id": first_choice['choice_id'],
+    "second_choice": second_choice['choice_text'],
+    "second_choice_id": second_choice['choice_id']
     }
     return render_template('questions.html', choices=choices)
     
 @student_bp.route('/api/first_question', methods=['GET'])
 def first_question():
-    first_choice, second_choice = get_question(1)
+    first_choice, second_choice = get_question(session['question_number'])
     choices = {
     "first_choice": first_choice['choice_text'],
-    "second_choice": second_choice['choice_text']
+    "first_choice_id": first_choice['choice_id'],
+    "second_choice": second_choice['choice_text'],
+    "second_choice_id": second_choice['choice_id']
     }
     session['question_number'] += 1
     return jsonify(choices)
@@ -56,31 +61,22 @@ def first_question():
 
 @student_bp.route('/api/next_choices', methods=['POST'])
 def next_choices():
-
-    # code below is to add the choice result to the database
-    
-    # Determine the statement number
-    statement_number = session.get('question_number')
-    statement_number -= 1
-    print(f'dit is de statement_number: {statement_number}')
-
-    # Determine the student number
+    # get the chosen option from the student
+    choice = request.json.get('choice')
+    choice_id = request.json.get('choice_id')
+    # Log de keuze en verwerk deze
+    print(f"Gekozen optie: {choice} met id: {choice_id}")
     student_number = session.get('student_number')
-    print(f'dit is de student_number: {student_number}')
-
-    # Get the choice result of the statement that the student chose
-    data = request.get_json()
-    print(f'dit is de data: {data}')
-    chosen_option = data.get('choice')
-    print(f'dit is de chosen_option: {chosen_option}')
-    choice_result = get_choice_result(chosen_option)
-
     
+    add_answer(session.get('student_number'), session.get('question_number') - 1, choice_id)
 
-   
+
     # code below is to get the next question
 
     question_number = session.get('question_number')
+    if question_number > session.get('max_question_number'):
+        # TODO ga naar pagina met resultaten
+        return jsonify({"done": True}), 200
 
     try:
         next_first_choice, next_second_choice = get_question(question_number)
@@ -90,9 +86,13 @@ def next_choices():
 
     next_choices = {
         "first_choice": next_first_choice['choice_text'],
-        "second_choice": next_second_choice['choice_text']
+    "first_choice_id": next_first_choice['choice_id'],
+    "second_choice": next_second_choice['choice_text'],
+    "second_choice_id": next_second_choice['choice_id']
     }
     session['question_number'] += 1
     return jsonify(next_choices)
 
-   
+@student_bp.route('/results', methods=['GET'])
+def results():
+    return render_template('results.html')
