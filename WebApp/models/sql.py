@@ -80,19 +80,24 @@ def get_question(statement_number):
     """
     cursor.execute(query, (statement_number,))
     result = cursor.fetchall()
-    print(result)
-    first_choice = {
-        'choice_id': result[0]['choice_a_id'],
-        'choice_text': result[0]['choice_a_text'],
-        'choice_result': result[0]['choice_a_result']
-    }
-    second_choice = {
-        'choice_id': result[0]['choice_b_id'],
-        'choice_text': result[0]['choice_b_text'],
-        'choice_result': result[0]['choice_b_result']
-    }
-    cursor.close()
-    return first_choice, second_choice
+    print(f'dit is het resultaat: {result}')
+    if not result:
+        print('no result')
+        cursor.close()
+        return False
+    else:
+        first_choice = {
+            'choice_id': result[0]['choice_a_id'],
+            'choice_text': result[0]['choice_a_text'],
+            'choice_result': result[0]['choice_a_result']
+        }
+        second_choice = {
+            'choice_id': result[0]['choice_b_id'],
+            'choice_text': result[0]['choice_b_text'],
+            'choice_result': result[0]['choice_b_result']
+        }
+        cursor.close()
+        return first_choice, second_choice
 
 # get the question
 

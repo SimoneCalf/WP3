@@ -37,6 +37,10 @@ def student_home():
 
 @student_bp.route('/questions', methods=['GET'])
 def student_questions():
+    # When the student already filled in all the questions, redirect to the results page
+    if get_question(session['question_number']) is False:
+        return redirect(url_for('student.results'))
+    # Get the first and second choice of the first question for the student
     first_choice, second_choice = get_question(session['question_number'])
     choices = {
     "first_choice": first_choice['choice_text'],
