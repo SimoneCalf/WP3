@@ -6,8 +6,10 @@
     <title>Questions</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-<body>
+<body onload="showAlert()">
     <div id="question-container">
+        <h4 id="name">Naam:</h4>
+        <h4 id="class">Klas: </h4>
         <h2>Choose an option</h2>
         <button id="first-choice" class="choice-button" value="">Loading...</button>
         <button id="second-choice" class="choice-button" value="">Loading...</button>
@@ -15,17 +17,20 @@
 
     <script>
         $(document).ready(function() {
-            // Functie om de initiële keuzes op te halen
+            // Functie om de keuzes voor de eerste stelling op te halen
             function loadInitialChoices() {
                 $.ajax({
                     url: "{{ url_for('student.first_question') }}",
                     method: "GET",
                     dataType: "json",
                     success: function(data) {
-                        $('#first-choice').text(data.first_choice);
-                        $('#first-choice').val(data.first_choice_id);
-                        $('#second-choice').text(data.second_choice);
-                        $('#second-choice').val(data.second_choice_id);
+                        // put the name and class on the page
+                        $('#name').text("Naam: " + data.name);
+                        $('#class').text("Klas: " + data.class);
+                        $('#first-choice').text(data.choices.first_choice);
+                        $('#first-choice').val(data.choices.first_choice_id);
+                        $('#second-choice').text(data.choices.second_choice);
+                        $('#second-choice').val(data.choices.second_choice_id);
                         console.log("Initiële vragen opgehaald:", data);
                     },
                     error: function(xhr, status, error) {

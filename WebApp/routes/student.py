@@ -44,21 +44,45 @@ def student_home():
 
 @student_bp.route('/questions', methods=['GET'])
 def student_questions():
+    
     # When the student already filled in all the questions, redirect to the results page
     if get_question(session['question_number']) is False:
-        return redirect(url_for('student.results'))
-    # Get the first and second choice of the first question for the student
-    first_choice, second_choice = get_question(session['question_number'])
-    choices = {
-    "first_choice": first_choice['choice_text'],
-    "first_choice_id": first_choice['choice_id'],
-    "second_choice": second_choice['choice_text'],
-    "second_choice_id": second_choice['choice_id']
-    }
-    return render_template('questions.html', choices=choices)
+        print("All questions answered")
+        
+        return render_template('results.html')
+        # go to the home page
+        
+    # if get_question(session['question_number']) is False:
+    #     all_questions_answered = True
+    #     return redirect(url_for('student.results'))
+    else:
+        # get the name and the class
+        student_number = session.get('student_number')
+        student = get_student(student_number)
+        name = student['name']
+        class_student = student['class']
+        print(f'naam: {name}')
+        print(f'klas: {class_student}')
+        # Get the first and second choice of the first question for the student
+        first_choice, second_choice = get_question(session['question_number'])
+        choices = {
+        "first_choice": first_choice['choice_text'],
+        "first_choice_id": first_choice['choice_id'],
+        "second_choice": second_choice['choice_text'],
+        "second_choice_id": second_choice['choice_id']
+        }
+        return render_template('questions.html', choices=choices)
     
 @student_bp.route('/api/first_question', methods=['GET'])
 def first_question():
+    # get the name and the class
+    student_number = session.get('student_number')
+    student = get_student(student_number)
+    name = student['name']
+    class_student = student['class']
+    print(f'naam: {name}')
+    print(f'klas: {class_student}')
+    
     first_choice, second_choice = get_question(session['question_number'])
     choices = {
     "first_choice": first_choice['choice_text'],
@@ -67,7 +91,10 @@ def first_question():
     "second_choice_id": second_choice['choice_id']
     }
     session['question_number'] += 1
-    return jsonify(choices)
+    return jsonify({
+        'name': name,
+        'class': class_student,
+        'choices': choices})
 
 
 @student_bp.route('/api/next_choices', methods=['POST'])
