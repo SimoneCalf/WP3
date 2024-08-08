@@ -14,18 +14,22 @@ student_bp = Blueprint('student', __name__)
 def student_home():
     # get the studentnumber that the user entered
     student_number = None
+    form_submitted = False
+    student = None
     if request.method == 'POST':
+        form_submitted = True
         # Get the student number from the form submission
         try:
             student_number = int(request.form.get('student_number'))
             print(f'student number: {student_number}')
         except ValueError:
-            return render_template('student.html')
+            return render_template('student.html', student=student, form_submitted=form_submitted)
         
         student = get_student(student_number)
         print(f'dit is het student_nummer: {student}')
         if student is False:
-            return render_template('student.html', student = student)
+            print(f'is het form gesubmit?: {form_submitted}')
+            return render_template('student.html', student = student, form_submitted = form_submitted)
 
         if student:
             print("HOI!!")
@@ -35,7 +39,7 @@ def student_home():
             session['max_question_number'] = get_max_quetsion_number()
             print("Current session data:", dict(session))
             return redirect(url_for('student.student_questions'))
-    return render_template('student.html')
+    return render_template('student.html', student=student, form_submitted=form_submitted)
 
 
 @student_bp.route('/questions', methods=['GET'])

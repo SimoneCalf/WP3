@@ -5,15 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student</title>
     <script>
-        // function yo show an alert when the user filled in a student number that does not exist
-        function showAlert(student) {
-            if (!student) {
-                alert("Student number does not exist");
+        // Function to show an alert when the user filled in a student number that does not exist
+        function showAlert() {
+            var studentElement = document.getElementById('student');
+            var formSubmittedElement = document.getElementById('form_submitted');
+            console.log("Student Element:", studentElement); // Debug output
+            console.log("Form Submitted Element:", formSubmittedElement); // Debug output
+
+            if (studentElement && formSubmittedElement) {
+                var student = studentElement.getAttribute('data-student');
+                var formSubmitted = formSubmittedElement.getAttribute('data-form-submitted');
+
+                console.log("Student:", student); // Debug output
+                console.log("Form Submitted:", formSubmitted); // Debug output
+
+                // Check if the student number is not valid and form was submitted
+                if (student === "False" && formSubmitted === "True") {
+                    console.log('hallo')
+                    alert("Student number does not exist");
+                }
+            } else {
+                console.error('One or more required elements are missing.');
             }
         }
     </script>
 </head>
 <body onload="showAlert()">
+    <div id="student" data-student="{{ student }}"></div>
+    <div id="form_submitted" data-form-submitted="{{ form_submitted }}"></div>
     <p>Beste student, <br><br> Op deze website kun je 20 stellingen beantwoorden waarmee je "action type" bepaald wordt.<br><br>
         Waarom is dit belangrijk? <br> Op de opleiding "software development" zijn de docenten van het vak “persoonlijke vorming”
         verantwoordelijk voor de teamindeling van het praktijkvak. Een goed team bestaat uit leden met verschillende soorten 
@@ -24,6 +43,7 @@
         kenmerken. <br><br> Vul hieronder jouw studentnummer in om de stellingen te beantwoorden.
     </p>
     <form method="post">
+    <input type="hidden" name="form_submitted" value="true">
     <input type="text" name="student_number" placeholder="studentnummer" required>
     <input type="submit" value="Verder">
     </form>
