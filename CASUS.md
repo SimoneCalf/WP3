@@ -17,7 +17,7 @@ Versies
 
 # Inleiding
 
-Op de opleiding “software development” zijn de docenten van het vak “persoonlijke vorming” verantwoordelijk voor de teamindeling van het praktijkvak. Een goed team bestaat uit leden met verschillende soorten persoonlijkheden, maar hoe bepaal je die? Daar gebruiken ze de zogenaamde “[action types](https://www.actiontype.nl/actiontype-benadering/)”, ook wel bekend als de “Myers-Briggs persoonlijkheidstypes" . Kort door de bocht deelt deze methode je in op basis van 4 kenmerken, waarbij elk kenmerk aan één van twee keuzes de voorkeur geeft. Met alle verschillende combinaties heb je 16 types in totaal. Om die keuzes te bepalen wordt je een set met stellingen aangeboden. Iedere stelling leunt naar één van de kenmerken. 
+Op de opleiding “software development” zijn de docenten van het vak “persoonlijke vorming” verantwoordelijk voor de teamindeling van het praktijkvak. Een goed team bestaat uit leden met verschillende soorten persoonlijkheden, maar hoe bepaal je die? Daar gebruiken ze de zogenaamde “[action types](https://www.actiontype.nl/actiontype-benadering/)”, ook wel bekend als de “Myers-Briggs persoonlijkheidstypes" . Kort door de bocht deelt deze methode je in op basis van 4 kenmerken, waarbij elk kenmerk aan één van twee keuzes de voorkeur geeft. Met alle verschillende combinaties heb je 16 types in totaal. Om die keuzes te bepalen word je een set met stellingen aangeboden. Iedere stelling leunt naar één van de kenmerken. 
 
 Nu gebeurt dat met een zelf gebouwd webformulier, waar de docent vervolgens met de hand alsnog de action types moet uitrekenen. Dat kan natuurlijk handiger - en dat is dan ook precies wat wij gaan maken in deze opdracht. 
 

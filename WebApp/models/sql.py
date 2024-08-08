@@ -121,4 +121,6 @@ def add_answer(student_number, statement_id, choice_id):
     mysql.connection.commit()
     cursor.close()
 
+def get_action_type():
+    pass
 

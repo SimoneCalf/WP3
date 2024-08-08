@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student</title>
+    <script>
+        // function yo show an alert when the user filled in a student number that does not exist
+        function showAlert(student) {
+            if (!student) {
+                alert("Student number does not exist");
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="showAlert()">
     <p>Beste student, <br><br> Op deze website kun je 20 stellingen beantwoorden waarmee je "action type" bepaald wordt.<br><br>
         Waarom is dit belangrijk? <br> Op de opleiding "software development" zijn de docenten van het vak “persoonlijke vorming”
         verantwoordelijk voor de teamindeling van het praktijkvak. Een goed team bestaat uit leden met verschillende soorten 
@@ -19,7 +27,6 @@
     <input type="text" name="student_number" placeholder="studentnummer" required>
     <input type="submit" value="Verder">
     </form>
-    <script src="{{ url_for('static', filename='teacher.js') }}"></script>
 </body>
 </html>
 

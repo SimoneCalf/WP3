@@ -23,7 +23,10 @@ def student_home():
             return render_template('student.html')
         
         student = get_student(student_number)
-        print(student)
+        print(f'dit is het student_nummer: {student}')
+        if student is False:
+            return render_template('student.html', student = student)
+
         if student:
             print("HOI!!")
             session['student_number'] = student["number"]
