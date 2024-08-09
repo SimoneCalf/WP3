@@ -124,9 +124,9 @@ def next_choices():
 
     next_choices = {
         "first_choice": next_first_choice['choice_text'],
-    "first_choice_id": next_first_choice['choice_id'],
-    "second_choice": next_second_choice['choice_text'],
-    "second_choice_id": next_second_choice['choice_id']
+        "first_choice_id": next_first_choice['choice_id'],
+        "second_choice": next_second_choice['choice_text'],
+        "second_choice_id": next_second_choice['choice_id']
     }
     session['question_number'] += 1
     return jsonify(next_choices)
