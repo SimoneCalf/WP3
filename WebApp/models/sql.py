@@ -103,7 +103,7 @@ def add_answer(student_number, statement_id, choice_id):
     mysql.connection.commit()
     cursor.close()
 
-def get_action_type(student_number):
+def insert_action_type_to_db(student_number):
     cursor = mysql.connection.cursor()
     query = """
     SELECT sc.result
@@ -163,9 +163,15 @@ def get_action_type(student_number):
 
     # add the action type to the database
     cursor.execute('UPDATE students SET action_type = %s WHERE number = %s', (action_type, student_number))
-
     print(action_type)
-    
-    
     cursor.close()
 
+# get the action type of the student
+def get_action_type(student_number):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT action_type FROM students WHERE number = %s', (student_number,))
+    result = cursor.fetchall()
+    cursor.close()
+    if result:
+        return result[0]['action_type']
+    return False

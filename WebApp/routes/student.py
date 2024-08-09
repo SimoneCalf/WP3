@@ -49,7 +49,7 @@ def student_questions():
     if get_question(session['question_number']) is False:
         
         
-        return render_template('results.html')
+        return render_template('already_finished_question_list.html')
         # go to the home page
         
     # if get_question(session['question_number']) is False:
@@ -57,10 +57,10 @@ def student_questions():
     #     return redirect(url_for('student.results'))
     else:
         # get the name and the class
-        student_number = session.get('student_number')
-        student = get_student(student_number)
-        name = student['name']
-        class_student = student['class']
+        # student_number = session.get('student_number')
+        # student = get_student(student_number)
+        # name = student['name']
+        # class_student = student['class']
         
         # Get the first and second choice of the first question for the student
         first_choice, second_choice = get_question(session['question_number'])
@@ -112,6 +112,7 @@ def next_choices():
     question_number = session.get('question_number')
     if question_number > session.get('max_question_number'):
         # TODO ga naar pagina met resultaten
+        insert_action_type_to_db(student_number)
         get_action_type(student_number)
         return jsonify({"done": True}), 200
     
@@ -133,4 +134,4 @@ def next_choices():
 
 @student_bp.route('/results', methods=['GET'])
 def results():
-    return render_template('results.html')
+    return render_template('just_finished_question_list.html')
