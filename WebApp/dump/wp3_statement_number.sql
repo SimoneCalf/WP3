@@ -16,32 +16,23 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `statemen_number`
+-- Table structure for table `statement_number`
 --
 
-DROP TABLE IF EXISTS `statemen_number`;
+DROP TABLE IF EXISTS `statement_number`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `statemen_number` (
-  `id` int NOT NULL,
+CREATE TABLE `statement_number` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `choice_a_id` int NOT NULL,
   `choice_b_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `statemen_number_statement_choices_id_fk` (`choice_b_id`),
-  KEY `statemen_number_statement_choices_id_fk_2` (`choice_a_id`),
-  CONSTRAINT `statemen_number_statement_choices_id_fk` FOREIGN KEY (`choice_b_id`) REFERENCES `statement_choices` (`id`),
-  CONSTRAINT `statemen_number_statement_choices_id_fk_2` FOREIGN KEY (`choice_a_id`) REFERENCES `statement_choices` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `statement_number_statement_choices_id_fk` (`choice_b_id`),
+  KEY `statement_number_statement_choices_id_fk_2` (`choice_a_id`),
+  CONSTRAINT `statement_number_statement_choices_id_fk` FOREIGN KEY (`choice_b_id`) REFERENCES `statement_choices` (`id`),
+  CONSTRAINT `statement_number_statement_choices_id_fk_2` FOREIGN KEY (`choice_a_id`) REFERENCES `statement_choices` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `statemen_number`
---
-
-LOCK TABLES `statemen_number` WRITE;
-/*!40000 ALTER TABLE `statemen_number` DISABLE KEYS */;
-/*!40000 ALTER TABLE `statemen_number` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -52,4 +43,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-06 14:41:16
+-- Dump completed on 2024-08-09 14:55:47

@@ -21,23 +21,23 @@ def student_home():
         # Get the student number from the form submission
         try:
             student_number = int(request.form.get('student_number'))
-            print(f'student number: {student_number}')
+            
         except ValueError:
             return render_template('student.html', student=student, form_submitted=form_submitted)
         
         student = get_student(student_number)
-        print(f'dit is het student_nummer: {student}')
+        
         if student is False:
-            print(f'is het form gesubmit?: {form_submitted}')
+            
             return render_template('student.html', student = student, form_submitted = form_submitted)
 
         if student:
-            print("HOI!!")
+            
             session['student_number'] = student["number"]
             # TODO get the  left off postion from the database
             session['question_number'] = get_current_question_number(session['student_number']) +1
             session['max_question_number'] = get_max_quetsion_number()
-            print("Current session data:", dict(session))
+            
             return redirect(url_for('student.student_questions'))
     return render_template('student.html', student=student, form_submitted=form_submitted)
 
@@ -47,7 +47,7 @@ def student_questions():
     
     # When the student already filled in all the questions, redirect to the results page
     if get_question(session['question_number']) is False:
-        print("All questions answered")
+        
         
         return render_template('results.html')
         # go to the home page
@@ -61,8 +61,7 @@ def student_questions():
         student = get_student(student_number)
         name = student['name']
         class_student = student['class']
-        print(f'naam: {name}')
-        print(f'klas: {class_student}')
+        
         # Get the first and second choice of the first question for the student
         first_choice, second_choice = get_question(session['question_number'])
         choices = {
@@ -80,8 +79,7 @@ def first_question():
     student = get_student(student_number)
     name = student['name']
     class_student = student['class']
-    print(f'naam: {name}')
-    print(f'klas: {class_student}')
+    
     
     first_choice, second_choice = get_question(session['question_number'])
     choices = {
@@ -103,7 +101,7 @@ def next_choices():
     choice = request.json.get('choice')
     choice_id = request.json.get('choice_id')
     # Log de keuze en verwerk deze
-    print(f"Gekozen optie: {choice} met id: {choice_id}")
+    
     student_number = session.get('student_number')
     
     add_answer(session.get('student_number'), session.get('question_number') - 1, choice_id)
@@ -114,7 +112,9 @@ def next_choices():
     question_number = session.get('question_number')
     if question_number > session.get('max_question_number'):
         # TODO ga naar pagina met resultaten
+        get_action_type(student_number)
         return jsonify({"done": True}), 200
+    
 
     try:
         next_first_choice, next_second_choice = get_question(question_number)

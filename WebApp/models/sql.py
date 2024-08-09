@@ -19,9 +19,9 @@ def get_student_info():
     cursor.execute('SELECT * FROM students')
     result = cursor.fetchall()
     cursor.close()
-    #print(f'info about students: {result}')
     return result
 
+# query to get the hightest question number
 def get_max_quetsion_number():
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT MAX(id) FROM statement_number')
@@ -31,6 +31,7 @@ def get_max_quetsion_number():
         return 0
     return result[0]['MAX(id)']
 
+# query to get the question where the student is at
 def get_current_question_number(student_number):
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT MAX(statement_id) FROM answer WHERE student_number = %s', (student_number,))
@@ -40,6 +41,7 @@ def get_current_question_number(student_number):
         return 1
     return result[0]['MAX(statement_id)']
 
+# query to get the student information
 def get_student(student_number):
     cursor = mysql.connection.cursor()
     cursor.execute('SELECT * FROM students WHERE number = %s', (student_number,))
@@ -55,12 +57,7 @@ def get_actiontype_statements():
     cursor.execute('SELECT * FROM choices')
     result = cursor.fetchall()
     cursor.close()
-    print(f'info about choices: {result}')
     return result
-
-
-
-
 
 # get the question
 def get_question(statement_number):
@@ -80,9 +77,7 @@ def get_question(statement_number):
     """
     cursor.execute(query, (statement_number,))
     result = cursor.fetchall()
-    print(f'dit is het resultaat: {result}')
     if not result:
-        print('no result')
         cursor.close()
         return False
     else:
@@ -99,19 +94,6 @@ def get_question(statement_number):
         cursor.close()
         return first_choice, second_choice
 
-# get the question
-
-
-# # get the choice result (letter that belongs to the choice)
-# def get_choice_result(choice_text):
-#     cursor = mysql.connection.cursor()
-#     query = 'SELECT choice_result FROM choices WHERE choice_text = %s'
-#     cursor.execute(query, (choice_text,))
-#     result = cursor.fetchall()
-#     result = result[0]['choice_result']
-#     cursor.close()
-#     print(f'choice result: {result}')
-#     return result
 
 # add the choice result for the statement number to the database for the student that is logged in
 def add_answer(student_number, statement_id, choice_id):
@@ -121,6 +103,69 @@ def add_answer(student_number, statement_id, choice_id):
     mysql.connection.commit()
     cursor.close()
 
-def get_action_type():
-    pass
+def get_action_type(student_number):
+    cursor = mysql.connection.cursor()
+    query = """
+    SELECT sc.result
+    FROM answer a
+    JOIN statement_choices sc ON a.choice_id = sc.id
+    WHERE a.student_number = %s;
+    """
+    cursor.execute(query, (student_number,))
+    results = cursor.fetchall()
+
+    # track amout of occurences of all the letters
+    E = 0
+    I = 0
+    S = 0
+    N = 0
+    T = 0
+    F = 0
+    J = 0
+    P = 0
+
+    for row in results:
+        if row['result'] == 'E':
+            E += 1
+        elif row['result'] == 'I':
+            I += 1
+        elif row['result'] == 'S':
+            S += 1
+        elif row['result'] == 'N':
+            N += 1
+        elif row['result'] == 'T':
+            T += 1
+        elif row['result'] == 'F':
+            F += 1
+        elif row['result'] == 'J':
+            J += 1
+        elif row['result'] == 'P':
+            P += 1
+    
+    # get the action type
+    action_type = ''
+    if E > I:
+        action_type += 'E'
+    else:
+        action_type += 'I'
+    if S > N:
+        action_type += 'S'
+    else:
+        action_type += 'N'
+    if T > F:
+        action_type += 'T'
+    else:
+        action_type += 'F'
+    if J > P:
+        action_type += 'J'
+    else:
+        action_type += 'P'
+
+    # add the action type to the database
+    cursor.execute('UPDATE students SET action_type = %s WHERE number = %s', (action_type, student_number))
+
+    print(action_type)
+    
+    
+    cursor.close()
 
