@@ -39,8 +39,8 @@ def teachers():
             data = json.load(file)
 
         for teacher in data:
-            mycursor.execute("INSERT INTO teacher (name, last_name, email, is_admin) VALUES (%s, %s, %s, %s)",
-                            (teacher['name'], teacher['last_name', teacher['email'], teacher['is_admin']]))
+            mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
+                            (teacher['name'], teacher['last_name', teacher['email'], teacher['password'], teacher['is_admin']]))
     finally:
         mycursor.close()
 

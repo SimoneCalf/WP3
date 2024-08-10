@@ -17,7 +17,9 @@ def teacher_home():
     if request.method == 'GET':
         return render_template('teacher.html')
     if request.method == 'POST':
+        print('hallo')
         teacher_data = models.sql.get_teacher_info()
+        print(f'dit komt uit de query: {teacher_data}')
         email = request.form.get('email')
         password = request.form.get('password')
         # check if the combination of email and password exists in the database

@@ -59,6 +59,7 @@ create table teacher
     name      varchar(100) not null,
     last_name varchar(100) not null,
     email     varchar(255) not null,
+    password  varchar(255) not null,
     is_admin  tinyint(1)   not null
 );
                  

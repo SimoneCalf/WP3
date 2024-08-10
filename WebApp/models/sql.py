@@ -8,7 +8,7 @@ mysql = MySQL()
 # query to get all the teacher information
 def get_teacher_info():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM teachers')
+    cursor.execute('SELECT * FROM teacher')
     result = cursor.fetchall()
     cursor.close()
     return result
