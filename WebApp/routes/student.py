@@ -35,6 +35,7 @@ def student_home():
             
             session['student_number'] = student["number"]
             # TODO get the  left off postion from the database
+            
             session['question_number'] = get_current_question_number(session['student_number']) +1
             session['max_question_number'] = get_max_quetsion_number()
             
@@ -47,8 +48,6 @@ def student_questions():
     
     # When the student already filled in all the questions, redirect to the results page
     if get_question(session['question_number']) is False:
-        
-        
         return render_template('already_finished_question_list.html')
         # go to the home page
         

@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices;",multi=True)
+mycursor.execute("Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices;Drop table if exists action_type",multi=True)
 
 
 mycursor.execute("""
@@ -66,15 +66,22 @@ create table teacher
 create table answer
 (
     student_number int not null,
-    statment_id    int not null,
+    statement_id    int not null,
     choice_id      int not null,
-    primary key (student_number, statment_id),
+    primary key (student_number, statement_id),
     constraint answer_statement_number_id_fk
-        foreign key (statment_id) references statement_number (id),
+        foreign key (statement_id) references statement_number (id),
     constraint answer_statement_choices_id_fk
         foreign key (choice_id) references statement_choices (id),
     constraint answer_students_number_fk
         foreign key (student_number) references students (number)
+);
+                 
+CREATE table action_type (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    letters VARCHAR(4),
+    student_number INT,
+    FOREIGN KEY (student_number) REFERENCES students(number)
 );
 
                  """, multi=True)
