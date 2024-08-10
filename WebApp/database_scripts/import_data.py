@@ -22,10 +22,10 @@ def drop_all_data():
     try:
         mycursor.execute("DELETE FROM answer")
         mycursor.execute("DELETE FROM statement_number")
-        
         mycursor.execute("DELETE FROM students")
         mycursor.execute("DELETE FROM teacher")
         mycursor.execute("DELETE FROM statement_choices")
+        mycursor.execute("DELETE FROM action_type")
         
         
     finally:

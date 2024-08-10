@@ -162,16 +162,19 @@ def insert_action_type_to_db(student_number):
         action_type += 'P'
 
     # add the action type to the database
-    cursor.execute('UPDATE students SET action_type = %s WHERE number = %s', (action_type, student_number))
+    cursor.execute('INSERT INTO action_type (letters, student_number) VALUES (%s, %s)', (action_type, student_number))
     print(action_type)
+    # commit the changes
+    mysql.connection.commit()
     cursor.close()
 
 # get the action type of the student
 def get_action_type(student_number):
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT action_type FROM students WHERE number = %s', (student_number,))
-    result = cursor.fetchall()
+    cursor.execute("SELECT letters FROM action_type WHERE student_number = %s", (student_number,))
+    result = cursor.fetchone()
+    print(f'result: {result}')
     cursor.close()
     if result:
-        return result[0]['action_type']
+        return result['letters']
     return False
