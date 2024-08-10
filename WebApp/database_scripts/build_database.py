@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("Drop table if exists answer;DROP TABLE IF EXISTS students;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices;",multi=True)
+mycursor.execute("Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices;",multi=True)
 
 
 mycursor.execute("""

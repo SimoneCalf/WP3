@@ -20,10 +20,27 @@ mydb = mysql.connector.connect(
 def drop_all_data():
     mycursor = mydb.cursor()
     try:
-        mycursor.execute("DELETE FROM students")
-        mycursor.execute("DELETE FROM statement_choices")
-        mycursor.execute("DELETE FROM statement_number")
         mycursor.execute("DELETE FROM answer")
+        mycursor.execute("DELETE FROM statement_number")
+        
+        mycursor.execute("DELETE FROM students")
+        mycursor.execute("DELETE FROM teacher")
+        mycursor.execute("DELETE FROM statement_choices")
+        
+        
+    finally:
+        mycursor.close()
+
+## TEACHERS
+def teachers():
+    mycursor = mydb.cursor()
+    try:
+        with open("./json/teachers.json") as file:
+            data = json.load(file)
+
+        for teacher in data:
+            mycursor.execute("INSERT INTO teacher (name, last_name, email, is_admin) VALUES (%s, %s, %s, %s)",
+                            (teacher['name'], teacher['last_name', teacher['email'], teacher['is_admin']]))
     finally:
         mycursor.close()
 
@@ -31,7 +48,7 @@ def drop_all_data():
 def students():
     mycursor = mydb.cursor()
     try:
-        with open("./json/students.json") as file:
+        with open("../json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -40,10 +57,11 @@ def students():
     finally:
         mycursor.close()
 
+## STATEMENTS
 def statements():
     mycursor = mydb.cursor()
     try:
-        with open("./json/actiontype_statements.json") as file:
+        with open("../json/actiontype_statements.json") as file:
             data = json.load(file)
 
         for statement in data:
@@ -59,6 +77,7 @@ def statements():
                             (choices_ids[0], choices_ids[1]))
     finally:
         mycursor.close()
+
 
 drop_all_data()
 students()
