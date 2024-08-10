@@ -113,8 +113,8 @@ def next_choices():
     if question_number > session.get('max_question_number'):
         # TODO ga naar pagina met resultaten
         insert_action_type_to_db(student_number)
-        get_action_type(student_number)
-        return jsonify({"done": True}), 200
+        action_type = get_action_type(student_number)
+        return jsonify({"done": True, "action_type": action_type}), 200
     
 
     try:
@@ -134,4 +134,6 @@ def next_choices():
 
 @student_bp.route('/results', methods=['GET'])
 def results():
-    return render_template('just_finished_question_list.html')
+    action_type = request.args.get('action_type')
+    print(f'action_type doorgegeven: {action_type}')
+    return render_template('just_finished_question_list.html', action_type=action_type)

@@ -50,7 +50,12 @@
                     success: function(data) {
                         if (data.done === true) {
                             // move to results page
-                            window.location.href = "{{ url_for('student.results') }}";
+                            //window.location.href = "{{ url_for('student.results') }}";
+                            //window.location.href = '/results?action_type=' + data.action_type;
+                            //window.location.href = '/student/results?action_type=' + action_type;
+                            let action_type = data.action_type;
+                            let resultUrl = "{{ url_for('student.results', action_type='') }}" + action_type;
+                            window.location.href = resultUrl;
                         }
 
                         $('#first-choice').text(data.first_choice);

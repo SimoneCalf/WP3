@@ -7,5 +7,20 @@
 </head>
     <body>
         <h1>hallo</h1>
+        <p id="action-type">Action Type: </p>
+
+        <script>
+            // Functie om query parameters uit de URL te halen
+            function getQueryParam(param) {
+                let urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(param);
+            }
+    
+            // Verkrijg de action_type parameter uit de URL
+            let actionType = getQueryParam('action_type');
+    
+            // Zet de action_type waarde in de pagina
+            document.getElementById('action-type').textContent = 'Action Type: ' + actionType;
+        </script>
     </body>
 </html>
