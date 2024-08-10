@@ -20,10 +20,17 @@ mydb = mysql.connector.connect(
 def drop_all_data():
     mycursor = mydb.cursor()
     try:
-        mycursor.execute("DELETE FROM students")
-        mycursor.execute("DELETE FROM statement_choices")
-        mycursor.execute("DELETE FROM statement_number")
+        # mycursor.execute("DELETE FROM statement_choices")
+        # mycursor.execute("DELETE FROM statement_number")
+        # mycursor.execute("DELETE FROM students")
+        # mycursor.execute("DELETE FROM answer")
+        # mycursor.execute("DELETE FROM teacher")
+
+        mycursor.execute("DELETE FROM teacher")
         mycursor.execute("DELETE FROM answer")
+        mycursor.execute("DELETE FROM students")
+        mycursor.execute("DELETE FROM statement_number")
+        mycursor.execute("DELETE FROM statement_choices")
     finally:
         mycursor.close()
 
@@ -31,7 +38,7 @@ def drop_all_data():
 def students():
     mycursor = mydb.cursor()
     try:
-        with open("./json/students.json") as file:
+        with open("../json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -43,7 +50,7 @@ def students():
 def statements():
     mycursor = mydb.cursor()
     try:
-        with open("./json/actiontype_statements.json") as file:
+        with open("../json/actiontype_statements.json") as file:
             data = json.load(file)
 
         for statement in data:

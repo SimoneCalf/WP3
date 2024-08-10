@@ -78,6 +78,7 @@ def get_question(statement_number):
     cursor.execute(query, (statement_number,))
     result = cursor.fetchall()
     if not result:
+        print(f'resultaat: {result}')
         cursor.close()
         return False
     else:
