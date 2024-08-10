@@ -35,12 +35,13 @@ def drop_all_data():
 def teachers():
     mycursor = mydb.cursor()
     try:
-        with open("./json/teachers.json") as file:
+        with open("../json/teachers.json") as file:
+            print("test")
             data = json.load(file)
 
         for teacher in data:
             mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
-                            (teacher['name'], teacher['last_name', teacher['email'], teacher['password'], teacher['is_admin']]))
+                            (teacher['name'], teacher['last_name'], teacher['email'], teacher['password'], teacher['is_admin']))
     finally:
         mycursor.close()
 
@@ -49,6 +50,7 @@ def students():
     mycursor = mydb.cursor()
     try:
         with open("../json/students.json") as file:
+            print("test2")
             data = json.load(file)
 
         for student in data:
@@ -80,6 +82,7 @@ def statements():
 
 
 drop_all_data()
+teachers()
 students()
 statements()
 mydb.commit()
