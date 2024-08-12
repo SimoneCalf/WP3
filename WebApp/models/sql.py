@@ -5,6 +5,13 @@ from flask import jsonify
 
 mysql = MySQL()
 
+# delete teacher from the database
+def delete_teacher(id):
+    cursor = mysql.connection.cursor()
+    cursor.execute('DELETE FROM teacher WHERE id = %s', (id,))
+    mysql.connection.commit()
+    cursor.close()
+
 # add a teacher to the database
 def add_teacher(name, lastname, email, password, is_admin):
     cursor = mysql.connection.cursor()

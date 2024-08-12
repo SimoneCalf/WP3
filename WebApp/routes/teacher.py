@@ -6,6 +6,17 @@ from models import sql
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
+
+@teacher_bp.route('/delete_teacher/<int:teacher_id>', methods=['DELETE'])
+def delete_teacher(teacher_id):
+    print('hallo')
+    # Verwijder de docent met het opgegeven ID
+    success = sql.delete_teacher(teacher_id)
+    if success:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False}), 500
+
 @teacher_bp.route('/add_teacher', methods=['POST'])
 def add_teacher():
     data = request.get_json()
