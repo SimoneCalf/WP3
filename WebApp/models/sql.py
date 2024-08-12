@@ -5,6 +5,26 @@ from flask import jsonify
 
 mysql = MySQL()
 
+# determine if the teacher filles in a correct email- and password combination
+def teacher_login(email, password):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM teacher WHERE email = %s AND password = %s', (email, password,))
+    result = cursor.fetchall()
+    cursor.close()
+    if result:
+        return True
+    return False
+
+# determine if the teacher is an admin
+def is_admin(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT is_admin FROM teacher WHERE email = %s', (email,))
+    result = cursor.fetchall()
+    cursor.close()
+    if result[0]['is_admin'] == 1:
+        return True
+    return False
+
 # query to get all the teacher information
 def get_teacher_info():
     cursor = mysql.connection.cursor()
