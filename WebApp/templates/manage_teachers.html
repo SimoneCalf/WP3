@@ -13,13 +13,64 @@
         <input id="lastname" type="text" placeholder="Achternaam" name="lastname" required>
         <input id="email" type="text" placeholder="Email" name="email" required>
         <input id="password" type="password" placeholder="Wachtwoord" name="password" required>
-        <input type="checkbox" id="admin" name="admin" value="admin">Admin</input>
+        <label for="admin">
+            <input type="checkbox" id="admin" name="admin" value="admin"> Admin
+        </label>
         <button type="submit">Docent toevoegen</button>
     </form>
 
+     <!-- Lijst van docenten -->
+     <h2>Docentenlijst</h2>
+     <table id="teacherTable" border="1">
+         <thead>
+             <tr>
+                 <th>Naam</th>
+                 <th>Achternaam</th>
+                 <th>Email</th>
+                 <th>Wachtwoord</th>
+                 <th>Admin</th>
+             </tr>
+         </thead>
+         <tbody>
+             <!-- De tabelrijen worden hier toegevoegd -->
+         </tbody>
+     </table>
+
+
     <script>
         $(document).ready(function() {
-            $('#addTeacherForm').on('submit', function(e) {
+            // Functie om de lijst van docenten op te halen
+            function loadTeachers() {
+                $.ajax({
+                    type: 'GET',
+                    url: "{{ url_for('teacher.teachers_list') }}",
+                    dataType: 'json',
+                    success: function(data) {
+                        const teacherTableBody = $('#teacherTable tbody');
+                        teacherTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        data.forEach(function(teacher) {
+                            const tableRow = `
+                                <tr>
+                                    <td>${teacher.name}</td>
+                                    <td>${teacher.last_name}</td>
+                                    <td>${teacher.email}</td>
+                                    <td>${teacher.password}</td>
+                                    <td>${teacher.isAdmin ? 'Ja' : 'Nee'}</td>
+                                </tr>
+                            `;
+                            teacherTableBody.append(tableRow);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching teacher data:', error);
+                    }
+                });
+            }
+
+            // Laad de lijst van docenten bij het laden van de pagina
+            loadTeachers();
+
+        $('#addTeacherForm').on('submit', function(e) {
                 e.preventDefault();
 
                 // Haal de waarden op
@@ -45,10 +96,13 @@
                     contentType: 'application/json',
                     data: JSON.stringify(data),
                     success: function(response) {
-                        // Omleiden naar admin_teachers route na succesvolle toevoeging
-                        window.location.href = "{{ url_for('teacher.admin_teachers') }}";
+                        alert('De docent is toegevoegd');
+                        // Herlaad de lijst van docenten na succesvolle toevoeging
+                        loadTeachers();
+                        // Reset het formulier
+                        $('#addTeacherForm')[0].reset();
                     },
-                    error: function(error) {
+                    error: function(xhr, status, error) {
                         console.error('Error:', error);
                         alert('Er is een fout opgetreden bij het toevoegen van de docent');
                     }

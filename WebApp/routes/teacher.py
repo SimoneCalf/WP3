@@ -23,6 +23,13 @@ def add_teacher():
     # Na succesvolle toevoeging, retourneer succesresponse
     return jsonify({'success': True})
 
+@teacher_bp.route('/teachers_list', methods=['GET'])
+def teachers_list():
+    # Retrieve a list of all teachers
+    teacher_data = sql.get_teacher_info()
+    return jsonify(teacher_data)  
+
+
 # @teacher_bp.route('/login', methods=['POST'])
 # def teacher_login():
 #     data = request.get_json()
@@ -64,4 +71,7 @@ def manage_students():
 
 @teacher_bp.route('/manage_teachers')
 def manage_teachers():
+    # retrieve a list of al the teachers
+    teacher_data = sql.get_teacher_info()
+    print(f'Teacher data: {teacher_data}')
     return render_template('manage_teachers.html')
