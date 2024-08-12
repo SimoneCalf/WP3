@@ -1,10 +1,27 @@
-from flask import Flask, Blueprint, render_template, request, jsonify
+from flask import Flask, Blueprint, render_template, request, jsonify, redirect, url_for
 import models.sql
 # import sql
 from models import sql
 
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
+
+@teacher_bp.route('/add_teacher', methods=['POST'])
+def add_teacher():
+    data = request.get_json()
+
+    # Haal de gegevens uit de JSON
+    name = data.get('name')
+    lastname = data.get('lastname')
+    email = data.get('email')
+    password = data.get('password')
+    is_admin = data.get('isAdmin')
+
+    # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
+    sql.add_teacher(name, lastname, email, password, is_admin)
+    
+    # Na succesvolle toevoeging, retourneer succesresponse
+    return jsonify({'success': True})
 
 # @teacher_bp.route('/login', methods=['POST'])
 # def teacher_login():
@@ -32,7 +49,9 @@ def teacher_home():
             if admin_check == True:
                 return render_template('admin_teachers.html')
             else:
-                return render_template('manage_students.html')
+                # redirect to admin_teahers route
+                return redirect(url_for('teacher.admin_teachers'))
+                
         
 
 @teacher_bp.route('/admin_teachers')

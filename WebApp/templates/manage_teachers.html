@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student</title>
+    <title>Admin Docenten Beheren</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <h1>Docenten beheren</h1>
+    <form id="addTeacherForm">
+        <input id="name" type="text" placeholder="Naam" name="name" required>
+        <input id="lastname" type="text" placeholder="Achternaam" name="lastname" required>
+        <input id="email" type="text" placeholder="Email" name="email" required>
+        <input id="password" type="password" placeholder="Wachtwoord" name="password" required>
+        <input type="checkbox" id="admin" name="admin" value="admin">Admin</input>
+        <button type="submit">Docent toevoegen</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#addTeacherForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Haal de waarden op
+                const name = $('#name').val();
+                const lastname = $('#lastname').val();
+                const email = $('#email').val();
+                const password = $('#password').val();
+                const isAdmin = $('#admin').is(':checked');
+
+                // Maak een object van de gegevens
+                const data = {
+                    name: name,
+                    lastname: lastname,
+                    email: email,
+                    password: password,
+                    isAdmin: isAdmin
+                };
+
+                // Verstuur de gegevens naar de Flask-backend met AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url_for('teacher.add_teacher') }}",
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        // Omleiden naar admin_teachers route na succesvolle toevoeging
+                        window.location.href = "{{ url_for('teacher.admin_teachers') }}";
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                        alert('Er is een fout opgetreden bij het toevoegen van de docent');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

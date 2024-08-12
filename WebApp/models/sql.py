@@ -5,6 +5,13 @@ from flask import jsonify
 
 mysql = MySQL()
 
+# add a teacher to the database
+def add_teacher(name, lastname, email, password, is_admin):
+    cursor = mysql.connection.cursor()
+    cursor.execute('INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)', (name, lastname, email, password, is_admin,))
+    mysql.connection.commit()
+    cursor.close()
+
 # determine if the teacher filles in a correct email- and password combination
 def teacher_login(email, password):
     cursor = mysql.connection.cursor()
