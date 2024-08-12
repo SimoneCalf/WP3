@@ -29,12 +29,15 @@
                  <th>Email</th>
                  <th>Wachtwoord</th>
                  <th>Admin</th>
+                 <th>Acties</th>
              </tr>
          </thead>
          <tbody>
              <!-- De tabelrijen worden hier toegevoegd -->
          </tbody>
      </table>
+
+     
 
 
     <script>
@@ -56,10 +59,14 @@
                                     <td>${teacher.email}</td>
                                     <td>${teacher.password}</td>
                                     <td>${teacher.isAdmin ? 'Ja' : 'Nee'}</td>
+                                     <td>
+                                        <button class="remove-btn" data-id="${teacher.id}">Verwijderen</button>
+                                    </td>
                                 </tr>
                             `;
                             teacherTableBody.append(tableRow);
                         });
+
                     },
                     error: function(xhr, status, error) {
                         console.error('Error fetching teacher data:', error);
