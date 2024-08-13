@@ -5,6 +5,32 @@ from datetime import datetime
 
 mysql = MySQL()
 
+# get the statements a student chose
+def get_student_choices(student_number):
+    cursor = mysql.connection.cursor()
+    query = '''
+        SELECT 
+            sn.id AS statement_id,
+            sc_a.text AS choice_a_text,
+            sc_b.text AS choice_b_text,
+            sc_a.result AS choice_a_result,
+            sc_b.result AS choice_b_result
+        FROM 
+            answer a
+        JOIN 
+            statement_number sn ON a.statement_id = sn.id
+        JOIN 
+            statement_choices sc_a ON sn.choice_a_id = sc_a.id
+        JOIN 
+            statement_choices sc_b ON sn.choice_b_id = sc_b.id
+        WHERE 
+            a.student_number = %s;
+    '''
+    cursor.execute(query, (student_number,))
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 # get student information
 def get_number_class_name():
     cursor = mysql.connection.cursor()

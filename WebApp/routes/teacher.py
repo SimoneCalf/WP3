@@ -75,6 +75,24 @@ def get_student_info():
     print(f'Student info: {student_info}')
     return jsonify(student_info)
 
+# route to go to the detail page of a student
+@teacher_bp.route('/student_detail/<int:student_number>', methods=['GET'])
+def student_detail(student_number):
+    print(f'Student number: {student_number}')
+    # get the statements the student chose
+    statements = sql.get_student_choices(student_number)
+    print(f'Statements: {statements}')
+    return render_template('student_detail.html')
+
+# route to get the statements the student chose
+@teacher_bp.route('/get_student_choices/<int:student_number>', methods=['GET'])
+def get_student_choices(student_number):
+    print(f'Student number: {student_number}')
+    # get the statements the student chose
+    statements = sql.get_student_choices(student_number)
+    print(f'Statements: {statements}')
+    return jsonify(statements)
+
 # @teacher_bp.route('/login', methods=['POST'])
 # def teacher_login():
 #     data = request.get_json()

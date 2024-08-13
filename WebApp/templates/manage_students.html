@@ -39,6 +39,12 @@
          </tbody>
      </table>
 <script>
+
+    function goToDetailPage(studentNumber) {
+        const baseUrl = window.location.origin;
+        const detailUrl = `${baseUrl}/teacher/student_detail/${studentNumber}`;
+        window.location.href = detailUrl
+    }
   $(document).ready(function() {
     // function to fill the table with student data
     function loadStudents() {
@@ -54,6 +60,7 @@
                     data.forEach(function(student) {
                         console.log('Student:', student);
                         // Check for "No Data" in action_date and replace it with "nvt"
+                        const studentNumber = student.student_number
                         const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
                         const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
                         const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
@@ -66,8 +73,8 @@
                                 <td>${actionType}</td>
                                 <td>${teamName}</td>
                                 <td>
-                                    <button class="aanpas-btn" data-id="${student.student_nummer}">Aanpassen</button>
-                                    <button class="verwijder-btn" data-id="${student.student_nummer}">Verwijderen</button>
+                                    <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
+                                    <button class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
                                 </td>
                             </tr>
                         `;
