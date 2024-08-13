@@ -66,10 +66,11 @@ def teacher_home():
             admin_check = sql.is_admin(email)
             print(f'Admin check: {admin_check}')
             if admin_check == True:
-                return render_template('admin_teachers.html')
-            else:
-                # redirect to admin_teahers route
                 return redirect(url_for('teacher.admin_teachers'))
+            else:
+                return redirect(url_for('teacher.manage_students'))
+                # redirect to admin_teahers route
+                
                 
         
 
