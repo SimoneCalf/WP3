@@ -36,7 +36,6 @@ def teachers():
     mycursor = mydb.cursor()
     try:
         with open("../json/teachers.json") as file:
-            print("test")
             data = json.load(file)
 
         for teacher in data:
@@ -50,7 +49,6 @@ def students():
     mycursor = mydb.cursor()
     try:
         with open("../json/students.json") as file:
-            print("test2")
             data = json.load(file)
 
         for student in data:
