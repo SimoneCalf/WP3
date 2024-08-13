@@ -89,6 +89,8 @@ CREATE TABLE team (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     student_number INT,
-    FOREIGN KEY (student_number) REFERENCES students(number)
+    teacher_id INT,
+    FOREIGN KEY (student_number) REFERENCES students(number),
+    FOREIGN KEY (teacher_id) REFERENCES teacher(id)
 );
                  """, multi=True)

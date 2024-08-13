@@ -31,6 +31,7 @@
                  <th>Datum ingevuld</th>
                  <th>Action Type</th>
                  <th>Team</th>
+                 <th>Acties</th>
              </tr>
          </thead>
          <tbody>
@@ -64,6 +65,10 @@
                                 <td>${actionDate}</td>
                                 <td>${actionType}</td>
                                 <td>${teamName}</td>
+                                <td>
+                                    <button class="aanpas-btn" data-id="${student.student_nummer}">Aanpassen</button>
+                                    <button class="verwijder-btn" data-id="${student.student_nummer}">Verwijderen</button>
+                                </td>
                             </tr>
                         `;
                         studentTableBody.append(tableRow);
