@@ -28,7 +28,7 @@
                  <th>Studentnummer</th>
                  <th>Naam</th>
                  <th>Klas</th>
-                 <th>Ingevuld</th>
+                 <th>Datum ingevuld</th>
                  <th>Action Type</th>
                  <th>Team</th>
              </tr>
@@ -52,14 +52,18 @@
 
                     data.forEach(function(student) {
                         console.log('Student:', student);
+                        // Check for "No Data" in action_date and replace it with "nvt"
+                        const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
+                        const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
+                        const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
                         const tableRow = `
                             <tr>
                                 <td>${student.student_number}</td>
-                                <td>${student.name}</td>
+                                <td>${student.student_name}</td>
                                 <td>${student.student_class}</td>
-                                <td>${student.completed ? '✓' : ' '}</td>
-                                <td>${student.action_type}</td>
-                                <td>${student.team}</td>
+                                <td>${actionDate}</td>
+                                <td>${actionType}</td>
+                                <td>${teamName}</td>
                             </tr>
                         `;
                         studentTableBody.append(tableRow);
@@ -133,6 +137,9 @@
                   $('#studentnummer').val('');
                   $('#name').val('');
                   $('#class').val('');
+
+                  // Reload the students list
+                  loadStudents();
               },
               error: function(xhr, status, error) {
                   console.error('Error adding student:', error);
@@ -140,6 +147,8 @@
           });
       });
   });
+
+
 </script>
 </body>
 </html>
