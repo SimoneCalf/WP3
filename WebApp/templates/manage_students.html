@@ -11,14 +11,13 @@
   <form id="addStudentsForm">
     <input id="studentnummer" type="text" placeholder="Studentnummer" name="studentnummer" required>
     <input id="name" type="text" placeholder="Naam" name="name" required>
-    <select title="class" id="class" name="class">
+    <select title="class" id="class" name="classes">
         <!-- classes will be added dynamically -->
     </select>
     <button type="submit">Opslaan</button>
 </form>
 <script>
   $(document).ready(function() {
-    console.log('Document ready');
       // Function to populate the dropdown with class data
       function populateClassDropdown() {
           $.ajax({
@@ -29,10 +28,12 @@
                   const classSelect = $('#class');
                   classSelect.empty(); // Clear any existing options
 
+                  // Add a default option
+                  classSelect.append('<option value="">Select a class</option>');
+
                   // Iterate over the returned data to create options
                   data.forEach(function(classItem) {
-                      console.log(classItem);
-                      const option = `<option value="${classItem.id}">${classItem.class}</option>`;
+                      const option = `<option value="${classItem.class}">${classItem.class}</option>`;
                       classSelect.append(option);
                   });
               },
@@ -44,6 +45,37 @@
 
       // Call the function to populate the dropdown on page load
       populateClassDropdown();
+
+      // add new student to the database
+      $('#addStudentsForm').submit(function(event) {
+          event.preventDefault();
+          const studentnummer = $('#studentnummer').val();
+          const name = $('#name').val();
+          const class_student = $('#class').val();
+          console.log('Adding student:', studentnummer, name, class_student);
+
+          $.ajax({
+              url: " {{ url_for('teacher.add_student') }} ",
+              type: 'POST',
+              contentType: 'application/json',
+              data: JSON.stringify({
+                  student_number: studentnummer,
+                  name: name,
+                  student_class: class_student
+              }),
+              success: function(response) {
+                  console.log('Student added successfully:', response);
+                  alert('Student succesvol toegevoegd');
+                  // Clear the form fields after successful submission
+                  $('#studentnummer').val('');
+                  $('#name').val('');
+                  $('#class').val('');
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error adding student:', error);
+              }
+          });
+      });
   });
 </script>
 </body>

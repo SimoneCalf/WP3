@@ -5,6 +5,13 @@ from flask import jsonify
 
 mysql = MySQL()
 
+# add a student to the database
+def add_student(name, number, class_student):
+    cursor = mysql.connection.cursor()
+    cursor.execute('INSERT INTO students (name, number, class) VALUES (%s, %s, %s)', (name, number, class_student,))
+    mysql.connection.commit()
+    cursor.close()
+
 # get all the existing classes
 def get_classes():
     cursor = mysql.connection.cursor()

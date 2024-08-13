@@ -7,13 +7,32 @@ import sys
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
+
+# This route is used to add new students to the database
+@teacher_bp.route('/add_student', methods=['POST'])
+def add_student():
+    data = request.get_json()
+    print(f'Received data: {data}')
+    # Haal de gegevens uit de JSON
+    name = data.get('name')
+    student_number = data.get('student_number')
+    student_class = data.get('student_class')
+    print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
+    print(type(student_number))
+    # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
+    sql.add_student(name, student_number, student_class)
+    
+    # Na succesvolle toevoeging, retourneer succesresponse
+    return jsonify({'success': True})
+
+# This route is used to get all the classes that are in the database
 @teacher_bp.route('/get_classes', methods=['GET'])
 def get_classes():
     # Retrieve a list of all classes
     class_data = sql.get_classes()
     return jsonify(class_data)
 
-
+# This route is used to delete a teacher from the database. This can be done by teacher who are admin
 @teacher_bp.route('/delete_teacher/<int:teacher_id>', methods=['DELETE'])
 def delete_teacher(teacher_id):
     print('hallo')
