@@ -7,6 +7,12 @@ import sys
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
+@teacher_bp.route('/get_classes', methods=['GET'])
+def get_classes():
+    # Retrieve a list of all classes
+    class_data = sql.get_classes()
+    return jsonify(class_data)
+
 
 @teacher_bp.route('/delete_teacher/<int:teacher_id>', methods=['DELETE'])
 def delete_teacher(teacher_id):

@@ -5,6 +5,14 @@ from flask import jsonify
 
 mysql = MySQL()
 
+# get all the existing classes
+def get_classes():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT DISTINCT class FROM students')
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 # delete teacher from the database
 def delete_teacher(id):
     cursor = mysql.connection.cursor()

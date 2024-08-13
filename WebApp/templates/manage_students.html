@@ -4,9 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Studenten beheren</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
   <h1>Studenten beheren</h1>
-  
+  <form id="addStudentsForm">
+    <input id="studentnummer" type="text" placeholder="Studentnummer" name="studentnummer" required>
+    <input id="name" type="text" placeholder="Naam" name="name" required>
+    <select title="class" id="class" name="class">
+        <!-- classes will be added dynamically -->
+    </select>
+    <button type="submit">Opslaan</button>
+</form>
+<script>
+  $(document).ready(function() {
+    console.log('Document ready');
+      // Function to populate the dropdown with class data
+      function populateClassDropdown() {
+          $.ajax({
+              url: " {{ url_for('teacher.get_classes') }} ", // Flask endpoint that returns the class data
+              type: 'GET',
+              dataType: 'json',
+              success: function(data) {
+                  const classSelect = $('#class');
+                  classSelect.empty(); // Clear any existing options
+
+                  // Iterate over the returned data to create options
+                  data.forEach(function(classItem) {
+                      console.log(classItem);
+                      const option = `<option value="${classItem.id}">${classItem.class}</option>`;
+                      classSelect.append(option);
+                  });
+              },
+              error: function(xhr, status, error) {
+                  console.error('Error fetching class data:', error);
+              }
+          });
+      }
+
+      // Call the function to populate the dropdown on page load
+      populateClassDropdown();
+  });
+</script>
 </body>
 </html>
