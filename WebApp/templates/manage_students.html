@@ -8,6 +8,8 @@
 </head>
 <body>
   <h1>Studenten beheren</h1>
+
+  <h3>Voeg een student toe</h3>
   <form id="addStudentsForm">
     <input id="studentnummer" type="text" placeholder="Studentnummer" name="studentnummer" required>
     <input id="name" type="text" placeholder="Naam" name="name" required>
@@ -16,6 +18,8 @@
     </select>
     <button type="submit">Opslaan</button>
 </form>
+
+
 
 <h2>Overzicht</h2>
      <table id="studentTable" border="1">
@@ -46,7 +50,7 @@
                   classSelect.empty(); // Clear any existing options
 
                   // Add a default option
-                  classSelect.append('<option value="">Select a class</option>');
+                  classSelect.append('<option value="">Selecteer een klas</option>');
 
                   // Iterate over the returned data to create options
                   data.forEach(function(classItem) {

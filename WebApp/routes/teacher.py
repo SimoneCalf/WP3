@@ -8,6 +8,7 @@ app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
 
+
 # This route is used to add new students to the database
 @teacher_bp.route('/add_student', methods=['POST'])
 def add_student():
@@ -67,7 +68,12 @@ def teachers_list():
     return jsonify(teacher_data)
 
 # Get studentnumbers, names, classes, date the student filled in all questions, action type and the team of all students
-
+@teacher_bp.route('/get_student_info', methods=['GET'])
+def get_student_info():
+    print('hallo')
+    student_info = sql.get_student_info()
+    print(f'Student info: {student_info}')
+    return jsonify(student_info)
 
 # @teacher_bp.route('/login', methods=['POST'])
 # def teacher_login():

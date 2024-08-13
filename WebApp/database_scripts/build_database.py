@@ -19,7 +19,7 @@ mydb = mysql.connector.connect(
 
 mycursor = mydb.cursor()
 
-mycursor.execute("Drop table if exists action_type;Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices",multi=True)
+mycursor.execute("Drop table if exists team;Drop table if exists action_type;Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices",multi=True)
 
 
 mycursor.execute("""
@@ -81,7 +81,7 @@ CREATE table action_type (
     id INT AUTO_INCREMENT PRIMARY KEY,
     letters VARCHAR(4),
     student_number INT,
-    date_assigned DATETIME,
+    date_assigned DATETIME not null,
     FOREIGN KEY (student_number) REFERENCES students(number)
 );
                  
