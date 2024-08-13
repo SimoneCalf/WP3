@@ -86,7 +86,8 @@ CREATE table action_type (
 );
                  
 CREATE TABLE team (
-    name VARCHAR(100) PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
     student_number INT,
     FOREIGN KEY (student_number) REFERENCES students(number)
 );

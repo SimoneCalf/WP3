@@ -39,6 +39,38 @@
      </table>
 <script>
   $(document).ready(function() {
+    // function to fill the table with student data
+    function loadStudents() {
+            console.log('Loading students...');
+            $.ajax({
+                type: 'GET',
+                url: "{{ url_for('teacher.get_student_info') }}",
+                dataType: 'json',
+                success: function(data) {
+                    const studentTableBody = $('#studentTable tbody');
+                    studentTableBody.empty();  // Clear the table body before adding new rows
+
+                    data.forEach(function(student) {
+                        console.log('Student:', student);
+                        const tableRow = `
+                            <tr>
+                                <td>${student.student_number}</td>
+                                <td>${student.name}</td>
+                                <td>${student.student_class}</td>
+                                <td>${student.completed ? '✓' : ' '}</td>
+                                <td>${student.action_type}</td>
+                                <td>${student.team}</td>
+                            </tr>
+                        `;
+                        studentTableBody.append(tableRow);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching student data:', error);
+                }
+            });
+        }
+
       // Function to populate the dropdown with class data
       function populateClassDropdown() {
           $.ajax({
@@ -62,10 +94,20 @@
                   console.error('Error fetching class data:', error);
               }
           });
-      }
+        
+        
+        }
+      
+
+     
 
       // Call the function to populate the dropdown on page load
       populateClassDropdown();
+
+       // Call the function to load students on page load
+       loadStudents();
+
+      
 
       // add new student to the database
       $('#addStudentsForm').submit(function(event) {

@@ -6,7 +6,7 @@ from datetime import datetime
 mysql = MySQL()
 
 # get student information
-def get_student_info():
+def get_number_class_name():
     cursor = mysql.connection.cursor()
     query = '''
         SELECT
@@ -24,28 +24,28 @@ def get_student_info():
 
 
 
-# # get student information
-# def get_student_info():
-#     print('get_student_info')
-#     cursor = mysql.connection.cursor()
-#     query = '''
-#         SELECT 
-#             s.number AS student_number,
-#             s.name AS student_name,
-#             s.class AS student_class,
-#             COALESCE(at.date_assigned, 'No Data') AS action_date,
-#             COALESCE(at.letters, 'No Data') AS action_type,
-#             COALESCE(t.name, 'No Team') AS team_name
-#         FROM students s
-#         LEFT JOIN action_type at ON s.number = at.student_number
-#         LEFT JOIN team t ON s.number = t.student_number
-#         ORDER BY s.number;
-#     '''
-#     cursor.execute(query)
-#     result = cursor.fetchall()
-#     cursor.close()
-#     print(result)
-#     return result
+# get student information
+def get_student_info():
+    print('get_student_info')
+    cursor = mysql.connection.cursor()
+    query = '''
+        SELECT 
+            s.number AS student_number,
+            s.name AS student_name,
+            s.class AS student_class,
+            COALESCE(at.date_assigned, 'No Data') AS action_date,
+            COALESCE(at.letters, 'No Data') AS action_type,
+            COALESCE(t.name, 'No Team') AS team_name
+        FROM students s
+        LEFT JOIN action_type at ON s.number = at.student_number
+        LEFT JOIN team t ON s.number = t.student_number
+        ORDER BY s.number;
+    '''
+    cursor.execute(query)
+    result = cursor.fetchall()
+    cursor.close()
+    print(result)
+    return result
 
 # add a student to the database
 def add_student(name, number, class_student):
@@ -105,13 +105,13 @@ def get_teacher_info():
     cursor.close()
     return result
 
-# query to get all the student information
-def get_student_info():
-    cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM students')
-    result = cursor.fetchall()
-    cursor.close()
-    return result
+# # query to get all the student information
+# def get_student_info():
+#     cursor = mysql.connection.cursor()
+#     cursor.execute('SELECT * FROM students')
+#     result = cursor.fetchall()
+#     cursor.close()
+#     return result
 
 # query to get the hightest question number
 def get_max_quetsion_number():
