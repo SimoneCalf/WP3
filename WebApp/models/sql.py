@@ -11,6 +11,7 @@ def delete_teacher(id):
     cursor.execute('DELETE FROM teacher WHERE id = %s', (id,))
     mysql.connection.commit()
     cursor.close()
+    return True
 
 # add a teacher to the database
 def add_teacher(name, lastname, email, password, is_admin):

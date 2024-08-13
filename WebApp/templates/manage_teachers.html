@@ -59,7 +59,7 @@
                                     <td>${teacher.last_name}</td>
                                     <td>${teacher.email}</td>
                                     <td>${teacher.password}</td>
-                                    <td>${teacher.isAdmin ? 'Ja' : 'Nee'}</td>
+                                    <td>${teacher.is_admin ? '✓' : ' '}</td>
                                      <td>
                                         <button class="remove-btn" data-id="${teacher.id}">Verwijderen</button>
                                     </td>
@@ -73,7 +73,7 @@
                             console.log('Remove button clicked');
                             const teacherId = $(this).data('id');
                             console.log('Removing teacher with id:', teacherId);
-                            const deleteUrl = `${baseUrl}/delete_teacher/${teacherId}`;
+                            const deleteUrl = `${baseUrl}/teacher/delete_teacher/${teacherId}`;
                             $.ajax({
                                 type: 'DELETE',
                                 url: deleteUrl,

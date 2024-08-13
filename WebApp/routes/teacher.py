@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, render_template, request, jsonify, redirect,
 import models.sql
 # import sql
 from models import sql
+import sys
 
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
