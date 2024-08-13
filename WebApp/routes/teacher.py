@@ -64,7 +64,9 @@ def add_teacher():
 def teachers_list():
     # Retrieve a list of all teachers
     teacher_data = sql.get_teacher_info()
-    return jsonify(teacher_data)  
+    return jsonify(teacher_data)
+
+# Get studentnumbers, names, classes, date the student filled in all questions, action type and the team of all students
 
 
 # @teacher_bp.route('/login', methods=['POST'])

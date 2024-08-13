@@ -84,5 +84,10 @@ CREATE table action_type (
     date_assigned DATETIME,
     FOREIGN KEY (student_number) REFERENCES students(number)
 );
-
+                 
+CREATE TABLE team (
+    name VARCHAR(100) PRIMARY KEY,
+    student_number INT,
+    FOREIGN KEY (student_number) REFERENCES students(number)
+);
                  """, multi=True)
