@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic HTML</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
     <p>* Het detailscherm van een student bevat de studentgegevens en de stellingen die deze student heeft gekozen. Hier kun je een team selecten voor deze student. Indien de student al een team heeft wordt weergegeven wie de student aan het team heeft toegevoegd.
         * Vanuit het detailscherm moet de gebruiker een "wijzigbaar" scherm kunnen openen. Buiten aanpassen van de gegevens en klas van de student kan hier ook een ander team worden geselecteerd. </p>
 
     <p>Gekozen stellingen:</p>
-    <select title="statements" id="statements" name="statements">
-        <!-- statements will be added dynamically -->
-    </select>
+    <table id="statementTable" border="1">
+        <thead>
+            <tr>
+                <th>Stellingen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- De tabelrijen worden hier toegevoegd -->
+        </tbody>
+    </table>
 
     <p>Selecteer een team</p>
     <select title="team" id="team" name="teams">
@@ -21,32 +29,40 @@
     <div>
         <button title="adjust">Wijzig gegevens</button>
     </div>
+
+    <!-- Somewhere in your body -->
+    <input type="hidden" id="student-number" value="{{ student_number }}">
+
+
 <script>
     $(document).ready(function() {
+        console.log('Document ready');
+        let studentNumber = $('#student-number').val();
+        console.log('Student number:', studentNumber);
         const baseUrl = window.location.origin;
         const choicesUrl = `${baseUrl}/teacher/get_student_choices/${studentNumber}`;
     function populateClassDropdown() {
           $.ajax({
               url: choicesUrl, // Flask endpoint that returns the class data
-              
               type: 'GET',
               dataType: 'json',
               success: function(data) {
-                  concole.log(data);
-                  const statementSelect = $('#statements');
-                  statementSelect.empty(); // Clear any existing options
-
-                  // Add a default option
-                  statementSelect.append('<option value="">Selecteer een klas</option>');
-
-                  // Iterate over the returned data to create options
-                  data.forEach(function(classItem) {
-                      const option = `<option value="${classItem.class}">${classItem.class}</option>`;
-                      statementSelect.append(option);
+                  console.log(data);
+                  const statementTableBody = $('#statementTable tbody');
+                        statementTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        data.forEach(function(statement) {
+                            console.log(statement.text);
+                            const tableRow = `
+                                <tr>
+                                    <td>${statement.text}</td>
+                                </tr>
+                            `;
+                            statementTableBody.append(tableRow);
                   });
+                  
               },
               error: function(xhr, status, error) {
-                  console.error('Error fetching class data:', error);
+                  console.error('Error fetching data:', error);
               }
           });
         

@@ -82,7 +82,7 @@ def student_detail(student_number):
     # get the statements the student chose
     # statements = sql.get_student_choices(student_number)
     # print(f'Statements: {statements}')
-    return render_template('student_detail.html')
+    return render_template('student_detail.html', student_number=student_number)
 
 # route to get the statements the student chose
 @teacher_bp.route('/get_student_choices/<int:student_number>', methods=['GET'])
