@@ -10,7 +10,26 @@
     <p>* Het detailscherm van een student bevat de studentgegevens en de stellingen die deze student heeft gekozen. Hier kun je een team selecten voor deze student. Indien de student al een team heeft wordt weergegeven wie de student aan het team heeft toegevoegd.
         * Vanuit het detailscherm moet de gebruiker een "wijzigbaar" scherm kunnen openen. Buiten aanpassen van de gegevens en klas van de student kan hier ook een ander team worden geselecteerd. </p>
 
-    <p>Gekozen stellingen:</p>
+        <h2>Overzicht</h2>
+        <table id="studentTable" border="1">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>Studentnummer</th>
+                    <th>Klas</th>
+                    <th>Action Type</th>
+                    <th>Datum ingevuld</th>
+                    <th>Team</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- De tabelrijen worden hier toegevoegd -->
+            </tbody>
+        </table>
+    
+    
+    
+        <p>Gekozen stellingen:</p>
     <table id="statementTable" border="1">
         <thead>
             <tr>
@@ -35,20 +54,22 @@
 
 
 <script>
-    $(document).ready(function() {
-        console.log('Document ready');
-        let studentNumber = $('#student-number').val();
-        console.log('Student number:', studentNumber);
-        const baseUrl = window.location.origin;
-        const choicesUrl = `${baseUrl}/teacher/get_student_choices/${studentNumber}`;
-    function populateClassDropdown() {
-          $.ajax({
-              url: choicesUrl, // Flask endpoint that returns the class data
-              type: 'GET',
-              dataType: 'json',
-              success: function(data) {
-                  console.log(data);
-                  const statementTableBody = $('#statementTable tbody');
+     $(document).ready(function() {
+            console.log('Document ready');
+            let studentNumber = $('#student-number').val();
+            console.log('Student number:', studentNumber);
+            const baseUrl = window.location.origin;
+            const choicesUrl = `${baseUrl}/teacher/get_student_choices/${studentNumber}`;
+            const studentInfoUrl = `${baseUrl}/teacher/get_student_info_specific_student/${studentNumber}`;
+
+            function populateStatementTable() {
+                $.ajax({
+                    url: choicesUrl, // Flask endpoint that returns the statement data
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        const statementTableBody = $('#statementTable tbody');
                         statementTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
                         data.forEach(function(statement) {
                             console.log(statement.text);
@@ -58,24 +79,51 @@
                                 </tr>
                             `;
                             statementTableBody.append(tableRow);
-                  });
-                  
-              },
-              error: function(xhr, status, error) {
-                  console.error('Error fetching data:', error);
-              }
-          });
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            function populateStudentTable() {  // Correct function name
+                $.ajax({
+                    url: studentInfoUrl, // Flask endpoint that returns the student info data
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        console.log(data);
+                        const studentTableBody = $('#studentTable tbody');
+                        studentTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        data.forEach(function(student) {
+                            console.log(student.student_name);
+                            const tableRow = `
+                                <tr>
+                                    <td>${student.student_name}</td>
+                                    <td>${student.student_number}</td>
+                                    <td>${student.student_class}</td>
+                                    <td>${student.action_type}</td>
+                                    <td>${student.action_date}</td>
+                                    <td>${student.team_name}</td>
+                                </tr>
+                            `;
+                            studentTableBody.append(tableRow);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching data:', error);
+                    }
+                });
+            }
+
+            populateStatementTable();  // Call function to populate statements table
+            populateStudentTable();    // Call function to populate student info table
+        });
         
-        
-        }
-      
+    
 
-     
 
-      // Call the function to populate the dropdown on page load
-      populateClassDropdown();
-
-    });
 
 </script>
     
