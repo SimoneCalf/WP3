@@ -73,6 +73,11 @@ def student_questions():
     
 @student_bp.route('/api/first_question', methods=['GET'])
 def first_question():
+    # # get the choice_idd to add the answer to the database
+    # choice_id = request.json.get('choice_id')
+    # print(f'choice_id: {choice_id}')
+    # add_answer(session.get('student_number'), session.get('question_number') - 1, choice_id)
+
     # get the name and the class
     student_number = session.get('student_number')
     student = get_student(student_number)
@@ -80,14 +85,19 @@ def first_question():
     class_student = student['class']
     
     
-    first_choice, second_choice = get_question(session['question_number'])
+    first_choice, second_choice = get_question(session['question_number'] - 1)
     choices = {
     "first_choice": first_choice['choice_text'],
     "first_choice_id": first_choice['choice_id'],
     "second_choice": second_choice['choice_text'],
     "second_choice_id": second_choice['choice_id']
     }
-    session['question_number'] += 1
+
+    
+    
+
+    #session['question_number'] += 1
+
     return jsonify({
         'name': name,
         'class': class_student,
@@ -99,6 +109,7 @@ def next_choices():
     # get the chosen option from the student
     choice = request.json.get('choice')
     choice_id = request.json.get('choice_id')
+    print(f'choice: {choice}')
     # Log de keuze en verwerk deze
     
     student_number = session.get('student_number')
