@@ -45,9 +45,10 @@ def student_home():
 
 @student_bp.route('/questions', methods=['GET'])
 def student_questions():
-    
     # When the student already filled in all the questions, redirect to the results page
     if get_question(session['question_number']) is False:
+        print('No more questions available')
+        print('session[question_number]:', session['question_number'])
         return render_template('already_finished_question_list.html')
         # go to the home page
         

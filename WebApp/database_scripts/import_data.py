@@ -20,31 +20,17 @@ mydb = mysql.connector.connect(
 def drop_all_data():
     mycursor = mydb.cursor()
     try:
-        mycursor.execute("DELETE FROM team")
-        mycursor.execute("DELETE FROM action_type")
-        mycursor.execute("DELETE FROM answer")
-        mycursor.execute("DELETE FROM statement_number")
-        mycursor.execute("DELETE FROM students")
+        # mycursor.execute("DELETE FROM statement_choices")
+        # mycursor.execute("DELETE FROM statement_number")
+        # mycursor.execute("DELETE FROM students")
+        # mycursor.execute("DELETE FROM answer")
+        # mycursor.execute("DELETE FROM teacher")
+
         mycursor.execute("DELETE FROM teacher")
+        mycursor.execute("DELETE FROM answer")
+        mycursor.execute("DELETE FROM students")
+        mycursor.execute("DELETE FROM statement_number")
         mycursor.execute("DELETE FROM statement_choices")
-        
-        
-        
-    finally:
-        mycursor.close()
-
-
-
-## TEACHERS
-def teachers():
-    mycursor = mydb.cursor()
-    try:
-        with open("../json/teachers.json") as file:
-            data = json.load(file)
-
-        for teacher in data:
-            mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
-                            (teacher['name'], teacher['last_name'], teacher['email'], teacher['password'], teacher['is_admin']))
     finally:
         mycursor.close()
 
