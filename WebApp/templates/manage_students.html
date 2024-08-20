@@ -36,6 +36,7 @@
                  <th>Datum ingevuld</th>
                  <th>Action Type</th>
                  <th>Team</th>
+                 <th>Ingedeeld door</th>
                  <th>Acties</th>
              </tr>
          </thead>
@@ -70,6 +71,7 @@ function loadStudents() {
                                 <td>${actionDate}</td>
                                 <td>${actionType}</td>
                                 <td>${teamName}</td>
+                                <td>${student.assigned_by}</td>
                                 <td>
                                     <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
                                     <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
@@ -180,40 +182,6 @@ function loadStudents() {
                 console.log('Students by team:', data);
                 const studentTableBody = $('#studentTable tbody');
                 studentTableBody.empty(); // Clear the table body before adding new rows
-
-                // blb
-        //         data.forEach(function(student) {
-        //                 //console.log('Student:', student);
-        //                 // Check for "No Data" in action_date and replace it with "nvt"
-        //                 const studentNumber = student.student_number
-        //                 const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
-        //                 const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
-        //                 const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
-        //                 const tableRow = `
-        //                     <tr>
-        //                         <td>${student.student_number}</td>
-        //                         <td>${student.student_name}</td>
-        //                         <td>${student.student_class}</td>
-        //                         <td>${actionDate}</td>
-        //                         <td>${actionType}</td>
-        //                         <td>${teamName}</td>
-        //                         <td>
-        //                             <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
-        //                             <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
-        //                         </td>
-        //                     </tr>
-        //                 `;
-        //                 studentTableBody.append(tableRow);
-        //             });
-        //         },
-        //         error: function(xhr, status, error) {
-        //             console.error('Error fetching student data:', error);
-        //         }
-        //     });
-        // }
-
-                //blb
-
                 data.forEach(function(student) {
                     const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
                     const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
@@ -226,6 +194,7 @@ function loadStudents() {
                             <td>${actionDate}</td>
                             <td>${actionType}</td>
                             <td>${teamName}</td>
+                            <td>${student.assigned_by}</td>
                             <td>
                                 <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
                                 <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>

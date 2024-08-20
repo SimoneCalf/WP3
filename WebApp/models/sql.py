@@ -33,11 +33,13 @@ def get_students_assigned_to_team(team_name):
         SELECT s.number AS student_number, s.name AS student_name, s.class AS student_class,
             IFNULL(a.date_assigned, 'No Data') AS action_date,
             IFNULL(at.letters, 'No Data') AS action_type,
-            t.name AS team_name
+            t.name AS team_name,
+            CONCAT(te.name, ' ', te.last_name) AS assigned_by
         FROM students s
         LEFT JOIN action_type a ON s.number = a.student_number
-        LEFT JOIN team t ON s.number = t.student_number
         LEFT JOIN action_type at ON s.number = at.student_number
+        LEFT JOIN team t ON s.number = t.student_number
+        LEFT JOIN teacher te ON t.teacher_id = te.id
         WHERE t.name = %s
     '''
     cursor.execute(query, (team_name,))
@@ -203,10 +205,12 @@ def get_student_info():
             s.class AS student_class,
             COALESCE(at.date_assigned, 'No Data') AS action_date,
             COALESCE(at.letters, 'No Data') AS action_type,
-            COALESCE(t.name, 'No Team') AS team_name
+            COALESCE(t.name, 'No Team') AS team_name,
+            CONCAT(te.name, ' ', te.last_name) AS assigned_by
         FROM students s
         LEFT JOIN action_type at ON s.number = at.student_number
         LEFT JOIN team t ON s.number = t.student_number
+        LEFT JOIN teacher te ON t.teacher_id = te.id
         ORDER BY s.number;
     '''
     cursor.execute(query)
