@@ -7,10 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-    <p>* Het detailscherm van een student bevat de studentgegevens en de stellingen die deze student heeft gekozen. Hier kun je een team selecten voor deze student. Indien de student al een team heeft wordt weergegeven wie de student aan het team heeft toegevoegd.
-        * Vanuit het detailscherm moet de gebruiker een "wijzigbaar" scherm kunnen openen. Buiten aanpassen van de gegevens en klas van de student kan hier ook een ander team worden geselecteerd. </p>
-
-        <h2>Overzicht</h2>
+    <h1>Overzicht student</h1>
         <table id="studentTable" border="1">
             <thead>
                 <tr>
@@ -44,13 +41,7 @@
         </tbody>
     </table>
 
-    <p>Selecteer een team</p>
-    <select title="team" id="team" name="teams">
-        <!-- teams will be added dynamically -->
-    </select>
-    <div>
-        <button title="adjust">Wijzig gegevens</button>
-    </div>
+   
 
     <!-- Somewhere in your body -->
     <input type="hidden" id="student-number" value="{{ student_number }}">

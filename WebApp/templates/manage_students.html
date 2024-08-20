@@ -25,6 +25,12 @@
     <!-- Teams will be added dynamically -->
 </select>
 
+<h3>Overzicht klassen</h3>
+<select title="classes" id="classSelect">
+    <option value="">Selecteer een klas</option>
+    <!-- Classes will be added dynamically -->
+</select>
+
 
 <h3>Overzicht alle studenten</h3>
      <table id="studentTable" border="1">
@@ -138,6 +144,18 @@ function loadStudents() {
                       const option = `<option value="${classItem.class}">${classItem.class}</option>`;
                       classSelect.append(option);
                   });
+
+                  const classSelect2 = $('#classSelect');
+                    classSelect2.empty(); // Clear any existing options
+
+                    // Add a default option
+                    classSelect2.append('<option value="">Selecteer een klas</option>');
+
+                    // Iterate over the returned data to create options
+                    data.forEach(function(classItem) {
+                        const option = `<option value="${classItem.class}">${classItem.class}</option>`;
+                        classSelect2.append(option);
+                    });
               },
               error: function(xhr, status, error) {
                   console.error('Error fetching class data:', error);
