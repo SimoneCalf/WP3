@@ -48,6 +48,10 @@ def get_teacher_id(email):
 def add_team_to_student(student_number, team_name, teacher_id):
     cursor = mysql.connection.cursor()
     query = '''
+    DELETE FROM team WHERE student_number = %s;
+    '''
+    cursor.execute(query, (student_number,))
+    query = '''
         INSERT INTO team (student_number, name, teacher_id)
         VALUES (%s, %s, %s);
     '''
