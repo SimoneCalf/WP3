@@ -39,16 +39,9 @@
          </tbody>
      </table>
 <script>
-
-    function goToDetailPage(studentNumber) {
-        const baseUrl = window.location.origin;
-        const detailUrl = `${baseUrl}/teacher/student_detail/${studentNumber}`;
-        window.location.href = detailUrl
-    }
-  $(document).ready(function() {
-    // function to fill the table with student data
-    function loadStudents() {
-            console.log('Loading students...');
+// function to fill the table with student data
+function loadStudents() {
+            //console.log('Loading students...');
             $.ajax({
                 type: 'GET',
                 url: "{{ url_for('teacher.get_student_info') }}",
@@ -58,7 +51,7 @@
                     studentTableBody.empty();  // Clear the table body before adding new rows
 
                     data.forEach(function(student) {
-                        console.log('Student:', student);
+                        //console.log('Student:', student);
                         // Check for "No Data" in action_date and replace it with "nvt"
                         const studentNumber = student.student_number
                         const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
@@ -74,7 +67,7 @@
                                 <td>${teamName}</td>
                                 <td>
                                     <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
-                                    <button class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
+                                    <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
                                 </td>
                             </tr>
                         `;
@@ -87,6 +80,39 @@
             });
         }
 
+    function goToDetailPage(studentNumber) {
+        const baseUrl = window.location.origin;
+        const detailUrl = `${baseUrl}/teacher/student_detail/${studentNumber}`;
+        window.location.href = detailUrl
+    }
+
+    // Function to delete a student
+    function deleteStudent(studentNumber) {
+        console.log('Deleting student...');
+        console.log('Student number:', studentNumber);
+        const url = `delete_student/${studentNumber}`;
+        // Send a DELETE request to the server
+        $.ajax({
+            url: url,
+            type: 'DELETE',
+            success: function(response) {
+                console.log('Student deleted successfully:', response);
+                alert('Student succesvol verwijderd');
+                // Reload the students list
+                loadStudents();
+            },
+            error: function(xhr, status, error) {
+                console.error('Error deleting student:', error);
+            }
+        });
+         // Call the function to load students on page load
+       loadStudents();
+    }
+
+
+
+
+  $(document).ready(function() {
       // Function to populate the dropdown with class data
       function populateClassDropdown() {
           $.ajax({
@@ -131,7 +157,7 @@
           const studentnummer = $('#studentnummer').val();
           const name = $('#name').val();
           const class_student = $('#class').val();
-          console.log('Adding student:', studentnummer, name, class_student);
+          //console.log('Adding student:', studentnummer, name, class_student);
 
           $.ajax({
               url: " {{ url_for('teacher.add_student') }} ",
@@ -143,7 +169,7 @@
                   student_class: class_student
               }),
               success: function(response) {
-                  console.log('Student added successfully:', response);
+                  //console.log('Student added successfully:', response);
                   alert('Student succesvol toegevoegd');
                   // Clear the form fields after successful submission
                   $('#studentnummer').val('');

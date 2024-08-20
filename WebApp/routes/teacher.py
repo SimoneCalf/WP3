@@ -7,19 +7,28 @@ import sys
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
-
+# This route is used to delete a student from the database
+@teacher_bp.route('/delete_student/<int:student_number>', methods=['DELETE'])
+def delete_student(student_number):
+    print('hallo')
+    # Verwijder de student met het opgegeven studentnummer
+    success = sql.delete_student(student_number)
+    if success:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False}), 500
 
 # This route is used to add new students to the database
 @teacher_bp.route('/add_student', methods=['POST'])
 def add_student():
     data = request.get_json()
-    print(f'Received data: {data}')
+    #print(f'Received data: {data}')
     # Haal de gegevens uit de JSON
     name = data.get('name')
     student_number = data.get('student_number')
     student_class = data.get('student_class')
-    print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
-    print(type(student_number))
+    #print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
+    #print(type(student_number))
     # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
     sql.add_student(name, student_number, student_class)
     
@@ -70,9 +79,9 @@ def teachers_list():
 # Get studentnumbers, names, classes, date the student filled in all questions, action type and the team of all students
 @teacher_bp.route('/get_student_info', methods=['GET'])
 def get_student_info():
-    print('hallo')
+    #print('hallo')
     student_info = sql.get_student_info()
-    print(f'Student info: {student_info}')
+    #print(f'Student info: {student_info}')
     return jsonify(student_info)
 
 # route to go to the detail page of a student
@@ -87,19 +96,19 @@ def student_detail(student_number):
 # route to get the statements the student chose
 @teacher_bp.route('/get_student_choices/<int:student_number>', methods=['GET'])
 def get_student_choices(student_number):
-    print(f'Student number: {student_number}')
+    #print(f'Student number: {student_number}')
     # get the statements the student chose
     statements = sql.get_student_choices(student_number)
-    print(f'Statements: {statements}')
+    #print(f'Statements: {statements}')
     return jsonify(statements)
 
 # route to get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
 @teacher_bp.route('/get_student_info_specific_student/<int:student_number>', methods=['GET'])
 def get_student_info_specific_student(student_number):
-    print(f'Student number: {student_number}')
+    #print(f'Student number: {student_number}')
     # get the student info of the specific student
     student_info = sql.get_student_info_specific_student(student_number)
-    print(f'Student info: {student_info}')
+    #print(f'Student info: {student_info}')
     return jsonify(student_info)
 
 
@@ -118,14 +127,14 @@ def teacher_home():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        print(f'Email: {email}')
-        print(f'Password: {password}')
+        #print(f'Email: {email}')
+        #print(f'Password: {password}')
         login_check = sql.teacher_login(email, password)
-        print(f'Login check: {login_check}')
+        #print(f'Login check: {login_check}')
         if login_check == True:
             # check if the teacher is an admin
             admin_check = sql.is_admin(email)
-            print(f'Admin check: {admin_check}')
+            #print(f'Admin check: {admin_check}')
             if admin_check == True:
                 return redirect(url_for('teacher.admin_teachers'))
             else:
@@ -147,5 +156,5 @@ def manage_students():
 def manage_teachers():
     # retrieve a list of al the teachers
     teacher_data = sql.get_teacher_info()
-    print(f'Teacher data: {teacher_data}')
+    #print(f'Teacher data: {teacher_data}')
     return render_template('manage_teachers.html')

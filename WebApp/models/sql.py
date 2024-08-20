@@ -26,6 +26,18 @@ def get_student_info_specific_student(student_number):
     cursor.close()
     return result
 
+# function to delete a student from the database
+def delete_student(student_number):
+    cursor = mysql.connection.cursor()
+    # delete the action type
+    cursor.execute('DELETE FROM action_type WHERE student_number = %s', (student_number,))
+    # delete the answers
+    cursor.execute('DELETE FROM answer WHERE student_number = %s', (student_number,))
+    cursor.execute('DELETE FROM students WHERE number = %s', (student_number,))
+    mysql.connection.commit()
+    cursor.close()
+    return True
+
 
 # get the statements a student chose
 def get_student_choices(student_number):
