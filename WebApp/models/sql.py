@@ -26,6 +26,52 @@ mysql = MySQL()
 #     cursor.close()
 #     return result
 
+# get the id of the teacher
+def get_teacher_id(email):
+    try:
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT id FROM teacher WHERE email = %s', (email,))
+        result = cursor.fetchone()
+        
+        print(f'result: {result}')
+        
+        if result and 'id' in result:
+                teacher_id = result['id']
+                return teacher_id
+        else:
+            raise ValueError("No teacher found with the provided email.")
+    except Exception as e:
+        cursor.close()
+        cursor.close()
+
+# add team to student
+def add_team_to_student(student_number, team_name, teacher_id):
+    cursor = mysql.connection.cursor()
+    query = '''
+        INSERT INTO team (student_number, name, teacher_id)
+        VALUES (%s, %s, %s);
+    '''
+    cursor.execute(query, (student_number, team_name, teacher_id,))
+    mysql.connection.commit()
+    cursor.close()
+   
+
+
+# update information of a student
+def update_student_info(name, number, class_student):
+    cursor = mysql.connection.cursor()
+    cursor.execute('UPDATE students SET name = %s, class = %s WHERE number = %s', (name, class_student, number,))
+    mysql.connection.commit()
+    cursor.close()
+
+# function to retrieve all existing teams
+def get_teams():
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM team')
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 def get_student_info_specific_student(student_number):
     cursor = mysql.connection.cursor()
     query = '''
@@ -46,12 +92,14 @@ def get_student_info_specific_student(student_number):
     cursor.execute(query, (student_number,))
     result = cursor.fetchall()
     cursor.close()
-    print(f'resultaat 2: {result}')
+    #print(f'resultaat 2: {result}')
     return result
 
 # function to delete a student from the database
 def delete_student(student_number):
     cursor = mysql.connection.cursor()
+    # delete the team
+    cursor.execute('DELETE FROM team WHERE student_number = %s', (student_number,))
     # delete the action type
     cursor.execute('DELETE FROM action_type WHERE student_number = %s', (student_number,))
     # delete the answers

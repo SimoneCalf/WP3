@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, jsonify, redirect, url_for
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session
 import models.sql
 # import sql
 from models import sql
@@ -7,10 +7,37 @@ import sys
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
+# update information about the student
+@teacher_bp.route('/update_student_info', methods=['POST', 'GET'])
+def update_student_info():
+    print('update_student_info')
+    data = request.get_json()
+    print(f'Received data: {data}')
+    # Haal de gegevens uit de JSON
+    name = data.get('name')
+    student_number = data.get('student_number')
+    student_class = data.get('student_class')
+    team_name = data.get('team_name')
+    email_teacher = session.get('email_teacher')
+    if team_name != 'No Team':
+        print(f'Session: {session}')
+        print(f'teacher_email: {email_teacher}')
+        teacher_id = sql.get_teacher_id(email_teacher)
+        print(f'teacher_id: {teacher_id}')
+        sql.add_team_to_student(student_number, team_name, teacher_id)
+        
+    #print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
+    #print(type(student_number))
+    # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
+    sql.update_student_info(name, student_number, student_class)
+    
+    # Na succesvolle toevoeging, retourneer succesresponse
+    return jsonify({'success': True})
+ 
+
 # This route is used to delete a student from the database
 @teacher_bp.route('/delete_student/<int:student_number>', methods=['DELETE'])
 def delete_student(student_number):
-    print('hallo')
     # Verwijder de student met het opgegeven studentnummer
     success = sql.delete_student(student_number)
     if success:
@@ -41,6 +68,19 @@ def get_classes():
     # Retrieve a list of all classes
     class_data = sql.get_classes()
     return jsonify(class_data)
+
+# This route is used to add all existing teams to a dropdown menu
+@teacher_bp.route('/get_teams', methods=['GET'])
+def get_teams():
+    print('gelut om naar de url te gaan')
+    # Retrieve a list of all teams
+    team_data = sql.get_teams()
+    print(f'Team data: {team_data}')
+    team_names = []
+    for team in team_data:
+        team_names.append(team['name'])
+    print(f'Team names: {team_names}')
+    return jsonify(team_data)
 
 # This route is used to delete a teacher from the database. This can be done by teacher who are admin
 @teacher_bp.route('/delete_teacher/<int:teacher_id>', methods=['DELETE'])
@@ -132,6 +172,11 @@ def teacher_home():
         login_check = sql.teacher_login(email, password)
         #print(f'Login check: {login_check}')
         if login_check == True:
+            # add teacher to the session
+            session['email_teacher'] = email
+            print(f'Session: {session}')
+            email_teacher = session.get('email_teacher')
+            print(f'Email teacher: {email_teacher}')
             # check if the teacher is an admin
             admin_check = sql.is_admin(email)
             #print(f'Admin check: {admin_check}')

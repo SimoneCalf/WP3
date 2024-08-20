@@ -20,7 +20,7 @@
 </form>
 
 <h3>Overzicht teams</h3>
-<select id="teamSelect">
+<select title="teams" id="teamSelect">
     <option value="">Selecteer een team</option>
     <!-- Teams will be added dynamically -->
 </select>
@@ -144,15 +144,42 @@ function loadStudents() {
         
         
         }
+
+        function populateTeamDropdown() {
+            $.ajax({
+                url: " {{ url_for('teacher.get_teams') }} ", // Flask endpoint that returns the team data
+                type: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const teamSelect = $('#teamSelect');
+                    teamSelect.empty(); // Clear any existing options
+
+                    // Add a default option
+                    teamSelect.append('<option value="">Selecteer een team</option>');
+
+                    // Iterate over the returned data to create options
+                    data.forEach(function(teamItem) {
+                        const option = `<option value="${teamItem.name}">${teamItem.name}</option>`;
+                        teamSelect.append(option);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching team data:', error);
+                }
+            });
+        }
       
 
      
 
-      // Call the function to populate the dropdown on page load
-      populateClassDropdown();
+    // Call the function to populate the dropdown on page load
+    populateClassDropdown();
+    
+    // Call the function to populate the dropdown with the teams on page load
+    populateTeamDropdown();
 
-       // Call the function to load students on page load
-       loadStudents();
+    // Call the function to load students on page load
+    loadStudents();
 
       
 

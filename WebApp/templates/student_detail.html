@@ -27,6 +27,8 @@
                 <!-- De tabelrijen worden hier toegevoegd -->
             </tbody>
         </table>
+        <button id="adjust-btn" title="adjust">Wijzig gegevens</button>
+        
     
     
     
@@ -55,6 +57,8 @@
 
 
 <script>
+    
+    
      $(document).ready(function() {
             console.log('Document ready');
             let studentNumber = $('#student-number').val();
@@ -119,8 +123,68 @@
                 });
             }
 
+        function setupEventListeners() {
+        // Function for the adjust button
+        $('#adjust-btn').click(function() {
+            // Control the button state and functionality
+            if ($(this).text() === 'Wijzig gegevens') {
+                $('#studentTable tbody tr').each(function() {
+                    // Maak alle velden in de rij bewerkbaar behalve het studentnummer en de datum
+                    $(this).find('td').each(function(index) {
+                        if (index === 0 || index === 2 || index === 3 || index === 5) {
+                            $(this).attr('contenteditable', 'true').css('background-color', '#f0f0f0');
+                        }
+                    });
+                });
+
+                // Verander de tekst van de knop naar "Opslaan"
+                $(this).text('Opslaan').attr('id', 'save-btn');
+            } else {
+                // Opslaan als de knoptekst "Opslaan" is
+                $('#studentTable tbody tr').each(function() {
+                    const studentName = $(this).find('td').eq(0).text();
+                    const studentClass = $(this).find('td').eq(2).text();
+                    const actionType = $(this).find('td').eq(3).text();
+                    const teamName = $(this).find('td').eq(5).text();
+                    const teacherName = $(this).find('td').eq(6).text();
+
+                    console.log(`Name: ${studentName}, Class: ${studentClass}, Action Type: ${actionType}, Team: ${teamName}, Teacher: ${teacherName}`);
+
+                    // Voeg hier de AJAX-aanroep toe om de gewijzigde gegevens naar de server te sturen.
+                    $.ajax({
+                        url: `${baseUrl}/teacher/update_student_info`,
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({
+                            student_number: studentNumber,
+                            name: studentName,
+                            student_class: studentClass,
+                            action_type: actionType,
+                            team_name: teamName,
+                            teacher_name: teacherName
+                        }),
+                        success: function(response) {
+                            alert('Studentgegevens succesvol bijgewerkt');
+                            // Velden niet meer bewerkbaar maken en kleur resetten
+                            $('#studentTable tbody tr td[contenteditable="true"]').each(function() {
+                                $(this).removeAttr('contenteditable').css('background-color', '');
+                            });
+
+                            // Verander de knoptekst terug naar "Wijzig gegevens"
+                            $('#save-btn').text('Wijzig gegevens').attr('id', 'adjust-btn');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('Error bij het bijwerken van de gegevens:', error);
+                        }
+                    });
+                });
+            }
+        });
+    }
+
             populateStatementTable();  // Call function to populate statements table
             populateStudentTable();    // Call function to populate student info table
+            setupEventListeners();     // Set up event listeners
         });
         
     
