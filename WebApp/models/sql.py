@@ -5,7 +5,27 @@ from datetime import datetime
 
 mysql = MySQL()
 
-# get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
+# # get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
+# def get_student_info_specific_student(student_number):
+#     cursor = mysql.connection.cursor()
+#     query = '''
+#         SELECT
+#             s.number AS student_number,
+#             s.name AS student_name,
+#             s.class AS student_class,
+#             COALESCE(at.date_assigned, 'Nog niet ingevuld') AS action_date,
+#             COALESCE(at.letters, 'Nog geen') AS action_type,
+#             COALESCE(t.name, 'No Team') AS team_name
+#         FROM students s
+#         LEFT JOIN action_type at ON s.number = at.student_number
+#         LEFT JOIN team t ON s.number = t.student_number
+#         WHERE s.number = %s;
+#     '''
+#     cursor.execute(query, (student_number,))
+#     result = cursor.fetchall()
+#     cursor.close()
+#     return result
+
 def get_student_info_specific_student(student_number):
     cursor = mysql.connection.cursor()
     query = '''
@@ -13,17 +33,20 @@ def get_student_info_specific_student(student_number):
             s.number AS student_number,
             s.name AS student_name,
             s.class AS student_class,
-            COALESCE(at.date_assigned, 'No Data') AS action_date,
-            COALESCE(at.letters, 'No Data') AS action_type,
-            COALESCE(t.name, 'No Team') AS team_name
+            COALESCE(at.date_assigned, 'Nog niet ingevuld') AS action_date,
+            COALESCE(at.letters, 'Nog geen') AS action_type,
+            COALESCE(t.name, 'No Team') AS team_name,
+            COALESCE(CONCAT(tch.name, ' ', tch.last_name), 'No Teacher') AS teacher_name
         FROM students s
         LEFT JOIN action_type at ON s.number = at.student_number
         LEFT JOIN team t ON s.number = t.student_number
+        LEFT JOIN teacher tch ON t.teacher_id = tch.id
         WHERE s.number = %s;
     '''
     cursor.execute(query, (student_number,))
     result = cursor.fetchall()
     cursor.close()
+    print(f'resultaat 2: {result}')
     return result
 
 # function to delete a student from the database
