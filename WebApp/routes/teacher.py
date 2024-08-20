@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session
+from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
 import models.sql
 # import sql
 from models import sql
@@ -6,6 +6,20 @@ import sys
 
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
+
+# get the students wich are assigned to the selected team
+@teacher_bp.route('/get_students_by_team', methods=['POST', 'GET'])
+def get_students_by_team():
+    print('get_students_assigned_to_team')
+    data = request.get_json()
+    print(f'Received data: {data}')
+    # Haal de gegevens uit de JSON
+    team_name = data.get('team_name')
+    print(f'Team name: {team_name}')
+    # get the students assigned to the selected team
+    students = sql.get_students_assigned_to_team(team_name)
+    print(f'Students: {students}')
+    return jsonify(students)
 
 # update information about the student
 @teacher_bp.route('/update_student_info', methods=['POST', 'GET'])
@@ -183,8 +197,11 @@ def teacher_home():
             if admin_check == True:
                 return redirect(url_for('teacher.admin_teachers'))
             else:
+                
                 return redirect(url_for('teacher.manage_students'))
                 # redirect to admin_teahers route
+        else:
+            return render_template('teacher.html')
                 
                 
         

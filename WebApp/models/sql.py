@@ -26,6 +26,25 @@ mysql = MySQL()
 #     cursor.close()
 #     return result
 
+# get students assigned to a team
+def get_students_assigned_to_team(team_name):
+    cursor = mysql.connection.cursor()
+    query = '''
+        SELECT s.number AS student_number, s.name AS student_name, s.class AS student_class,
+            IFNULL(a.date_assigned, 'No Data') AS action_date,
+            IFNULL(at.letters, 'No Data') AS action_type,
+            t.name AS team_name
+        FROM students s
+        LEFT JOIN action_type a ON s.number = a.student_number
+        LEFT JOIN team t ON s.number = t.student_number
+        LEFT JOIN action_type at ON s.number = at.student_number
+        WHERE t.name = %s
+    '''
+    cursor.execute(query, (team_name,))
+    result = cursor.fetchall()
+    cursor.close()
+    return result
+
 # get the id of the teacher
 def get_teacher_id(email):
     try:
@@ -71,7 +90,7 @@ def update_student_info(name, number, class_student):
 # function to retrieve all existing teams
 def get_teams():
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM team')
+    cursor.execute('SELECT DISTINCT name FROM team')
     result = cursor.fetchall()
     cursor.close()
     return result

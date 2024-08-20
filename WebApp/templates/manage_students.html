@@ -168,6 +168,90 @@ function loadStudents() {
                 }
             });
         }
+
+        // Function to load students based on selected team
+    function loadStudentsByTeam(teamName) {
+        $.ajax({
+            url: "{{ url_for('teacher.get_students_by_team') }}",
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ team_name: teamName }),
+            success: function(data) {
+                console.log('Students by team:', data);
+                const studentTableBody = $('#studentTable tbody');
+                studentTableBody.empty(); // Clear the table body before adding new rows
+
+                // blb
+        //         data.forEach(function(student) {
+        //                 //console.log('Student:', student);
+        //                 // Check for "No Data" in action_date and replace it with "nvt"
+        //                 const studentNumber = student.student_number
+        //                 const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
+        //                 const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
+        //                 const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
+        //                 const tableRow = `
+        //                     <tr>
+        //                         <td>${student.student_number}</td>
+        //                         <td>${student.student_name}</td>
+        //                         <td>${student.student_class}</td>
+        //                         <td>${actionDate}</td>
+        //                         <td>${actionType}</td>
+        //                         <td>${teamName}</td>
+        //                         <td>
+        //                             <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
+        //                             <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
+        //                         </td>
+        //                     </tr>
+        //                 `;
+        //                 studentTableBody.append(tableRow);
+        //             });
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error('Error fetching student data:', error);
+        //         }
+        //     });
+        // }
+
+                //blb
+
+                data.forEach(function(student) {
+                    const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
+                    const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
+                    const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
+                    const tableRow = `
+                        <tr>
+                            <td>${student.student_number}</td>
+                            <td>${student.student_name}</td>
+                            <td>${student.student_class}</td>
+                            <td>${actionDate}</td>
+                            <td>${actionType}</td>
+                            <td>${teamName}</td>
+                            <td>
+                                <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
+                                <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
+                            </td>
+                        </tr>
+                    `;
+                    studentTableBody.append(tableRow);
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching student data by team:', error);
+            }
+        });
+    }
+
+    // Event listener for team selection change
+    $('#teamSelect').change(function() {
+        const selectedTeamId = $(this).val();
+        if (selectedTeamId) {
+            loadStudentsByTeam(selectedTeamId);
+        } else {
+            loadStudents(); // Load all students if no team is selected
+        }
+    });
+
+     
       
 
      
