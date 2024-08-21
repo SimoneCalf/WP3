@@ -48,12 +48,6 @@ def get_students_by_class_and_or_team():
 
 
 
-    # # get the students by class and/or team
-    # students = sql.get_students_by_class_and_or_team(student_class, team_name)
-    # print(f'Students: {students}')
-    # return jsonify(students)
-
-
 # get the students wich are assigned to the selected team
 @teacher_bp.route('/get_students_by_team', methods=['POST', 'GET'])
 def get_students_by_team():
@@ -101,8 +95,7 @@ def update_student_info():
         print(f'teacher_id: {teacher_id}')
         sql.add_team_to_student(student_number, team_name, teacher_id)
         
-    #print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
-    #print(type(student_number))
+    
     # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
     sql.update_student_info(name, student_number, student_class)
     
@@ -124,13 +117,10 @@ def delete_student(student_number):
 @teacher_bp.route('/add_student', methods=['POST'])
 def add_student():
     data = request.get_json()
-    #print(f'Received data: {data}')
     # Haal de gegevens uit de JSON
     name = data.get('name')
     student_number = data.get('student_number')
     student_class = data.get('student_class')
-    #print(f'Name: {name}, student number: {student_number}, student class: {student_class}')
-    #print(type(student_number))
     # Verwerk de gegevens (bijvoorbeeld opslaan in een database)
     sql.add_student(name, student_number, student_class)
     
@@ -211,7 +201,6 @@ def student_detail(student_number):
 # route to get the statements the student chose
 @teacher_bp.route('/get_student_choices/<int:student_number>', methods=['GET'])
 def get_student_choices(student_number):
-    #print(f'Student number: {student_number}')
     # get the statements the student chose
     statements = sql.get_student_choices(student_number)
     #print(f'Statements: {statements}')
@@ -220,20 +209,11 @@ def get_student_choices(student_number):
 # route to get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
 @teacher_bp.route('/get_student_info_specific_student/<int:student_number>', methods=['GET'])
 def get_student_info_specific_student(student_number):
-    #print(f'Student number: {student_number}')
     # get the student info of the specific student
     student_info = sql.get_student_info_specific_student(student_number)
     #print(f'Student info: {student_info}')
     return jsonify(student_info)
 
-
-# @teacher_bp.route('/login', methods=['POST'])
-# def teacher_login():
-#     data = request.get_json()
-#     email = data.get('email')
-#     password = data.get('password')
-#     print(f'Received email: {email}, password: {password}')  # Log de ontvangen data
-#     return jsonify({'success': True})
 
 @teacher_bp.route('/', methods=['GET', 'POST'])
 def teacher_home():
@@ -242,10 +222,7 @@ def teacher_home():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        #print(f'Email: {email}')
-        #print(f'Password: {password}')
         login_check = sql.teacher_login(email, password)
-        #print(f'Login check: {login_check}')
         if login_check == True:
             # add teacher to the session
             session['email_teacher'] = email
@@ -265,8 +242,6 @@ def teacher_home():
             return render_template('teacher.html')
                 
                 
-        
-
 @teacher_bp.route('/admin_teachers')
 def admin_teachers():
     return render_template('admin_teachers.html')
@@ -278,6 +253,5 @@ def manage_students():
 @teacher_bp.route('/manage_teachers')
 def manage_teachers():
     # retrieve a list of al the teachers
-    teacher_data = sql.get_teacher_info()
-    #print(f'Teacher data: {teacher_data}')
+    #teacher_data = sql.get_teacher_info()
     return render_template('manage_teachers.html')

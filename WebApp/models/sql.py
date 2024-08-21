@@ -1,6 +1,4 @@
 from flask_mysqldb import MySQL
-import json
-from flask import jsonify
 from datetime import datetime
 
 mysql = MySQL()
@@ -39,7 +37,6 @@ def get_students_by_class_and_team(student_class, team_name):
     finally:
         if cursor:
             cursor.close()
-    print(f'result: {result}')
     return result
 
 def get_students_assigned_to_team(team_name):
@@ -112,120 +109,6 @@ def get_students_by_class(student_class):
             cursor.close()
     return result
 
-# # get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
-# def get_student_info_specific_student(student_number):
-#     cursor = mysql.connection.cursor()
-#     query = '''
-#         SELECT
-#             s.number AS student_number,
-#             s.name AS student_name,
-#             s.class AS student_class,
-#             COALESCE(at.date_assigned, 'Nog niet ingevuld') AS action_date,
-#             COALESCE(at.letters, 'Nog geen') AS action_type,
-#             COALESCE(t.name, 'No Team') AS team_name
-#         FROM students s
-#         LEFT JOIN action_type at ON s.number = at.student_number
-#         LEFT JOIN team t ON s.number = t.student_number
-#         WHERE s.number = %s;
-#     '''
-#     cursor.execute(query, (student_number,))
-#     result = cursor.fetchall()
-#     cursor.close()
-#     return result
-
-# def get_students_by_class_and_or_team(student_class, team_name):
-#     cursor = None
-#     try:
-#         cursor = mysql.connection.cursor()
-#         query = """
-#            SELECT 
-#                 s.number AS student_number, 
-#                 s.name AS student_name, 
-#                 s.class AS class,
-#                 ac.date_assigned AS date_assigned,
-#                 ac.letters AS letters,
-#                 tm.name AS team_name,
-#                 CONCAT(t.name, ' ', t.last_name) AS teacher_name
-#             FROM 
-#                 students s
-#             LEFT JOIN 
-#                 action_type ac ON ac.student_number = s.number
-#             LEFT JOIN 
-#                 team tm ON tm.student_number = s.number
-#             LEFT JOIN 
-#                 teacher t ON t.id = tm.teacher_id
-#             WHERE 
-#                 s.class = %s
-#                 AND
-#                 tm.name = %s;
-#         """
-#         cursor.execute(query, (student_class, team_name,))
-#         result = cursor.fetchall()
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-#         result = None
-#     finally:
-#         if cursor:
-#             cursor.close()
-#     print(f'result: {result}')
-#     return result
-
-# # get students by team
-# def get_students_assigned_to_team(team_name):
-#     cursor = mysql.connection.cursor()
-#     query = '''
-#         SELECT s.number AS student_number, s.name AS student_name, s.class AS student_class,
-#             IFNULL(a.date_assigned, 'No Data') AS action_date,
-#             IFNULL(at.letters, 'No Data') AS action_type,
-#             t.name AS team_name,
-#             CONCAT(te.name, ' ', te.last_name) AS assigned_by
-#         FROM students s
-#         LEFT JOIN action_type a ON s.number = a.student_number
-#         LEFT JOIN action_type at ON s.number = at.student_number
-#         LEFT JOIN team t ON s.number = t.student_number
-#         LEFT JOIN teacher te ON t.teacher_id = te.id
-#         WHERE t.name = %s
-#     '''
-#     cursor.execute(query, (team_name,))
-#     result = cursor.fetchall()
-#     cursor.close()
-#     return result
-
-# # get students by class
-# def get_students_by_class(student_class):
-#     cursor = None
-#     try:
-#         cursor = mysql.connection.cursor()
-#         query = """
-#            SELECT 
-#                 s.number AS student_number, 
-#                 s.name AS student_name, 
-#                 s.class AS class,
-#                 ac.date_assigned AS date_assigned,
-#                 ac.letters AS letters,
-#                 tm.name AS team_name,
-#                 CONCAT(t.name, ' ', t.last_name) AS teacher_name
-#             FROM 
-#                 students s
-#             LEFT JOIN 
-#                 action_type ac ON ac.student_number = s.number
-#             LEFT JOIN 
-#                 team tm ON tm.student_number = s.number
-#             LEFT JOIN 
-#                 teacher t ON t.id = tm.teacher_id
-#             WHERE 
-#                 s.class = %s;
-#         """
-#         cursor.execute(query, (student_class,))
-#         result = cursor.fetchall()
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-#         result = None
-#     finally:
-#         if cursor:
-#             cursor.close()
-#     return result
-
 # get the id of the teacher
 def get_teacher_id(email):
     try:
@@ -233,7 +116,6 @@ def get_teacher_id(email):
         cursor.execute('SELECT id FROM teacher WHERE email = %s', (email,))
         result = cursor.fetchone()
         
-        print(f'result: {result}')
         
         if result and 'id' in result:
                 teacher_id = result['id']
@@ -296,7 +178,6 @@ def get_student_info_specific_student(student_number):
     cursor.execute(query, (student_number,))
     result = cursor.fetchall()
     cursor.close()
-    #print(f'resultaat 2: {result}')
     return result
 
 # function to delete a student from the database
@@ -328,31 +209,6 @@ def get_student_choices(student_number):
     cursor.close()
     return result
 
-# # get the statements a student chose
-# def get_student_choices(student_number):
-#     cursor = mysql.connection.cursor()
-#     query = '''
-#         SELECT 
-#             sn.id AS statement_id,
-#             sc_a.text AS choice_a_text,
-#             sc_b.text AS choice_b_text,
-#             sc_a.result AS choice_a_result,
-#             sc_b.result AS choice_b_result
-#         FROM 
-#             answer a
-#         JOIN 
-#             statement_number sn ON a.statement_id = sn.id
-#         JOIN 
-#             statement_choices sc_a ON sn.choice_a_id = sc_a.id
-#         JOIN 
-#             statement_choices sc_b ON sn.choice_b_id = sc_b.id
-#         WHERE 
-#             a.student_number = %s;
-#     '''
-#     cursor.execute(query, (student_number,))
-#     result = cursor.fetchall()
-#     cursor.close()
-#     return result
 
 # get student information
 def get_number_class_name():
@@ -367,7 +223,6 @@ def get_number_class_name():
     '''
     cursor.execute(query)
     result = cursor.fetchall()
-    print(f'resultaat 1: {result}')
     cursor.close()
     return result
 
@@ -375,7 +230,6 @@ def get_number_class_name():
 
 # get student information
 def get_student_info():
-    print('get_student_info')
     cursor = mysql.connection.cursor()
     query = '''
         SELECT 
@@ -395,14 +249,7 @@ def get_student_info():
     cursor.execute(query)
     result = cursor.fetchall()
     cursor.close()
-    #print(result)
     return result
-# cursor.execute('SELECT is_admin FROM teacher WHERE email = %s', (email,))
-
-
-
-                   
-
 
 
 # add a student to the database
@@ -528,7 +375,6 @@ def get_question(statement_number):
     cursor.execute(query, (statement_number,))
     result = cursor.fetchall()
     if not result:
-        print(f'resultaat: {result}')
         cursor.close()
         return False
     else:
@@ -615,10 +461,8 @@ def insert_action_type_to_db(student_number):
     now = datetime.now()
     # format the date and time
     formatted_date = now.strftime('%Y-%m-%d %H:%M:%S')
-    print(f'formatted date: {formatted_date}')
     # add the action type to the database
     cursor.execute('INSERT INTO action_type (letters, student_number, date_assigned) VALUES (%s, %s, %s)', (action_type, student_number, formatted_date))
-    print(action_type)
     # commit the changes
     mysql.connection.commit()
     cursor.close()
@@ -628,7 +472,6 @@ def get_action_type(student_number):
     cursor = mysql.connection.cursor()
     cursor.execute("SELECT letters FROM action_type WHERE student_number = %s", (student_number,))
     result = cursor.fetchone()
-    print(f'result: {result}')
     cursor.close()
     if result:
         return result['letters']
