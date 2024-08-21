@@ -53,7 +53,6 @@
 <script>
 // function to fill the table with student data
 function loadStudents() {
-            //console.log('Loading students...');
             $.ajax({
                 type: 'GET',
                 url: "{{ url_for('teacher.get_student_info') }}",
@@ -63,7 +62,6 @@ function loadStudents() {
                     studentTableBody.empty();  // Clear the table body before adding new rows
 
                     data.forEach(function(student) {
-                        //console.log('Student:', student);
                         // Check for "No Data" in action_date and replace it with "nvt"
                         const studentNumber = student.student_number
                         const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
@@ -101,15 +99,12 @@ function loadStudents() {
 
     // Function to delete a student
     function deleteStudent(studentNumber) {
-        console.log('Deleting student...');
-        console.log('Student number:', studentNumber);
         const url = `delete_student/${studentNumber}`;
         // Send a DELETE request to the server
         $.ajax({
             url: url,
             type: 'DELETE',
             success: function(response) {
-                console.log('Student deleted successfully:', response);
                 alert('Student succesvol verwijderd');
                 // Reload the students list
                 loadStudents();
@@ -203,7 +198,6 @@ function loadStudents() {
                 studentTableBody.empty(); // Clear the table body before adding new rows
 
                 data.forEach(function(student) {
-                    console.log('Student:', student);
                     const actionDate = student.action_date === 'No Data' ? "n.v.t." : student.action_date;
                     const actionType = student.action_type === 'No Data' ? "Vragen nog niet beantwoord" : student.action_type;
                     const teamName = student.team_name === null ? "Niet ingedeeld" : student.team_name;
@@ -245,122 +239,6 @@ function loadStudents() {
     });
 
 
-
-
-
-
-
-
-
-
-
-
-    //     // Function to load students based on selected team
-    // function loadStudentsByTeam(teamName) {
-    //     $.ajax({
-    //         url: "{{ url_for('teacher.get_students_by_team') }}",
-    //         type: 'POST',
-    //         contentType: 'application/json',
-    //         data: JSON.stringify({ team_name: teamName }),
-    //         success: function(data) {
-    //             console.log('Students by team:', data);
-    //             const studentTableBody = $('#studentTable tbody');
-    //             studentTableBody.empty(); // Clear the table body before adding new rows
-    //             data.forEach(function(student) {
-    //                 const actionDate = student.action_date === 'No Data' ? "nvt" : student.action_date;
-    //                 const actionType = student.action_type === 'No Data' ? "nvt" : student.action_type;
-    //                 const teamName = student.team_name === 'No Team' ? "Niet ingedeeld" : student.team_name;
-    //                 const tableRow = `
-    //                     <tr>
-    //                         <td>${student.student_number}</td>
-    //                         <td>${student.student_name}</td>
-    //                         <td>${student.student_class}</td>
-    //                         <td>${actionDate}</td>
-    //                         <td>${actionType}</td>
-    //                         <td>${teamName}</td>
-    //                         <td>${student.assigned_by}</td>
-    //                         <td>
-    //                             <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
-    //                             <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
-    //                         </td>
-    //                     </tr>
-    //                 `;
-    //                 studentTableBody.append(tableRow);
-    //             });
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error('Error fetching student data by team:', error);
-    //         }
-    //     });
-    // }
-
-    // // Event listener for team selection change
-    // $('#teamSelect').change(function() {
-    //     const selectedTeamId = $(this).val();
-    //     if (selectedTeamId) {
-    //         loadStudentsByTeam(selectedTeamId);
-    //     } else {
-    //         loadStudents(); // Load all students if no team is selected
-    //     }
-    // });
-
-    // // Function to load students based on selected class
-    // function loadStudentsByClass(className) {
-    //     $.ajax({
-    //         url: "{{ url_for('teacher.get_students_by_class') }}",
-    //         type: 'POST',
-    //         contentType: 'application/json',
-    //         data: JSON.stringify({ class_name: className }),
-    //         success: function(data) {
-    //             console.log('Students by class:', data);
-    //             const studentTableBody = $('#studentTable tbody');
-    //             studentTableBody.empty(); // Clear the table body before adding new rows
-    //             data.forEach(function(student) {
-    //                 const actionDate = student.date_assigned === null ? "nvt" : student.date_assigned;
-    //                 console.log('Action Date:', actionDate);
-    //                 const actionType = student.letters === null ? "nvt" : student.letters;
-    //                 console.log('Action Type:', actionType);
-    //                 const teamName = student.team_name === null ? "Niet ingedeeld" : student.team_name;
-    //                 console.log('Team Name:', teamName);
-    //                 const tableRow = `
-    //                     <tr>
-    //                         <td>${student.student_number}</td>
-    //                         <td>${student.student_name}</td>
-    //                         <td>${student.class}</td>
-    //                         <td>${actionDate}</td>
-    //                         <td>${actionType}</td>
-    //                         <td>${teamName}</td>
-    //                         <td>${student.assigned_by}</td>
-    //                         <td>
-    //                             <button onclick="goToDetailPage(${student.student_number})" class="aanpas-btn">Aanpassen</button>
-    //                             <button onclick="deleteStudent(${student.student_number})" class="verwijder-btn" data-id="${student.student_number}">Verwijderen</button>
-    //                         </td>
-    //                     </tr>
-    //                 `;
-    //                 studentTableBody.append(tableRow);
-    //             });
-    //         },
-    //         error: function(xhr, status, error) {
-    //             console.error('Error fetching student data by class:', error);
-    //         }
-    //     });
-    // }
-
-
-    // // Event listener for class selection change
-    // $('#classSelect').change(function() {
-    //     const selectedClassId = $(this).val();
-    //     if (selectedClassId) {
-    //         loadStudentsByClass(selectedClassId);
-    //     } else {
-    //         loadStudents(); // Load all students if no class is selected
-    //     }
-    // });
-     
-      
-
-     
-
     // Call the function to populate the dropdown on page load
     populateClassDropdown();
     
@@ -379,7 +257,6 @@ function loadStudents() {
           const studentnummer = $('#studentnummer').val();
           const name = $('#name').val();
           const class_student = $('#class').val();
-          //console.log('Adding student:', studentnummer, name, class_student);
 
           $.ajax({
               url: " {{ url_for('teacher.add_student') }} ",
@@ -391,7 +268,6 @@ function loadStudents() {
                   student_class: class_student
               }),
               success: function(response) {
-                  //console.log('Student added successfully:', response);
                   alert('Student succesvol toegevoegd');
                   // Clear the form fields after successful submission
                   $('#studentnummer').val('');

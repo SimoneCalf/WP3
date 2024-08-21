@@ -50,18 +50,7 @@ def student_questions():
         print('No more questions available')
         print('session[question_number]:', session['question_number'])
         return render_template('already_finished_question_list.html')
-        # go to the home page
-        
-    # if get_question(session['question_number']) is False:
-    #     all_questions_answered = True
-    #     return redirect(url_for('student.results'))
-    else:
-        # get the name and the class
-        # student_number = session.get('student_number')
-        # student = get_student(student_number)
-        # name = student['name']
-        # class_student = student['class']
-        
+    else:  
         # Get the first and second choice of the first question for the student
         first_choice, second_choice = get_question(session['question_number'])
         choices = {
@@ -74,11 +63,6 @@ def student_questions():
     
 @student_bp.route('/api/first_question', methods=['GET'])
 def first_question():
-    # # get the choice_idd to add the answer to the database
-    # choice_id = request.json.get('choice_id')
-    # print(f'choice_id: {choice_id}')
-    # add_answer(session.get('student_number'), session.get('question_number') - 1, choice_id)
-
     # get the name and the class
     student_number = session.get('student_number')
     student = get_student(student_number)
@@ -93,11 +77,6 @@ def first_question():
     "second_choice": second_choice['choice_text'],
     "second_choice_id": second_choice['choice_id']
     }
-
-    
-    
-
-    #session['question_number'] += 1
 
     return jsonify({
         'name': name,
