@@ -47,8 +47,6 @@ def student_home():
 def student_questions():
     # When the student already filled in all the questions, redirect to the results page
     if get_question(session['question_number']) is False:
-        print('No more questions available')
-        print('session[question_number]:', session['question_number'])
         return render_template('already_finished_question_list.html')
     else:  
         # Get the first and second choice of the first question for the student
@@ -89,7 +87,6 @@ def next_choices():
     # get the chosen option from the student
     choice = request.json.get('choice')
     choice_id = request.json.get('choice_id')
-    print(f'choice: {choice}')
     # Log de keuze en verwerk deze
     
     student_number = session.get('student_number')
@@ -125,5 +122,4 @@ def next_choices():
 @student_bp.route('/results', methods=['GET'])
 def results():
     action_type = request.args.get('action_type')
-    print(f'action_type doorgegeven: {action_type}')
     return render_template('just_finished_question_list.html', action_type=action_type)
