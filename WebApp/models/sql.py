@@ -5,6 +5,113 @@ from datetime import datetime
 
 mysql = MySQL()
 
+def get_students_by_class_and_team(student_class, team_name):
+    cursor = None
+    try:
+        cursor = mysql.connection.cursor()
+        query = """
+            SELECT 
+                s.number AS student_number, 
+                s.name AS student_name, 
+                s.class AS student_class,
+                IFNULL(ac.date_assigned, 'No Data') AS action_date,
+                IFNULL(ac.letters, 'No Data') AS action_type,
+                IFNULL(tm.name, 'Niet ingedeeld') AS team_name,
+                IFNULL(CONCAT(t.name, ' ', t.last_name), 'No Data') AS assigned_by
+            FROM 
+                students s
+            LEFT JOIN 
+                action_type ac ON ac.student_number = s.number
+            LEFT JOIN 
+                team tm ON tm.student_number = s.number
+            LEFT JOIN 
+                teacher t ON t.id = tm.teacher_id
+            WHERE 
+                s.class = %s
+                AND
+                tm.name = %s;
+        """
+        cursor.execute(query, (student_class, team_name,))
+        result = cursor.fetchall()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        result = None
+    finally:
+        if cursor:
+            cursor.close()
+    print(f'result: {result}')
+    return result
+
+def get_students_assigned_to_team(team_name):
+    cursor = None
+    try:
+        cursor = mysql.connection.cursor()
+        query = '''
+            SELECT 
+                s.number AS student_number, 
+                s.name AS student_name, 
+                s.class AS student_class,
+                IFNULL(a.date_assigned, 'No Data') AS action_date,
+                IFNULL(at.letters, 'No Data') AS action_type,
+                IFNULL(t.name, 'Niet ingedeeld') AS team_name,
+                IFNULL(CONCAT(te.name, ' ', te.last_name), 'No Data') AS assigned_by
+            FROM 
+                students s
+            LEFT JOIN 
+                action_type a ON s.number = a.student_number
+            LEFT JOIN 
+                action_type at ON s.number = at.student_number
+            LEFT JOIN 
+                team t ON s.number = t.student_number
+            LEFT JOIN 
+                teacher te ON t.teacher_id = te.id
+            WHERE 
+                t.name = %s;
+        '''
+        cursor.execute(query, (team_name,))
+        result = cursor.fetchall()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        result = None
+    finally:
+        if cursor:
+            cursor.close()
+    return result
+
+def get_students_by_class(student_class):
+    cursor = None
+    try:
+        cursor = mysql.connection.cursor()
+        query = """
+            SELECT 
+                s.number AS student_number, 
+                s.name AS student_name, 
+                s.class AS student_class,
+                IFNULL(ac.date_assigned, 'No Data') AS action_date,
+                IFNULL(ac.letters, 'No Data') AS action_type,
+                IFNULL(tm.name, 'Niet ingedeeld') AS team_name,
+                IFNULL(CONCAT(t.name, ' ', t.last_name), 'No Data') AS assigned_by
+            FROM 
+                students s
+            LEFT JOIN 
+                action_type ac ON ac.student_number = s.number
+            LEFT JOIN 
+                team tm ON tm.student_number = s.number
+            LEFT JOIN 
+                teacher t ON t.id = tm.teacher_id
+            WHERE 
+                s.class = %s;
+        """
+        cursor.execute(query, (student_class,))
+        result = cursor.fetchall()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        result = None
+    finally:
+        if cursor:
+            cursor.close()
+    return result
+
 # # get the name, studentnumber, class, action type, date the student filled in all questions and the team of a student
 # def get_student_info_specific_student(student_number):
 #     cursor = mysql.connection.cursor()
@@ -26,26 +133,98 @@ mysql = MySQL()
 #     cursor.close()
 #     return result
 
-# get students assigned to a team
-def get_students_assigned_to_team(team_name):
-    cursor = mysql.connection.cursor()
-    query = '''
-        SELECT s.number AS student_number, s.name AS student_name, s.class AS student_class,
-            IFNULL(a.date_assigned, 'No Data') AS action_date,
-            IFNULL(at.letters, 'No Data') AS action_type,
-            t.name AS team_name,
-            CONCAT(te.name, ' ', te.last_name) AS assigned_by
-        FROM students s
-        LEFT JOIN action_type a ON s.number = a.student_number
-        LEFT JOIN action_type at ON s.number = at.student_number
-        LEFT JOIN team t ON s.number = t.student_number
-        LEFT JOIN teacher te ON t.teacher_id = te.id
-        WHERE t.name = %s
-    '''
-    cursor.execute(query, (team_name,))
-    result = cursor.fetchall()
-    cursor.close()
-    return result
+# def get_students_by_class_and_or_team(student_class, team_name):
+#     cursor = None
+#     try:
+#         cursor = mysql.connection.cursor()
+#         query = """
+#            SELECT 
+#                 s.number AS student_number, 
+#                 s.name AS student_name, 
+#                 s.class AS class,
+#                 ac.date_assigned AS date_assigned,
+#                 ac.letters AS letters,
+#                 tm.name AS team_name,
+#                 CONCAT(t.name, ' ', t.last_name) AS teacher_name
+#             FROM 
+#                 students s
+#             LEFT JOIN 
+#                 action_type ac ON ac.student_number = s.number
+#             LEFT JOIN 
+#                 team tm ON tm.student_number = s.number
+#             LEFT JOIN 
+#                 teacher t ON t.id = tm.teacher_id
+#             WHERE 
+#                 s.class = %s
+#                 AND
+#                 tm.name = %s;
+#         """
+#         cursor.execute(query, (student_class, team_name,))
+#         result = cursor.fetchall()
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         result = None
+#     finally:
+#         if cursor:
+#             cursor.close()
+#     print(f'result: {result}')
+#     return result
+
+# # get students by team
+# def get_students_assigned_to_team(team_name):
+#     cursor = mysql.connection.cursor()
+#     query = '''
+#         SELECT s.number AS student_number, s.name AS student_name, s.class AS student_class,
+#             IFNULL(a.date_assigned, 'No Data') AS action_date,
+#             IFNULL(at.letters, 'No Data') AS action_type,
+#             t.name AS team_name,
+#             CONCAT(te.name, ' ', te.last_name) AS assigned_by
+#         FROM students s
+#         LEFT JOIN action_type a ON s.number = a.student_number
+#         LEFT JOIN action_type at ON s.number = at.student_number
+#         LEFT JOIN team t ON s.number = t.student_number
+#         LEFT JOIN teacher te ON t.teacher_id = te.id
+#         WHERE t.name = %s
+#     '''
+#     cursor.execute(query, (team_name,))
+#     result = cursor.fetchall()
+#     cursor.close()
+#     return result
+
+# # get students by class
+# def get_students_by_class(student_class):
+#     cursor = None
+#     try:
+#         cursor = mysql.connection.cursor()
+#         query = """
+#            SELECT 
+#                 s.number AS student_number, 
+#                 s.name AS student_name, 
+#                 s.class AS class,
+#                 ac.date_assigned AS date_assigned,
+#                 ac.letters AS letters,
+#                 tm.name AS team_name,
+#                 CONCAT(t.name, ' ', t.last_name) AS teacher_name
+#             FROM 
+#                 students s
+#             LEFT JOIN 
+#                 action_type ac ON ac.student_number = s.number
+#             LEFT JOIN 
+#                 team tm ON tm.student_number = s.number
+#             LEFT JOIN 
+#                 teacher t ON t.id = tm.teacher_id
+#             WHERE 
+#                 s.class = %s;
+#         """
+#         cursor.execute(query, (student_class,))
+#         result = cursor.fetchall()
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
+#         result = None
+#     finally:
+#         if cursor:
+#             cursor.close()
+#     return result
 
 # get the id of the teacher
 def get_teacher_id(email):
@@ -218,6 +397,13 @@ def get_student_info():
     cursor.close()
     #print(result)
     return result
+# cursor.execute('SELECT is_admin FROM teacher WHERE email = %s', (email,))
+
+
+
+                   
+
+
 
 # add a student to the database
 def add_student(name, number, class_student):

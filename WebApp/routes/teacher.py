@@ -7,6 +7,53 @@ import sys
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
 
+# get students by class and/or team
+@teacher_bp.route('/get_students_by_class_and_or_team', methods=['POST', 'GET'])
+def get_students_by_class_and_or_team():
+    data = request.get_json()
+    
+    # Haal de gegevens uit de JSON
+    student_class = data.get('class_name')
+    team_name = data.get('team_name')
+    print(f'Student class: {student_class}, team name: {team_name}')
+
+    # geen klas geselecteerd, maar wel team
+    if not student_class and team_name:
+        print('Geen klas geselecteerd, maar wel team')
+        students = sql.get_students_assigned_to_team(team_name)
+        print(f'Students: {students}')
+        return jsonify(students)
+    
+    # wel klas geselecteerd, maar geen team
+    if student_class and not team_name:
+        print('Wel klas geselecteerd maar geen team')
+        students = sql.get_students_by_class(student_class)
+        print(f'Students: {students}')
+        return jsonify(students)
+    
+    # geen klas en geen team geselecteerd
+    if not student_class and not team_name:
+        print('Geen klas en geen team geselecteerd')
+        students = sql.get_student_info()
+        print(f'Students: {students}')
+        return jsonify(students)
+    
+    # zowel klas als team geselecteerd
+    if student_class and team_name:
+        print('Zowel klas als team geselecteerd')
+        students = sql.get_students_by_class_and_team(student_class, team_name)
+        print(f'Students: {students}')
+        return jsonify(students)
+
+
+
+
+    # # get the students by class and/or team
+    # students = sql.get_students_by_class_and_or_team(student_class, team_name)
+    # print(f'Students: {students}')
+    # return jsonify(students)
+
+
 # get the students wich are assigned to the selected team
 @teacher_bp.route('/get_students_by_team', methods=['POST', 'GET'])
 def get_students_by_team():
@@ -18,6 +65,20 @@ def get_students_by_team():
     print(f'Team name: {team_name}')
     # get the students assigned to the selected team
     students = sql.get_students_assigned_to_team(team_name)
+    print(f'Students: {students}')
+    return jsonify(students)
+
+# get the students that are in the selected class
+@teacher_bp.route('/get_students_by_class', methods=['POST', 'GET'])
+def get_students_by_class():
+    print('get_students_by_class')
+    data = request.get_json()
+    print(f'Received data: {data}')
+    # Haal de gegevens uit de JSON
+    student_class = data.get('class_name')
+    print(f'Student class: {student_class}')
+    # get the students that are in the selected class
+    students = sql.get_students_by_class(student_class)
     print(f'Students: {students}')
     return jsonify(students)
 

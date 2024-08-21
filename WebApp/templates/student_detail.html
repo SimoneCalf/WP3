@@ -93,6 +93,8 @@
                         const studentTableBody = $('#studentTable tbody');
                         studentTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
                         data.forEach(function(student) {
+                            const teamName = student.team_name === 'No Team' ? "Nog niet ingedeeld" : student.team_name;
+                            const teacherName = student.teacher_name === 'No Teacher' ? "Nog niet ingedeeld" : student.teacher_name;
                             console.log(student.student_name);
                             const tableRow = `
                                 <tr>
@@ -101,8 +103,8 @@
                                     <td>${student.student_class}</td>
                                     <td>${student.action_type}</td>
                                     <td>${student.action_date}</td>
-                                    <td>${student.team_name}</td>
-                                    <td>${student.teacher_name}</td>
+                                    <td>${teamName}</td>
+                                    <td>${teacherName}</td>
                                 </tr>
                             `;
                             studentTableBody.append(tableRow);
@@ -156,6 +158,7 @@
                         }),
                         success: function(response) {
                             alert('Studentgegevens succesvol bijgewerkt');
+                            populateStudentTable();  // Update the student table with the new data
                             // Velden niet meer bewerkbaar maken en kleur resetten
                             $('#studentTable tbody tr td[contenteditable="true"]').each(function() {
                                 $(this).removeAttr('contenteditable').css('background-color', '');
