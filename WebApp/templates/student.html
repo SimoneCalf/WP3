@@ -42,6 +42,34 @@
            width: 100%; /* Past de SVG aan de breedte van de container aan */
            height: auto; /* Zorgt ervoor dat de hoogte proportioneel blijft */
        }
+       .tekst {
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 60px;
+       }
+       .studentnummerinput {
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            text-align: center;
+       }
+
+       .submit {
+        background-color: #cf0245; /* Rood als achtergrondkleur */
+        color: white; /* Witte tekst voor contrast */
+        border: none; /* Verwijder standaard rand (optioneel) */
+        padding: 10px 20px; /* Voeg wat padding toe (optioneel) */
+        border-radius: 5px; /* Ronde hoeken (optioneel) */
+        cursor: pointer; /* Verander de cursor naar een pointer bij hover (optioneel) */
+        margin-top: 2%;
+        text-align: center;
+        margin-left: 48%;
+       }
+
+       .studentnummer {
+            margin-top: 2%;
+            font-size: large;
+       }
    </style>
 </head>
 <body onload="showAlert()">
@@ -57,7 +85,7 @@
     </div>
     <div id="student" data-student="{{ student }}"></div>
     <div id="form_submitted" data-form-submitted="{{ form_submitted }}"></div>
-    <p>Beste student, <br><br> Op deze website kun je 20 stellingen beantwoorden waarmee je "action type" bepaald wordt.<br><br>
+    <p class="tekst">Beste student, <br><br> Op deze website kun je 20 stellingen beantwoorden waarmee je "action type" bepaald wordt.<br><br>
         Waarom is dit belangrijk? <br> Op de opleiding "software development" zijn de docenten van het vak “persoonlijke vorming”
         verantwoordelijk voor de teamindeling van het praktijkvak. Een goed team bestaat uit leden met verschillende soorten 
         persoonlijkheden, maar hoe bepaal je die? Daar gebruiken ze de zogenaamde "action types", ook wel bekend als de 
@@ -68,8 +96,12 @@
     </p>
     <form method="post">
     <input type="hidden" name="form_submitted" value="true">
-    <input type="text" name="student_number" placeholder="studentnummer" required>
-    <input type="submit" value="Verder">
+    <div class="studentnummerinput">
+        <input class="studentnummer" type="text" name="student_number" placeholder="studentnummer" required>
+    </div>
+    <div>
+        <input class="submit" type="submit" value="Verder">
+    </div>
     </form>
 </body>
 </html>
