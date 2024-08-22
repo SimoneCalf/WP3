@@ -1,4 +1,4 @@
-<!--<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,7 +29,7 @@
             text-align: center;
         }
 
-        .stelling {
+        .choice-button {
             background-color: #cf0245; /* Rood als achtergrondkleur */
             color: white; /* Witte tekst voor contrast */
             border: none; /* Verwijder standaard rand (optioneel) */
@@ -65,8 +65,8 @@
         </div>
         <div class="center">
             <p class="info">Klik op de stelling die het beste bij u past.</p>
-            <button class="stelling" id="first-choice" class="choice-button" value="">Loading...</button>
-            <button class="stelling" id="second-choice" class="choice-button" value="">Loading...</button>
+            <button id="first-choice" class="choice-button" value="">Loading...</button>
+            <button id="second-choice" class="choice-button" value="">Loading...</button>
 
         </div>
     </div>
@@ -139,96 +139,6 @@
         });
     </script>
 </body>
-</html> -->
+</html> 
 
 
-<!-- 
-test
- -->
-
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questions</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body onload="showAlert()">
-    <div id="question-container">
-        <h4 id="name">Naam:</h4>
-        <h4 id="class">Klas: </h4>
-        <h2>Choose an option</h2>
-        <button id="first-choice" class="choice-button" value="">Loading...</button>
-        <button id="second-choice" class="choice-button" value="">Loading...</button>
-    </div>
-
-    <script>
-        $(document).ready(function() {
-            // Functie om de keuzes voor de eerste stelling op te halen
-            function loadInitialChoices() {
-                $.ajax({
-                    url: "{{ url_for('student.first_question') }}",
-                    method: "GET",
-                    dataType: "json",
-                    success: function(data) {
-                        // put the name and class on the page
-                        $('#name').text("Naam: " + data.name);
-                        $('#class').text("Klas: " + data.class);
-                        $('#first-choice').text(data.choices.first_choice);
-                        $('#first-choice').val(data.choices.first_choice_id);
-                        $('#second-choice').text(data.choices.second_choice);
-                        $('#second-choice').val(data.choices.second_choice_id);
-                        console.log("Initiële vragen opgehaald:", data);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Fout bij het ophalen van de initiële vragen:", status, error);
-                    }
-                });
-            }
-
-            // Functie om de volgende set keuzes op te halen
-            function loadNextChoices(choice, choice_id) {
-                $.ajax({
-                    url: "{{ url_for('student.next_choices') }}",
-                    method: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ choice: choice, choice_id: choice_id }),
-                    dataType: "json",
-                    success: function(data) {
-                        if (data.done === true) {
-                            // move to results page
-                            //window.location.href = "{{ url_for('student.results') }}";
-                            //window.location.href = '/results?action_type=' + data.action_type;
-                            //window.location.href = '/student/results?action_type=' + action_type;
-                            let action_type = data.action_type;
-                            let resultUrl = "{{ url_for('student.results', action_type='') }}" + action_type;
-                            window.location.href = resultUrl;
-                        }
-
-                        $('#first-choice').text(data.first_choice);
-                        $('#first-choice').val(data.first_choice_id);
-                        $('#second-choice').text(data.second_choice);
-                        $('#second-choice').val(data.second_choice_id);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Fout bij het ophalen van de volgende vragen:", status, error);
-                    }
-                });
-            }
-
-
-            // Laad de initiële keuzes
-            loadInitialChoices();
-
-            // Event listeners voor de keuze-knoppen
-            $('.choice-button').on('click', function() {
-                let choice = $(this).text();
-                let choice_id = $(this).val();
-                console.log("Gekozen optie:", choice);
-                loadNextChoices(choice, choice_id);
-            });
-        });
-    </script>
-</body>
-</html>
