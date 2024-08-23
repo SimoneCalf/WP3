@@ -3,6 +3,7 @@ from datetime import datetime
 
 mysql = MySQL()
 
+# get the students that are in the selected class and team
 def get_students_by_class_and_team(student_class, team_name):
     cursor = None
     try:
@@ -39,6 +40,7 @@ def get_students_by_class_and_team(student_class, team_name):
             cursor.close()
     return result
 
+# get the students that are assigned to the selected team
 def get_students_assigned_to_team(team_name):
     cursor = None
     try:
@@ -75,6 +77,7 @@ def get_students_assigned_to_team(team_name):
             cursor.close()
     return result
 
+# get the students that are in the selected class
 def get_students_by_class(student_class):
     cursor = None
     try:
@@ -310,13 +313,6 @@ def get_teacher_info():
     cursor.close()
     return result
 
-# # query to get all the student information
-# def get_student_info():
-#     cursor = mysql.connection.cursor()
-#     cursor.execute('SELECT * FROM students')
-#     result = cursor.fetchall()
-#     cursor.close()
-#     return result
 
 # query to get the hightest question number
 def get_max_quetsion_number():

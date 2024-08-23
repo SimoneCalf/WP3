@@ -1,5 +1,4 @@
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session
-import secrets
 from models.sql import *
 
 
@@ -34,7 +33,7 @@ def student_home():
         if student:
             
             session['student_number'] = student["number"]
-            # TODO get the  left off postion from the database
+            # get the  left off postion from the database
             
             session['question_number'] = get_current_question_number(session['student_number']) +1
             session['max_question_number'] = get_max_quetsion_number()
@@ -98,7 +97,7 @@ def next_choices():
 
     question_number = session.get('question_number')
     if question_number > session.get('max_question_number'):
-        # TODO ga naar pagina met resultaten
+        # go to the result page
         insert_action_type_to_db(student_number)
         action_type = get_action_type(student_number)
         return jsonify({"done": True, "action_type": action_type}), 200
@@ -107,7 +106,7 @@ def next_choices():
     try:
         next_first_choice, next_second_choice = get_question(question_number)
     except IndexError:
-        # Geef een foutmelding terug als er geen vraag wordt gevonden
+        # give an error message if no question is found
         return jsonify({"error": "No more questions available."}), 404
 
     next_choices = {
