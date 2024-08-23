@@ -6,16 +6,15 @@
     <title>Questions</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Voeg hier je CSS-stijlen toe */
         .svg-container {
             width: 12%;
-            max-width: 75px; /* Pas de breedte aan indien nodig */
+            max-width: 75px; 
             margin: 0 auto;
             margin-left: 1%;
         }
         svg {
-            width: 100%; /* Past de SVG aan de breedte van de container aan */
-            height: auto; /* Zorgt ervoor dat de hoogte proportioneel blijft */
+            width: 100%;
+            height: auto; 
         }
 
         .tekst {
@@ -30,12 +29,12 @@
         }
 
         .choice-button {
-            background-color: #cf0245; /* Rood als achtergrondkleur */
-            color: white; /* Witte tekst voor contrast */
-            border: none; /* Verwijder standaard rand (optioneel) */
-            padding: 10px 20px; /* Voeg wat padding toe (optioneel) */
-            border-radius: 5px; /* Ronde hoeken (optioneel) */
-            cursor: pointer; /* Verander de cursor naar een pointer bij hover (optioneel) */
+            background-color: #cf0245;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px; 
+            cursor: pointer;
             margin-top: 2%;
             text-align: center;
         }
@@ -73,7 +72,7 @@
 
     <script>
         $(document).ready(function() {
-            // Functie om de keuzes voor de eerste stelling op te halen
+            // Function to load the initial choices
             function loadInitialChoices() {
                 $.ajax({
                     url: "{{ url_for('student.first_question') }}",
@@ -95,7 +94,7 @@
                 });
             }
 
-            // Functie om de volgende set keuzes op te halen
+            // Function to load the next set of choices
             function loadNextChoices(choice, choice_id) {
                 $.ajax({
                     url: "{{ url_for('student.next_choices') }}",
@@ -106,9 +105,6 @@
                     success: function(data) {
                         if (data.done === true) {
                             // move to results page
-                            //window.location.href = "{{ url_for('student.results') }}";
-                            //window.location.href = '/results?action_type=' + data.action_type;
-                            //window.location.href = '/student/results?action_type=' + action_type;
                             let action_type = data.action_type;
                             let resultUrl = "{{ url_for('student.results', action_type='') }}" + action_type;
                             window.location.href = resultUrl;
@@ -125,11 +121,10 @@
                 });
             }
 
-
-            // Laad de initiële keuzes
+            // Load the initial choices
             loadInitialChoices();
 
-            // Event listeners voor de keuze-knoppen
+            // Event listeners for the choice buttons
             $('.choice-button').on('click', function() {
                 let choice = $(this).text();
                 let choice_id = $(this).val();

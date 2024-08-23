@@ -6,16 +6,15 @@
     <title>Basic HTML</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Voeg hier je CSS-stijlen toe */
         .svg-container {
             width: 12%;
-            max-width: 75px; /* Pas de breedte aan indien nodig */
+            max-width: 75px;
             margin: 0 auto;
             margin-left: 1%;
         }
         svg {
-            width: 100%; /* Past de SVG aan de breedte van de container aan */
-            height: auto; /* Zorgt ervoor dat de hoogte proportioneel blijft */
+            width: 100%;
+            height: auto;
         }
 
         table {
@@ -81,7 +80,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- De tabelrijen worden hier toegevoegd -->
+                <!-- Table rows will be added here -->
             </tbody>
         </table>
         <button class="wijzig" id="adjust-btn" title="adjust">Wijzig gegevens</button>
@@ -93,19 +92,15 @@
             </tr>
         </thead>
         <tbody>
-            <!-- De tabelrijen worden hier toegevoegd -->
+            <!-- Table rows will be added here -->
         </tbody>
     </table>
 
-   
-
-    <!-- Somewhere in your body -->
+    <!-- Save the student number -->
     <input type="hidden" id="student-number" value="{{ student_number }}">
 
 
 <script>
-    
-    
      $(document).ready(function() {
             console.log('Document ready');
             let studentNumber = $('#student-number').val();
@@ -122,7 +117,7 @@
                     success: function(data) {
                         console.log(data);
                         const statementTableBody = $('#statementTable tbody');
-                        statementTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        statementTableBody.empty();  // Make the table body empty before adding new rows
                         data.forEach(function(statement) {
                             console.log(statement.text);
                             const tableRow = `
@@ -147,7 +142,7 @@
                     success: function(data) {
                         console.log(data);
                         const studentTableBody = $('#studentTable tbody');
-                        studentTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        studentTableBody.empty();  // Make the table body empty before adding new rows
                         data.forEach(function(student) {
                             const teamName = student.team_name === 'No Team' ? "Nog niet ingedeeld" : student.team_name;
                             const teacherName = student.teacher_name === 'No Teacher' ? "Nog niet ingedeeld" : student.teacher_name;
@@ -178,7 +173,8 @@
             // Control the button state and functionality
             if ($(this).text() === 'Wijzig gegevens') {
                 $('#studentTable tbody tr').each(function() {
-                    // Maak alle velden in de rij bewerkbaar behalve het studentnummer en de datum
+                    // Make all fields in the row editable except the student number, date, and assigned by field
+
                     $(this).find('td').each(function(index) {
                         if (index === 0 || index === 2 || index === 3 || index === 5) {
                             $(this).attr('contenteditable', 'true').css('background-color', '#FFCCCB');
@@ -186,10 +182,10 @@
                     });
                 });
 
-                // Verander de tekst van de knop naar "Opslaan"
+                // Change the button text to "Save"
                 $(this).text('Opslaan').attr('id', 'save-btn');
             } else {
-                // Opslaan als de knoptekst "Opslaan" is
+                // Save the data to the server
                 $('#studentTable tbody tr').each(function() {
                     const studentName = $(this).find('td').eq(0).text();
                     const studentClass = $(this).find('td').eq(2).text();
@@ -199,7 +195,7 @@
 
                     console.log(`Name: ${studentName}, Class: ${studentClass}, Action Type: ${actionType}, Team: ${teamName}, Teacher: ${teacherName}`);
 
-                    // Voeg hier de AJAX-aanroep toe om de gewijzigde gegevens naar de server te sturen.
+                    // Add the AJAX call to send the updated data to the server
                     $.ajax({
                         url: `${baseUrl}/teacher/update_student_info`,
                         type: 'POST',
@@ -215,12 +211,12 @@
                         success: function(response) {
                             alert('Studentgegevens succesvol bijgewerkt');
                             populateStudentTable();  // Update the student table with the new data
-                            // Velden niet meer bewerkbaar maken en kleur resetten
+                            // Make fields not editable and reset color
                             $('#studentTable tbody tr td[contenteditable="true"]').each(function() {
                                 $(this).removeAttr('contenteditable').css('background-color', '');
                             });
 
-                            // Verander de knoptekst terug naar "Wijzig gegevens"
+                            // Change the button text back to "Adjust data"
                             $('#save-btn').text('Wijzig gegevens').attr('id', 'adjust-btn');
                         },
                         error: function(xhr, status, error) {

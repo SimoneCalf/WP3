@@ -31,7 +31,7 @@
             background-color: #f9f9f9;
             position: absolute;
             right: 20px;
-            top: 150px;
+            top: 170px;
             width: 250px;
         }
 
@@ -57,7 +57,7 @@
         }
 
         table {
-            margin-top: 120px;
+            margin-top: 10px;
             font-size: 15px;
             width: 80%;
             border-collapse: collapse;
@@ -79,6 +79,32 @@
             text-align: center;
             padding: 2px;
             border: 2px solid black; 
+        }
+
+        #searchBar {
+            margin-top: 35px;
+            width: 15%;
+            padding: 10px;
+            margin-left: 35%;
+            background-color: #cf0245; 
+            border: none;
+            color: #fff;
+            border-radius: 4px; 
+            cursor: pointer;
+            padding-bottom: 10px;
+        }
+
+        .remove-btn {
+            width: 45%;
+            padding: 5px;
+            background-color: #cf0245;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 2px;
+            margin-left: 0px;
+            margin-right: 0px;
         }
     </style>
 </head>
@@ -102,11 +128,11 @@
             <label for="admin">
                 <input type="checkbox" id="admin" name="admin" value="admin"> Admin
             </label>
-            <button type="submit">Docent toevoegen</button>
+            <button class="toevoegen" type="submit">Docent toevoegen</button>
         </form>
     </div>
 
-     <!-- Lijst van docenten -->
+    <input type="text" id="searchBar" onkeyup="searchTable()" placeholder="Zoek op naam...">
      <table id="teacherTable" border="1">
          <thead>
              <tr>
@@ -119,7 +145,7 @@
              </tr>
          </thead>
          <tbody>
-             <!-- De tabelrijen worden hier toegevoegd -->
+            <!-- The table rows will be added here -->
          </tbody>
      </table>
 
@@ -127,9 +153,40 @@
 
 
     <script>
+        function searchTable() {
+        var input, filter, table, tr, td_1, td_2, i, txtValue_1, txtValue_2;
+        input = document.getElementById("searchBar");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByTagName("tr");
+
+        // Split the search term based on spaces
+        var filterParts = filter.split(" ");
+
+        for (i = 1; i < tr.length; i++) {// Skip the header
+            td_1 = tr[i].getElementsByTagName("td")[0]; // Name is in the first column
+            td_2 = tr[i].getElementsByTagName("td")[1]; // Last name is in the second column
+
+            if (td_1 || td_2) {
+                txtValue_1 = td_1 ? td_1.textContent || td_1.innerText : "";
+                txtValue_2 = td_2 ? td_2.textContent || td_2.innerText : "";
+
+                // Control on the full search term or both parts
+                if (
+                    (txtValue_1.toUpperCase().indexOf(filter) > -1 || txtValue_2.toUpperCase().indexOf(filter) > -1) ||
+                    (filterParts.length > 1 && txtValue_1.toUpperCase().indexOf(filterParts[0]) > -1 && txtValue_2.toUpperCase().indexOf(filterParts[1]) > -1)
+                ) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+}
+
         $(document).ready(function() {
             const baseUrl = window.location.origin;
-            // Functie om de lijst van docenten op te halen
+            // Function to fetch the list of teachers
             function loadTeachers() {
                 $.ajax({
                     type: 'GET',
@@ -137,7 +194,7 @@
                     dataType: 'json',
                     success: function(data) {
                         const teacherTableBody = $('#teacherTable tbody');
-                        teacherTableBody.empty();  // Maak de tabelbody leeg voordat je nieuwe rijen toevoegt
+                        teacherTableBody.empty();  // Empty the table body before adding new rows
                         data.forEach(function(teacher) {
                             const tableRow = `
                                 <tr>
@@ -183,20 +240,20 @@
                 });
             }
 
-            // Laad de lijst van docenten bij het laden van de pagina
+            // Load the list of teachers when the page loads
             loadTeachers();
 
         $('#addTeacherForm').on('submit', function(e) {
                 e.preventDefault();
 
-                // Haal de waarden op
+                // Get the values
                 const name = $('#name').val();
                 const lastname = $('#lastname').val();
                 const email = $('#email').val();
                 const password = $('#password').val();
                 const isAdmin = $('#admin').is(':checked');
 
-                // Maak een object van de gegevens
+                // Make an object of the data
                 const data = {
                     name: name,
                     lastname: lastname,
@@ -205,7 +262,7 @@
                     isAdmin: isAdmin
                 };
 
-                // Verstuur de gegevens naar de Flask-backend met AJAX
+                // Send the data to the Flask backend using AJAX
                 $.ajax({
                     type: 'POST',
                     url: "{{ url_for('teacher.add_teacher') }}",
@@ -213,9 +270,9 @@
                     data: JSON.stringify(data),
                     success: function(response) {
                         alert('De docent is toegevoegd');
-                        // Herlaad de lijst van docenten na succesvolle toevoeging
+                        // Reload the list of teachers after successful addition
                         loadTeachers();
-                        // Reset het formulier
+                        // Reset the form
                         $('#addTeacherForm')[0].reset();
                     },
                     error: function(xhr, status, error) {
