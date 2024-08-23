@@ -1,7 +1,7 @@
 # werkplaats-3-inhaalopdracht-actiontypes
 
 
-Stappenplan om de applicatie op te starten.
+Stappenplan om de applicatie op te starten:
 
 1. Zorg ervoor dat u zich in de map WebApp bevindt. Als u deze map nog niet hebt geopend, kunt u dat doen via uw bestandsbeheer of terminal.
 
