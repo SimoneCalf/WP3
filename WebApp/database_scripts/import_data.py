@@ -6,14 +6,17 @@ config = {}
 config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin@localhost/wp3'
 config['MYSQL_HOST'] = 'localhost'
 config['MYSQL_USER'] = 'root'
-config['MYSQL_PASSWORD'] = 'admin'
+config['MYSQL_PASSWORD'] = 'actiontypes_wp3'
 config['MYSQL_DB'] = 'wp3'
 config['MYSQL_CURSORCLASS'] = 'DictCursor'
+config['PORT'] = 3307
+
 
 mydb = mysql.connector.connect(
     host=config['MYSQL_HOST'],
     user=config['MYSQL_USER'],
     password=config['MYSQL_PASSWORD'],
+    port=config['PORT'],
     database=config['MYSQL_DB']
 )
 
@@ -33,7 +36,7 @@ def drop_all_data():
 def teachers():
     mycursor = mydb.cursor()
     try:
-        with open("../json/teachers.json") as file:
+        with open("./json/teachers.json") as file:
             data = json.load(file)
 
         for teacher in data:
@@ -46,7 +49,7 @@ def teachers():
 def students():
     mycursor = mydb.cursor()
     try:
-        with open("../json/students.json") as file:
+        with open("./json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -59,7 +62,7 @@ def students():
 def teams():
     mycursor = mydb.cursor()
     try:
-        with open("../json/students.json") as file:
+        with open("./json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -72,7 +75,7 @@ def teams():
 def statements():
     mycursor = mydb.cursor()
     try:
-        with open("../json/actiontype_statements.json") as file:
+        with open("./json/actiontype_statements.json") as file:
             data = json.load(file)
 
         for statement in data:
