@@ -36,7 +36,7 @@ def drop_all_data():
 def teachers():
     mycursor = mydb.cursor()
     try:
-        with open("../json/teachers.json") as file:
+        with open("./json/teachers.json") as file:
             data = json.load(file)
 
         for teacher in data:
@@ -49,7 +49,7 @@ def teachers():
 def students():
     mycursor = mydb.cursor()
     try:
-        with open("../json/students.json") as file:
+        with open("./json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -62,7 +62,7 @@ def students():
 def teams():
     mycursor = mydb.cursor()
     try:
-        with open("../json/students.json") as file:
+        with open("./json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -75,7 +75,7 @@ def teams():
 def statements():
     mycursor = mydb.cursor()
     try:
-        with open("../json/actiontype_statements.json") as file:
+        with open("./json/actiontype_statements.json") as file:
             data = json.load(file)
 
         for statement in data:
