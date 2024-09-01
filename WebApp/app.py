@@ -13,15 +13,13 @@ app.secret_key = secrets.token_hex(16)  # Unieke geheime sleutel voor sessies
 app.register_blueprint(student_bp, url_prefix='/student')
 app.register_blueprint(teacher_bp, url_prefix='/teacher')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin@localhost/wp3'
-sqlalchemy = SQLAlchemy(app)
-
 # MySQL configuration
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = '127.0.0.1'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'admin'
+app.config['MYSQL_PASSWORD'] = 'actiontypes_wp3'
 app.config['MYSQL_DB'] = 'wp3'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+app.config['MYSQL_PORT'] = 3307
 
 mysql = MySQL(app)
 
