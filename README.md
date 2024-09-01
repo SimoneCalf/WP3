@@ -28,6 +28,8 @@
     - Voor macOS/Linux:
 
         - `source venv/Scripts/activate`
+        - Als het commando niet werkt. Probeer dan de volgende:
+            - `source venv/bin/activate`
 
 4. Vereiste Pakketten Installeren:
     Installeer de benodigde Python-pakketten door het volgende commando uit te voeren:

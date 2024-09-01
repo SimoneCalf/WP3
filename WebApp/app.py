@@ -1,8 +1,6 @@
-from flask import Flask, render_template, request, jsonify, session
+from flask import Flask, render_template, request, jsonify
 from routes.student import student_bp
 from routes.teacher import teacher_bp
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 from models.sql import *
 from models import sql
 import json
