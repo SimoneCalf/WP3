@@ -6,14 +6,17 @@ config = {}
 config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin@localhost/wp3'
 config['MYSQL_HOST'] = 'localhost'
 config['MYSQL_USER'] = 'root'
-config['MYSQL_PASSWORD'] = 'admin'
+config['MYSQL_PASSWORD'] = 'actiontypes_wp3'
 config['MYSQL_DB'] = 'wp3'
 config['MYSQL_CURSORCLASS'] = 'DictCursor'
+config['PORT'] = 3307
+
 
 mydb = mysql.connector.connect(
     host=config['MYSQL_HOST'],
     user=config['MYSQL_USER'],
     password=config['MYSQL_PASSWORD'],
+    port=config['PORT'],
     database=config['MYSQL_DB']
 )
 
