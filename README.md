@@ -41,8 +41,8 @@
     - `docker run --name actiontypes_wp3 -e MYSQL_ROOT_PASSWORD=actiontypes_wp3 -d -p 3307:3306 mysql:8`
 
 6. Als de docker aanstaat, voeg dan de databasestructuur en data voor in de database toe. Dit kunt u doen door de volgende commando's te runnen:
-    - `python  ./database_scripts/build_database.py`
-    - `python  ./database_scripts/import_database.py`
+    - `python ./database_scripts/build_database.py`
+    - `python ./database_scripts/import_data.py`
 
 
 6. Applicatie starten
