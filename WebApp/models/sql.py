@@ -3,6 +3,19 @@ from datetime import datetime
 
 mysql = MySQL()
 
+
+
+# query to get the highest statement id from the answer table for a studentid
+def get_max_statement_id(student_number):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT MAX(statement_id) FROM answer WHERE student_number = %s', (student_number,))
+    result = cursor.fetchall()
+    cursor.close()
+    if result[0]['MAX(statement_id)'] is None:
+        return 0
+    return result[0]['MAX(statement_id)']
+
+
 # get the students that are in the selected class and team
 def get_students_by_class_and_team(student_class, team_name):
     cursor = None
