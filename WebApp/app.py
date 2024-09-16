@@ -1,3 +1,5 @@
+# hallo
+
 from flask import Flask, render_template, request, jsonify
 from routes.student import student_bp
 from routes.teacher import teacher_bp
