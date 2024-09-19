@@ -1,11 +1,29 @@
 from flask import Flask, Blueprint, render_template, request, redirect, url_for, jsonify, session, flash
-import models.sql
+from flask_login import UserMixin, login_user, login_required
+from extensions import login_manager  # Importeer login_manager vanuit extensions.py
 # import sql
 from models import sql
-import sys
+
 
 app = Flask(__name__)
 teacher_bp = Blueprint('teacher', __name__)
+
+
+
+# User class
+class User(UserMixin):
+    def __init__(self, email):
+        self.id = email
+        self.email = email
+
+# load the user with the help of the LoginManager
+@login_manager.user_loader
+def load_user(email):
+    if sql.teacher_exists(email):
+        # Return a User object if the user exists
+        return User(email)
+    return None
+    
 
 # get students by class and/or team
 @teacher_bp.route('/get_students_by_class_and_or_team', methods=['POST', 'GET'])
@@ -192,27 +210,34 @@ def teacher_home():
         password = request.form.get('password')
         login_check = sql.teacher_login(email, password)
         if login_check == True:
-            # add teacher to the session
+            # Make the user and log in
+            user = User(email)
+            # Put the user in the session
+            login_user(user)
+            # Save the email in the session
             session['email_teacher'] = email
-            # check if the teacher is an admin
+            # Check if the user is an admin
             admin_check = sql.is_admin(email)
             if admin_check == True:
                 return redirect(url_for('teacher.admin_teachers'))
             else:
-                
                 return redirect(url_for('teacher.manage_students'))
         else:
+            flash('Invalid credentials')
             return render_template('teacher.html')
                 
-                
+               
 @teacher_bp.route('/admin_teachers')
+@login_required
 def admin_teachers():
     return render_template('admin_teachers.html')
 
 @teacher_bp.route('/manage_students')
+@login_required
 def manage_students():
     return render_template('manage_students.html')
 
 @teacher_bp.route('/manage_teachers')
+@login_required
 def manage_teachers():
     return render_template('manage_teachers.html')

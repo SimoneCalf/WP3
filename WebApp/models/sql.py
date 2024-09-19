@@ -308,6 +308,16 @@ def teacher_login(email, password):
         return True
     return False
 
+# check if a teacher exists with the given email
+def teacher_exists(email):
+    cursor = mysql.connection.cursor()
+    cursor.execute('SELECT * FROM teacher WHERE email = %s', (email,))
+    result = cursor.fetchall()
+    cursor.close()
+    if result:
+        return True
+    return False
+
 # determine if the teacher is an admin
 def is_admin(email):
     cursor = mysql.connection.cursor()

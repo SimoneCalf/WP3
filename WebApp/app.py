@@ -1,6 +1,8 @@
 # hallo4
 
 from flask import Flask, render_template, request, jsonify
+from extensions import login_manager
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from routes.student import student_bp
 from routes.teacher import teacher_bp
 from models.sql import *
@@ -11,6 +13,11 @@ import secrets
 # C:\Users\simon\OneDrive\Documenten\AD software development\Werkplaats_3_herkansing\inhaal-wp3-actiontypes-SimoneCalf\WebApp\dump
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(16)  # Unieke geheime sleutel voor sessies
+
+# Setup LoginManager
+login_manager.init_app(app) # initialize LoginManager with the Flask-app
+login_manager.login_view = 'teacher.teacher_home' # Make sure the login-view is known
+
 app.register_blueprint(student_bp, url_prefix='/student')
 app.register_blueprint(teacher_bp, url_prefix='/teacher')
 
