@@ -3,6 +3,8 @@ from flask_login import UserMixin, login_user, login_required
 from extensions import login_manager  # Importeer login_manager vanuit extensions.py
 # import sql
 from models import sql
+import hashlib
+
 
 
 app = Flask(__name__)
@@ -208,6 +210,10 @@ def teacher_home():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        # Hash the password
+        h = hashlib.new("SHA256")
+        h.update(password.encode())
+        password = h.hexdigest()
         login_check = sql.teacher_login(email, password)
         if login_check == True:
             # Make the user and log in

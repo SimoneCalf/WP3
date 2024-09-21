@@ -1,5 +1,6 @@
 from flask_mysqldb import MySQL
 from datetime import datetime
+import hashlib
 
 mysql = MySQL()
 
@@ -293,6 +294,9 @@ def delete_teacher(id):
 
 # add a teacher to the database
 def add_teacher(name, lastname, email, password, is_admin):
+    h = hashlib.new("SHA256")
+    h.update(password.encode())
+    password = h.hexdigest()
     cursor = mysql.connection.cursor()
     cursor.execute('INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)', (name, lastname, email, password, is_admin,))
     mysql.connection.commit()

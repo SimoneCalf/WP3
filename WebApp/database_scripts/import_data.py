@@ -1,5 +1,6 @@
 import mysql.connector
 import json
+import hashlib
 
 # MySQL configuration
 config = {}
@@ -20,14 +21,24 @@ mydb = mysql.connector.connect(
     database=config['MYSQL_DB']
 )
 
+
 def drop_all_data():
     mycursor = mydb.cursor()
     try:
+        mycursor.execute("DELETE FROM team")
         mycursor.execute("DELETE FROM teacher")
         mycursor.execute("DELETE FROM answer")
         mycursor.execute("DELETE FROM students")
         mycursor.execute("DELETE FROM statement_number")
         mycursor.execute("DELETE FROM statement_choices")
+
+        # Reset auto-increment
+        mycursor.execute("ALTER TABLE team AUTO_INCREMENT = 1")
+        mycursor.execute("ALTER TABLE teacher AUTO_INCREMENT = 1")
+        mycursor.execute("ALTER TABLE answer AUTO_INCREMENT = 1")
+        mycursor.execute("ALTER TABLE students AUTO_INCREMENT = 1")
+        mycursor.execute("ALTER TABLE statement_number AUTO_INCREMENT = 1")
+        mycursor.execute("ALTER TABLE statement_choices AUTO_INCREMENT = 1")
     finally:
         mycursor.close()
 
@@ -35,13 +46,30 @@ def drop_all_data():
 ## TEACHERS
 def teachers():
     mycursor = mydb.cursor()
+    hashed_passwords = []
     try:
-        with open("./json/teachers.json") as file:
+        with open("../json/teachers.json") as file:
             data = json.load(file)
 
+        # hash passwords
         for teacher in data:
+            h = hashlib.new("SHA256")
+            print(f'password: {teacher["password"]}')
+            h.update(teacher['password'].encode())
+            teacher['password'] = h.hexdigest()
+            password = teacher['password']
             mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
-                            (teacher['name'], teacher['last_name'], teacher['email'], teacher['password'], teacher['is_admin']))
+                            (teacher['name'], teacher['last_name'], teacher['email'], password, teacher['is_admin']))
+            hashed_passwords.append(teacher['password'])
+        #print(f'list with hashed passwords: {hashed_passwords}')
+
+        # teachers to database with hashed passwords
+
+
+
+        # for teacher in data:
+        #     mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
+        #                     (teacher['name'], teacher['last_name'], teacher['email'], teacher['password'], teacher['is_admin']))
     finally:
         mycursor.close()
 
@@ -49,7 +77,7 @@ def teachers():
 def students():
     mycursor = mydb.cursor()
     try:
-        with open("./json/students.json") as file:
+        with open("../json/students.json") as file:
             data = json.load(file)
 
         for student in data:
@@ -75,7 +103,7 @@ def teams():
 def statements():
     mycursor = mydb.cursor()
     try:
-        with open("./json/actiontype_statements.json") as file:
+        with open("../json/actiontype_statements.json") as file:
             data = json.load(file)
 
         for statement in data:
