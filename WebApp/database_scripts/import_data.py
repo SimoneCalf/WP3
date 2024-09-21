@@ -61,15 +61,6 @@ def teachers():
             mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
                             (teacher['name'], teacher['last_name'], teacher['email'], password, teacher['is_admin']))
             hashed_passwords.append(teacher['password'])
-        #print(f'list with hashed passwords: {hashed_passwords}')
-
-        # teachers to database with hashed passwords
-
-
-
-        # for teacher in data:
-        #     mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
-        #                     (teacher['name'], teacher['last_name'], teacher['email'], teacher['password'], teacher['is_admin']))
     finally:
         mycursor.close()
 
