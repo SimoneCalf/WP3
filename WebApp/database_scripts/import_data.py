@@ -1,6 +1,6 @@
 import mysql.connector
 import json
-import hashlib
+from hash_and_salt import update_password_hashed_salted
 
 # MySQL configuration
 config = {}
@@ -42,7 +42,6 @@ def drop_all_data():
     finally:
         mycursor.close()
 
-
 ## TEACHERS
 def teachers():
     mycursor = mydb.cursor()
@@ -53,10 +52,7 @@ def teachers():
 
         # hash passwords
         for teacher in data:
-            h = hashlib.new("SHA256")
-            print(f'password: {teacher["password"]}')
-            h.update(teacher['password'].encode())
-            teacher['password'] = h.hexdigest()
+            teacher['password'] = update_password_hashed_salted(teacher['password'])
             password = teacher['password']
             mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
                             (teacher['name'], teacher['last_name'], teacher['email'], password, teacher['is_admin']))
