@@ -302,14 +302,27 @@ def add_teacher(name, lastname, email, password, is_admin):
     mysql.connection.commit()
     cursor.close()
 
-# determine if the teacher filles in a correct email- and password combination
+
+
 def teacher_login(email, password):
     cursor = mysql.connection.cursor()
-    cursor.execute('SELECT * FROM teacher WHERE email = %s AND password = %s', (email, password,))
-    result = cursor.fetchall()
+    cursor.execute('SELECT password, salt FROM teacher WHERE email = %s', (email,))
+    result = cursor.fetchone()
     cursor.close()
+    
     if result:
-        return True
+        stored_hash = result['password']
+        salt = result['salt']
+        
+        # Combine the provided password with the retrieved salt and hash it
+        h = hashlib.sha256()
+        h.update((password + salt).encode())
+        hashed_password = h.hexdigest()
+        
+        
+        # Compare the resulting hash with the stored hash
+        if hashed_password == stored_hash:
+            return True
     return False
 
 # check if a teacher exists with the given email

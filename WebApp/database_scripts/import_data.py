@@ -53,12 +53,12 @@ def teachers():
         # hash passwords
         for teacher in data:
             # add salt and hashed password to the database
+            print(f'teacher passwords from json: {teacher["password"]}')
             hashed_passwords, salt = update_password_hashed_salted(teacher['password'])
-            teacher['password'] = update_password_hashed_salted(teacher['password'])
-            password = teacher['password']
-            mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",
-                            (teacher['name'], teacher['last_name'], teacher['email'], password, teacher['is_admin']))
-            hashed_passwords.append(teacher['password'])
+            salt = salt
+            password = hashed_passwords
+            mycursor.execute("INSERT INTO teacher (name, last_name, email, password, salt, is_admin) VALUES (%s, %s, %s, %s, %s, %s)",
+                            (teacher['name'], teacher['last_name'], teacher['email'], password, salt, teacher['is_admin']))
     finally:
         mycursor.close()
 

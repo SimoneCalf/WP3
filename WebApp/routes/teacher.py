@@ -210,11 +210,10 @@ def teacher_home():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        password = update_password_hashed_salted(password)
-        print(f'filled in password: {password}')
-        # Hash the password
+        
+        # Check if the login is successful
         login_check = sql.teacher_login(email, password)
-        if login_check == True:
+        if login_check:
             # Make the user and log in
             user = User(email)
             # Put the user in the session
@@ -223,7 +222,7 @@ def teacher_home():
             session['email_teacher'] = email
             # Check if the user is an admin
             admin_check = sql.is_admin(email)
-            if admin_check == True:
+            if admin_check:
                 return redirect(url_for('teacher.admin_teachers'))
             else:
                 return redirect(url_for('teacher.manage_students'))
