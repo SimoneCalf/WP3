@@ -52,6 +52,8 @@ def teachers():
 
         # hash passwords
         for teacher in data:
+            # add salt and hashed password to the database
+            hashed_passwords, salt = update_password_hashed_salted(teacher['password'])
             teacher['password'] = update_password_hashed_salted(teacher['password'])
             password = teacher['password']
             mycursor.execute("INSERT INTO teacher (name, last_name, email, password, is_admin) VALUES (%s, %s, %s, %s, %s)",

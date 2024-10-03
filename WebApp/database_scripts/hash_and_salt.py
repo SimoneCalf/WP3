@@ -15,7 +15,7 @@ def hash_password(password: str, salt: str) -> str:
 def update_password_hashed_salted(password: str) -> Tuple[str, str]:
     salt = gen_salt()
     hashed_password = hash_password(password, salt)
-    return hashed_password
+    return hashed_password, salt
 
 # Test the function
 hashed_password = update_password_hashed_salted('password')

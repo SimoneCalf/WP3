@@ -36,6 +36,19 @@ mycursor = mydb.cursor()
 
 #mycursor.execute("Drop table if exists team;Drop table if exists action_type;Drop table if exists answer;DROP TABLE IF EXISTS students;DROP TABLE IF EXISTS teacher;Drop table if exists statement_number;Drop table if exists teacher;Drop table if exists statement_choices",multi=True)
 
+# Execute multiple statements
+mycursor.execute("""
+    DROP TABLE IF EXISTS team;
+    DROP TABLE IF EXISTS action_type;
+    DROP TABLE IF EXISTS answer;
+    DROP TABLE IF EXISTS students;
+    DROP TABLE IF EXISTS teacher;
+    DROP TABLE IF EXISTS statement_number;
+    DROP TABLE IF EXISTS statement_choices;
+""", multi=True)
+
+
+
 mycursor.execute("""
 create table statement_choices
 (
@@ -83,6 +96,7 @@ create table teacher
     last_name varchar(100) not null,
     email     varchar(255) not null,
     password  varchar(255) not null,
+    salt      varchar(255) not null,
     is_admin  tinyint(1)   not null
 );
 """

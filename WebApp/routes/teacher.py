@@ -4,7 +4,7 @@ from extensions import login_manager  # Importeer login_manager vanuit extension
 # import sql
 from models import sql
 import hashlib
-
+from database_scripts.hash_and_salt import update_password_hashed_salted
 
 
 app = Flask(__name__)
@@ -210,10 +210,9 @@ def teacher_home():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
+        password = update_password_hashed_salted(password)
+        print(f'filled in password: {password}')
         # Hash the password
-        h = hashlib.new("SHA256")
-        h.update(password.encode())
-        password = h.hexdigest()
         login_check = sql.teacher_login(email, password)
         if login_check == True:
             # Make the user and log in
